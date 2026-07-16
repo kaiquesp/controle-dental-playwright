@@ -1,0 +1,11 @@
+{
+  "browser": {
+    "browserName": "chromium",
+    "launchOptions": {
+      "headless": false
+    }
+  },
+  "outputDir": "./mcp-output",
+  "saveTrace": true,
+  "saveSession": true
+}

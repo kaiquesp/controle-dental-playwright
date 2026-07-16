@@ -1,0 +1,50 @@
+{
+  "name": "controle-dental---teste-e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:local": "node scripts/e2e-run.mjs local",
+    "test:app": "node scripts/e2e-run.mjs app",
+    "test:local:headed": "node scripts/e2e-run.mjs local -- --headed",
+    "test:app:headed": "node scripts/e2e-run.mjs app -- --headed",
+    "test:auth:local": "node scripts/e2e-run.mjs local",
+    "test:auth:app": "node scripts/e2e-run.mjs app",
+    "test:auth:local:headed": "node scripts/e2e-run.mjs local -- --headed",
+    "test:auth:app:headed": "node scripts/e2e-run.mjs app -- --headed",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "test:setup": "playwright test --project=setup",
+    "test:setup:local": "node scripts/e2e-run.mjs local -- --project=setup",
+    "test:setup:app": "node scripts/e2e-run.mjs app -- --project=setup",
+    "test:setup:headed": "playwright test --project=setup --headed",
+    "test:setup:local:headed": "node scripts/e2e-run.mjs local -- --project=setup --headed",
+    "test:setup:app:headed": "node scripts/e2e-run.mjs app -- --project=setup --headed",
+    "test:auth": "playwright test --project=setup",
+    "test:auth:headed": "playwright test --project=setup --headed",
+    "test:public": "playwright test --project=public",
+    "test:public:local": "node scripts/e2e-run.mjs local -- --project=public",
+    "test:public:app": "node scripts/e2e-run.mjs app -- --project=public",
+    "test:authenticated": "playwright test --project=authenticated",
+    "test:authenticated:local": "node scripts/e2e-run.mjs local -- --project=authenticated",
+    "test:authenticated:app": "node scripts/e2e-run.mjs app -- --project=authenticated",
+    "codegen": "playwright codegen",
+    "codegen:local": "playwright codegen http://localhost:4200/login",
+    "codegen:app": "playwright codegen https://app.controledental.com.br/login"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.0",
+    "dotenv": "^17.2.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}

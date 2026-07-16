@@ -1,0 +1,58 @@
+[
+  {
+    "route": "/agenda",
+    "action": "Novo agendamento",
+    "dialogVisible": true,
+    "headings": [],
+    "inputs": [],
+    "buttons": []
+  },
+  {
+    "route": "/financeiro",
+    "action": "Novo lançamento",
+    "dialogVisible": true,
+    "headings": [],
+    "inputs": [],
+    "buttons": []
+  },
+  {
+    "route": "/estoque",
+    "action": "Novo material",
+    "dialogVisible": true,
+    "headings": [],
+    "inputs": [],
+    "buttons": []
+  },
+  {
+    "route": "/controle-protese",
+    "action": "Nova solicitação",
+    "dialogVisible": true,
+    "headings": [],
+    "inputs": [],
+    "buttons": []
+  },
+  {
+    "route": "/controle-protese/laboratorios",
+    "action": "Novo laboratório",
+    "dialogVisible": true,
+    "headings": [],
+    "inputs": [],
+    "buttons": []
+  },
+  {
+    "route": "/configuracoes",
+    "action": "Adicionar membro",
+    "dialogVisible": true,
+    "headings": [],
+    "inputs": [],
+    "buttons": []
+  },
+  {
+    "route": "/configuracoes",
+    "action": "Novo dentista",
+    "dialogVisible": true,
+    "headings": [],
+    "inputs": [],
+    "buttons": []
+  }
+]

@@ -1,0 +1,4520 @@
+{
+  "exploredAt": "2026-07-04T03:24:51.383Z",
+  "baseURL": "https://app.controledental.com.br",
+  "publicRoutes": [
+    {
+      "path": "/login",
+      "url": "https://app.controledental.com.br/login",
+      "status": "ok",
+      "redirectedToLogin": true,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "Acesse sua conta",
+          "Entre para visualizar agenda, pacientes, financeiro e prontuários da sua clínica odontológica.",
+          "Ainda não possui conta? Cadastre-se"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "Entrar na Plataforma",
+            "ariaLabel": "",
+            "type": "submit"
+          },
+          {
+            "tag": "button",
+            "text": "Continuar com Google",
+            "ariaLabel": "",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "Esqueci a senha",
+            "href": "/recuperar-senha"
+          },
+          {
+            "text": "Cadastre-se",
+            "href": "/registro"
+          },
+          {
+            "text": "Fale com o suporte",
+            "href": "#"
+          }
+        ],
+        "tabs": [],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "email",
+            "name": "login-email",
+            "placeholder": "exemplo@email.com",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "name": "login-senha",
+            "placeholder": "••••••••",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "login-lembrar",
+            "placeholder": "",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/recuperar-senha",
+      "url": "https://app.controledental.com.br/recuperar-senha",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "Esqueceu sua senha?",
+          "Informe o e-mail da sua conta. Se ele estiver cadastrado, você receberá um código de 6 dígitos para continuar.",
+          "Não recebeu o e-mail?"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "Continuar",
+            "ariaLabel": "",
+            "type": "submit"
+          }
+        ],
+        "links": [
+          {
+            "text": "Voltar para o Login",
+            "href": "/login"
+          },
+          {
+            "text": "Fale com o suporte",
+            "href": "mailto:contato@controledental.com.br"
+          }
+        ],
+        "tabs": [],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "email",
+            "name": "recuperar-email",
+            "placeholder": "Digite seu e-mail de acesso",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/registro",
+      "url": "https://app.controledental.com.br/registro",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "Crie sua clínica",
+          "Cadastro rápido para experimentar agenda, pacientes, financeiro e demais módulos durante o período de teste."
+        ],
+        "buttons": [
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "button",
+            "text": "Começar teste grátis",
+            "ariaLabel": "",
+            "type": "submit"
+          }
+        ],
+        "links": [
+          {
+            "text": "Entrar",
+            "href": "/login"
+          }
+        ],
+        "tabs": [],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "trial-empresa",
+            "placeholder": "Ex.: Clínica Sorriso",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "trial-admin-nome",
+            "placeholder": "Nome completo",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "email",
+            "name": "trial-email",
+            "placeholder": "exemplo@email.com",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "tel",
+            "name": "trial-celular",
+            "placeholder": "(11) 98765-4321",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "name": "trial-senha",
+            "placeholder": "Mínimo 8 caracteres",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/politica-de-privacidade",
+      "url": "https://app.controledental.com.br/politica-de-privacidade",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Política de Privacidade | Controle dental",
+        "headings": [],
+        "buttons": [],
+        "links": [
+          {
+            "text": "Controle dental",
+            "href": "/login"
+          },
+          {
+            "text": "Entrar",
+            "href": "/login"
+          }
+        ],
+        "tabs": [],
+        "inputs": [],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/portal-titular",
+      "url": "https://app.controledental.com.br/portal-titular",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Portal do Titular - LGPD | Controle Dental",
+        "headings": [
+          "Portal do Titular de Dados",
+          "Seus Direitos sob a LGPD",
+          "Confirmação e Acesso",
+          "Correção",
+          "Anonimização, Bloqueio ou Eliminação",
+          "Portabilidade",
+          "Informação sobre Compartilhamento",
+          "Informação sobre Não Consentimento",
+          "Revogação do Consentimento",
+          "Oposição",
+          "Revisão de Decisões Automatizadas",
+          "Prazo de resposta"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "Meus Direitos",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Dados Coletados",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Compartilhamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Segurança",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Contato",
+            "ariaLabel": "",
+            "type": "button"
+          }
+        ],
+        "links": [],
+        "tabs": [
+          {
+            "text": "Meus Direitos",
+            "role": "tab",
+            "ariaSelected": null,
+            "href": ""
+          },
+          {
+            "text": "Dados Coletados",
+            "role": "tab",
+            "ariaSelected": null,
+            "href": ""
+          },
+          {
+            "text": "Compartilhamento",
+            "role": "tab",
+            "ariaSelected": null,
+            "href": ""
+          },
+          {
+            "text": "Segurança",
+            "role": "tab",
+            "ariaSelected": null,
+            "href": ""
+          },
+          {
+            "text": "Contato",
+            "role": "tab",
+            "ariaSelected": null,
+            "href": ""
+          }
+        ],
+        "inputs": [],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/validar-documento",
+      "url": "https://api.controledental.com.br/validar-documento",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Validação — Controle Dental",
+        "headings": [],
+        "buttons": [],
+        "links": [],
+        "tabs": [],
+        "inputs": [],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/validar-receita",
+      "url": "https://app.controledental.com.br/validar-receita",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [],
+        "buttons": [],
+        "links": [],
+        "tabs": [],
+        "inputs": [],
+        "tableCount": 0
+      },
+      "error": null
+    }
+  ],
+  "authenticatedRoutes": [
+    {
+      "path": "/agenda",
+      "url": "https://app.controledental.com.br/agenda",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "28 de Junho – 4 de Julho de 2026"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Hoje",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Anterior",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Próximo",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Outros filtrosStatusSala",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Dia",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Semana",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Mês",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "+ Novo agendamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Todos os profissionais",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Visualização da agenda",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Configurações da agenda",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 09:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 09:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 10:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 10:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 11:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 11:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 12:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 12:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 13:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 13:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 14:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 14:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 15:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 15:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 16:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 16:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 17:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 17:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 18:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 18:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 19:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 19:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 20:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 20:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 21:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 21:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 22:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 22:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 23:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 23:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:30",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/pacientes/buscar",
+      "url": "https://app.controledental.com.br/pacientes/buscar",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Pacientes",
+          "Acompanhe cadastros, aniversários e retornos semestrais em uma visão mais objetiva para a recepção."
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Atenção da semana",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Novo paciente",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "button",
+            "text": "Aniversariantes",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Retornos semestrais",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Em débito",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Gerenciar modelos de mensagem",
+            "href": "/configuracoes?aba=mensagens-relacionamento"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "search",
+            "name": "",
+            "placeholder": "Buscar por nome, CPF ou telefone",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/pacientes/novo",
+      "url": "https://app.controledental.com.br/pacientes/novo",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Novo Paciente",
+          "Informações Pessoais",
+          "Contato",
+          "Comunicação de relacionamento",
+          "Consentimento LGPD",
+          "Endereço",
+          "Convênio e saúde",
+          "Observações médicas / alergias"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "button",
+            "text": "Cancelar",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Salvar Paciente",
+            "ariaLabel": "",
+            "type": "submit"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-nome",
+            "placeholder": "Ex: João Silva Santos",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-cpf",
+            "placeholder": "000.000.000-00",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "np-sem-cpf",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-rg",
+            "placeholder": "00.000.000-X",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "date",
+            "name": "np-nasc",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-prof",
+            "placeholder": "Ex: Engenheiro",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-cel",
+            "placeholder": "+55 (00) 90000-0000",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-tel",
+            "placeholder": "(00) 0000-0000",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "email",
+            "name": "np-email",
+            "placeholder": "email@exemplo.com.br",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "np-consent-wa",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "checkbox",
+            "name": "np-consent-email",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-cep",
+            "placeholder": "00000-000",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-log",
+            "placeholder": "Rua, Avenida, Praça, etc.",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-num",
+            "placeholder": "123",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-comp",
+            "placeholder": "Apto, Bloco, etc.",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-bairro",
+            "placeholder": "Nome do bairro",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-cidade",
+            "placeholder": "Nome da cidade",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "np-cart",
+            "placeholder": "0000000000000",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "date",
+            "name": "np-val",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "textarea",
+            "type": "",
+            "name": "np-obs",
+            "placeholder": "Descreva alergias, uso de medicamentos contínuos, cirurgias prévias ou outras observações importantes.",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/controle-protese",
+      "url": "https://app.controledental.com.br/controle-protese",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Controle de prótese",
+          "Acompanhe solicitações, envios ao laboratório e retornos à clínica.",
+          "Fluxo da prótese",
+          "Solicitação",
+          "Enviado para laboratório",
+          "Retornado à clínica",
+          "Instalado"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Nova solicitação",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Laboratórios",
+            "href": "/controle-protese/laboratorios"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "search",
+            "name": "controle-protese-busca",
+            "placeholder": "Paciente, profissional ou tipo",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/controle-protese/laboratorios",
+      "url": "https://app.controledental.com.br/controle-protese/laboratorios",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Laboratórios",
+          "Cadastre e acompanhe os laboratórios usados no fluxo de prótese, com contatos, prazos e responsáveis.",
+          "Lista de laboratórios",
+          "Tudo organizado para a equipe localizar rapidamente contato, status e canal preferencial.",
+          "Boas práticas para manter tudo em dia",
+          "Ajuda rápida"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Novo laboratório",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Ativos",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Todos",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Cadastrar laboratório agora",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Voltar ao quadro",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Ver orientações do fluxo",
+            "href": "/controle-protese"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "search",
+            "name": "controle-protese-labs-busca",
+            "placeholder": "Buscar por nome, telefone ou e-mail",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/financeiro",
+      "url": "https://app.controledental.com.br/financeiro",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Painel",
+          "Visão geral do financeiro",
+          "Entradas do período",
+          "Saídas do período",
+          "Receitas em aberto",
+          "Saldo projetado",
+          "Evolução da clínica",
+          "Compare receita, despesas e lucro mês a mês para acompanhar o desempenho anual da clínica.",
+          "Fluxo financeiro do mês",
+          "Compare entradas e saídas dia a dia no mês selecionado no filtro.",
+          "Vencimentos pendentes",
+          "Cobranças e despesas com vencimento no mês selecionado no filtro.",
+          "Meta de recebimento do período",
+          "Alertas do financeiro",
+          "Pendências e oportunidades de ação para manter o fluxo organizado.",
+          "Saldo previsto segue positivo",
+          "Pagamentos pendentes"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Novo lançamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Fluxo de caixa",
+            "href": "/financeiro/fluxo-caixa"
+          },
+          {
+            "text": "Ver painel",
+            "href": "/financeiro"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Fluxo de caixa",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro/fluxo-caixa"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "fin-periodo",
+            "placeholder": "",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/financeiro/fluxo-caixa",
+      "url": "https://app.controledental.com.br/financeiro/fluxo-caixa",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Fluxo de caixa",
+          "Entradas e saídas do período",
+          "Saldo inicial",
+          "Entradas",
+          "Saídas",
+          "Saldo final previsto",
+          "Fluxo financeiro do mês",
+          "Compare entradas e saídas dia a dia no mês selecionado no filtro.",
+          "Próximos movimentos",
+          "Pagamentos e recebimentos pendentes no mês selecionado no filtro.",
+          "Saídas por categoria",
+          "Distribuição das principais despesas do período atual.",
+          "Lançamentos do período",
+          "Lista com os principais movimentos financeiros para acompanhamento e conferência diária.",
+          "Entradas previstas",
+          "Recebimentos aguardados que devem reforçar o caixa nos próximos dias.",
+          "Saídas agendadas"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Novo lançamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Painel",
+            "href": "/financeiro"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Painel",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "fluxo-periodo",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "search",
+            "name": "fluxo-busca",
+            "placeholder": "Buscar por descrição, paciente ou categoria…",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/financeiro/comissoes",
+      "url": "https://app.controledental.com.br/agenda",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "28 de Junho – 4 de Julho de 2026"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Hoje",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Anterior",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Próximo",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Outros filtrosStatusSala",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Dia",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Semana",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Mês",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "+ Novo agendamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Todos os profissionais",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Visualização da agenda",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Configurações da agenda",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 09:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 09:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 10:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 10:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 11:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 11:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 12:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 12:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 13:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 13:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 14:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 14:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 15:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 15:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 16:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 16:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 17:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 17:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 18:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 18:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 19:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 19:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 20:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 20:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 21:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 21:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 22:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 22:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 23:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 23:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:30",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/financeiro/boletos",
+      "url": "https://app.controledental.com.br/financeiro",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Painel",
+          "Visão geral do financeiro",
+          "Entradas do período",
+          "Saídas do período",
+          "Receitas em aberto",
+          "Saldo projetado",
+          "Evolução da clínica",
+          "Compare receita, despesas e lucro mês a mês para acompanhar o desempenho anual da clínica.",
+          "Fluxo financeiro do mês",
+          "Compare entradas e saídas dia a dia no mês selecionado no filtro.",
+          "Vencimentos pendentes",
+          "Cobranças e despesas com vencimento no mês selecionado no filtro.",
+          "Meta de recebimento do período",
+          "Alertas do financeiro",
+          "Pendências e oportunidades de ação para manter o fluxo organizado.",
+          "Saldo previsto segue positivo",
+          "Pagamentos pendentes"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Novo lançamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Fluxo de caixa",
+            "href": "/financeiro/fluxo-caixa"
+          },
+          {
+            "text": "Ver painel",
+            "href": "/financeiro"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Fluxo de caixa",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro/fluxo-caixa"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "fin-periodo",
+            "placeholder": "",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/financeiro/notas-fiscais",
+      "url": "https://app.controledental.com.br/financeiro",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Painel",
+          "Visão geral do financeiro",
+          "Entradas do período",
+          "Saídas do período",
+          "Receitas em aberto",
+          "Saldo projetado",
+          "Evolução da clínica",
+          "Compare receita, despesas e lucro mês a mês para acompanhar o desempenho anual da clínica.",
+          "Fluxo financeiro do mês",
+          "Compare entradas e saídas dia a dia no mês selecionado no filtro.",
+          "Vencimentos pendentes",
+          "Cobranças e despesas com vencimento no mês selecionado no filtro.",
+          "Meta de recebimento do período",
+          "Alertas do financeiro",
+          "Pendências e oportunidades de ação para manter o fluxo organizado.",
+          "Saldo previsto segue positivo",
+          "Pagamentos pendentes"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Novo lançamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Fluxo de caixa",
+            "href": "/financeiro/fluxo-caixa"
+          },
+          {
+            "text": "Ver painel",
+            "href": "/financeiro"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Fluxo de caixa",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro/fluxo-caixa"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "fin-periodo",
+            "placeholder": "",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/estoque",
+      "url": "https://app.controledental.com.br/estoque",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Estoque",
+          "Gestão de materiais e produtos odontológicos.",
+          "Total de itens",
+          "Estoque baixo",
+          "Valor em estoque",
+          "Vencendo em breve",
+          "Itens em estoque"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Exportar",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Novo material",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/relatorios",
+      "url": "https://app.controledental.com.br/relatorios",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Relatórios",
+          "Análise de desempenho, financeiro e atendimentos da clínica com uma visão mais completa.",
+          "Faturamento x custos nos últimos 6 meses",
+          "Comparação entre entrada, custo e margem mensal.",
+          "Origem de pacientes",
+          "Canais que mais geram novos atendimentos.",
+          "Evolução de consultas",
+          "Agendadas, realizadas e canceladas ao longo da semana.",
+          "Distribuição por procedimento",
+          "Procedimentos com maior participação no período.",
+          "Taxa de faltas por dia",
+          "Ajuda a entender quais dias exigem mais confirmação prévia.",
+          "Conversão do funil",
+          "Do primeiro contato até o tratamento fechado.",
+          "Relatórios disponíveis",
+          "Acesso rápido para gerar relatórios detalhados da clínica.",
+          "DRE - Demonstrativo de Resultados"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "div",
+            "text": "",
+            "ariaLabel": "dropdown trigger",
+            "type": ""
+          },
+          {
+            "tag": "button",
+            "text": "Exportar tudo",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Gerar",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Gerar",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Gerar",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Gerar",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "search",
+            "name": "rel-busca-hero",
+            "placeholder": "Buscar relatório…",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/configuracoes",
+      "url": "https://app.controledental.com.br/configuracoes",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Configurações",
+          "Gerencie as preferências do sistema, perfil e dados da clínica.",
+          "Conta e sistema",
+          "Gestão da clínica",
+          "Prontuário e clínico",
+          "Informações pessoais",
+          "Segurança"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Meu perfil",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Dados da clínica",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Modelos de mensagens",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Créditos de mensagens",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Notificações",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Integrações",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Assinatura",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Equipe e permissões",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Dentistas",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Convênios",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Fornecedores",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Salas e cadeiras",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Formas de Pagamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Tratamentos / Procedimentos",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Modelos de Anamnese",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Medicamentos",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Modelos de encaminhamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Modelos de contrato",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Remover",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Salvar alterações",
+            "ariaLabel": "",
+            "type": "submit"
+          },
+          {
+            "tag": "button",
+            "text": "Atualizar senha",
+            "ariaLabel": "",
+            "type": "submit"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "cfg-nome",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "email",
+            "name": "cfg-email",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "tel",
+            "name": "cfg-tel",
+            "placeholder": "(00) 00000-0000",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "cfg-esp",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "text",
+            "name": "cfg-cro",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "name": "cfg-senha-atual",
+            "placeholder": "",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "name": "cfg-senha-nova",
+            "placeholder": "Digite a nova senha",
+            "label": ""
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "name": "cfg-senha-conf",
+            "placeholder": "Confirme a nova senha",
+            "label": ""
+          }
+        ],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/configuracoes/comissoes-profissionais",
+      "url": "https://app.controledental.com.br/agenda",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "28 de Junho – 4 de Julho de 2026"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Hoje",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Anterior",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Próximo",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Outros filtrosStatusSala",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Dia",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Semana",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Mês",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "+ Novo agendamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Todos os profissionais",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Visualização da agenda",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Configurações da agenda",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 09:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 09:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 10:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 10:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 11:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 11:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 12:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 12:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 13:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 13:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 14:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 14:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 15:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 15:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 16:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 16:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 17:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 17:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 18:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 18:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 19:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 19:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 20:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 20:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 21:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 21:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 22:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 22:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 23:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 23:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 00:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 01:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 02:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 03:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 04:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 05:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 06:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 07:30",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:00",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Novo agendamento às 08:30",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [],
+        "tableCount": 0
+      },
+      "error": null
+    },
+    {
+      "path": "/configuracoes/modelos-contrato",
+      "url": "https://app.controledental.com.br/configuracoes/modelos-contrato",
+      "status": "ok",
+      "redirectedToLogin": false,
+      "info": {
+        "title": "Controle dental",
+        "headings": [
+          "PRINCIPAL",
+          "GESTAO",
+          "SISTEMA",
+          "Conta e sistema",
+          "Gestão da clínica",
+          "Prontuário e clínico",
+          "Modelos de contrato",
+          "Crie e edite modelos reutilizáveis para contratos de tratamento; eles ficam disponíveis ao gerar contratos nos orçamento"
+        ],
+        "buttons": [
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Notificações",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "0WA",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Kaique Paes admin",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Meu perfil",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Dados da clínica",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Modelos de mensagens",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Créditos de mensagens",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Notificações",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Integrações",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Assinatura",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Equipe e permissões",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Dentistas",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Convênios",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Fornecedores",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Salas e cadeiras",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Formas de Pagamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Tratamentos / Procedimentos",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Modelos de Anamnese",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Medicamentos",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Modelos de encaminhamento",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Modelos de contrato",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "button",
+            "text": "Atualizar lista",
+            "ariaLabel": "",
+            "type": "button"
+          },
+          {
+            "tag": "a",
+            "text": "Novo modelo",
+            "ariaLabel": "",
+            "type": ""
+          },
+          {
+            "tag": "a",
+            "text": "Criar primeiro modelo",
+            "ariaLabel": "",
+            "type": ""
+          },
+          {
+            "tag": "button",
+            "text": "",
+            "ariaLabel": "Abrir chat de suporte",
+            "type": "button"
+          }
+        ],
+        "links": [
+          {
+            "text": "ControleDental",
+            "href": "/"
+          },
+          {
+            "text": "Agenda",
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Configurações",
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Novo modelo",
+            "href": "/configuracoes/modelos-contrato/novo?returnUrl=%2Fconfiguracoes%2Fmodelos-contrato"
+          },
+          {
+            "text": "Criar primeiro modelo",
+            "href": "/configuracoes/modelos-contrato/novo?returnUrl=%2Fconfiguracoes%2Fmodelos-contrato"
+          }
+        ],
+        "tabs": [
+          {
+            "text": "Agenda",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/agenda"
+          },
+          {
+            "text": "Pacientes",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/pacientes"
+          },
+          {
+            "text": "Controle de prótese",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/controle-protese"
+          },
+          {
+            "text": "Financeiro",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/financeiro"
+          },
+          {
+            "text": "Estoque",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/estoque"
+          },
+          {
+            "text": "Relatorios",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/relatorios"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          },
+          {
+            "text": "Configurações",
+            "role": "a",
+            "ariaSelected": null,
+            "href": "/configuracoes"
+          }
+        ],
+        "inputs": [],
+        "tableCount": 0
+      },
+      "error": null
+    }
+  ],
+  "sidebarModules": [
+    {
+      "text": "Agenda",
+      "href": "/agenda"
+    },
+    {
+      "text": "Pacientes",
+      "href": "/pacientes"
+    },
+    {
+      "text": "Controle de prótese",
+      "href": "/controle-protese"
+    },
+    {
+      "text": "Financeiro",
+      "href": "/financeiro"
+    },
+    {
+      "text": "Estoque",
+      "href": "/estoque"
+    },
+    {
+      "text": "Relatorios",
+      "href": "/relatorios"
+    },
+    {
+      "text": "Configurações",
+      "href": "/configuracoes"
+    }
+  ],
+  "postLoginRedirects": [],
+  "configTabs": [],
+  "financeiroTabs": [
+    {
+      "text": "Fluxo de caixa",
+      "href": "/financeiro/fluxo-caixa"
+    }
+  ],
+  "patientFormTabs": [
+    {
+      "text": "Pacientes",
+      "href": "/pacientes"
+    },
+    {
+      "text": "Pacientes",
+      "href": "/pacientes"
+    }
+  ],
+  "relatoriosItems": [
+    "Exportar tudo",
+    "Gerar",
+    "Gerar",
+    "Gerar",
+    "Gerar"
+  ]
+}
