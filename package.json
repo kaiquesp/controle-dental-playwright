@@ -33,7 +33,8 @@
     "test:authenticated:app": "node scripts/e2e-run.mjs app -- --project=authenticated",
     "codegen": "playwright codegen",
     "codegen:local": "playwright codegen http://localhost:4200/login",
-    "codegen:app": "playwright codegen https://app.controledental.com.br/login"
+    "codegen:app": "playwright codegen https://app.controledental.com.br/login",
+    "help:capture": "node scripts/capture-help-screenshots.mjs"
   },
   "keywords": [],
   "author": "",

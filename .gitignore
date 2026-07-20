@@ -11,3 +11,7 @@ node_modules/
 
 # Credenciais locais
 .env
+
+# Central de Ajuda — capturas e manifest
+/output/help-screenshots/
+/output/help-center/
