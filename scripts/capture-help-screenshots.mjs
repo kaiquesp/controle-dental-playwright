@@ -119,6 +119,23 @@ async function captureJob(page, job, patientId) {
     await page.waitForSelector(job.capture.readySelector, { timeout: 15000 }).catch(() => undefined);
   }
 
+  if (job.capture.clickButton) {
+    const btn = page
+      .getByRole('button', { name: new RegExp(job.capture.clickButton, 'i') })
+      .first();
+    if (await btn.isVisible().catch(() => false)) {
+      await btn.click();
+      await page.waitForTimeout(600);
+    }
+    if (job.capture.readyText) {
+      await page
+        .getByText(new RegExp(job.capture.readyText, 'i'))
+        .first()
+        .waitFor({ state: 'visible', timeout: 8000 })
+        .catch(() => undefined);
+    }
+  }
+
   await applyPrivacyMask(page);
   await page.waitForTimeout(400);
 
