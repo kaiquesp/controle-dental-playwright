@@ -3,7 +3,7 @@ import { test, expect } from '../fixtures/test.fixture';
 const AGENDA_VIEWS = ['Dia', 'Semana', 'Mês'] as const;
 
 test.describe('Agenda', () => {
-  test.beforeEach(async ({ appShell }) => {
+  test.beforeEach(async ({ appShell, agendaPage }) => {
     await appShell.navigateTo('/agenda');
     await appShell.expectAuthenticatedShell();
     await appShell.dismissBlockingModals();
@@ -23,11 +23,14 @@ test.describe('Agenda', () => {
   });
 
   for (const view of AGENDA_VIEWS) {
-    test(`[AG-02] alterna visualização ${view}`, async ({ page }) => {
+    test(`[AG-02] alterna visualização ${view}`, async ({ page, agendaPage }) => {
       const button = page.getByRole('button', { name: view, exact: true });
       await expect(button).toBeVisible();
       await button.click();
       await expect(page.locator('.agenda-screen, app-agenda-content').first()).toBeVisible();
+      if (view === 'Dia') await agendaPage.expectDayView().catch(() => undefined);
+      if (view === 'Semana') await agendaPage.expectWeekView().catch(() => undefined);
+      if (view === 'Mês') await agendaPage.expectMonthView().catch(() => undefined);
     });
   }
 

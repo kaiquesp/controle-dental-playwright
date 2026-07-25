@@ -41,6 +41,9 @@ export class AppShellPage {
         return;
       } catch (error) {
         lastError = error;
+        if (this.page.isClosed()) {
+          throw error;
+        }
         await this.page.waitForTimeout(1_000 * attempt);
       }
     }

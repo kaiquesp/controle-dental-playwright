@@ -207,6 +207,58 @@ Tela amigável com foguete animado (`/svgs/foguete.svg`), CTAs e atalhos. Rota c
 | AG-15 | Painel Visualização da agenda | Lista opções (compacta, sábado, domingo…) |
 | AG-16 | Botão Imprimir agenda | Visível sem sair de `/agenda` |
 
+### Cobertura micro (funcional — `tests/authenticated/funcional/agenda.*.funcional.spec.ts`)
+
+**Infra:** `tests/pages/agenda.page.ts`, `tests/support/agenda-helpers.ts`, `tests/data/agenda.ts`, `docs/agenda-probe-report.json`
+
+| Grupo | IDs | Foco |
+|-------|-----|------|
+| CRUD | AG-CRUD-01–08 | Consulta/Compromisso/Tarefa via UI; listar/editar/excluir na grade; tarefas validadas via API |
+| Status | AG-STS-01–04 | Atendido, cancelado, filtros de status |
+| Etiquetas | AG-LBL-01–03 | Seleção de etiquetas no modal |
+| Filtros | AG-FLT-01–07 | Profissional, status, sala (FLT-03 exige ≥2 profissionais) |
+| Visão | AG-VIEW-01–06 | Dia/Semana/Mês, navegação, painel de visualização |
+| Avançado | AG-ADV-01–05 | Recorrência, retorno, encontrar horários, fora do expediente |
+| Impressão | AG-PRT-01–02 | Botão Imprimir permanece em `/agenda` |
+
+| ID | Cenário | Resultado esperado |
+|----|---------|-------------------|
+| AG-CRUD-01 | Criar Consulta via UI | Card na grade + toast sucesso |
+| AG-CRUD-02 | Criar Compromisso via UI | Card com título na grade |
+| AG-CRUD-03 | Criar Tarefa via UI | Persistência confirmada via `GET /api/agenda/tarefas` |
+| AG-CRUD-04 | Slot horário pré-preenche hora | Campo hora = slot clicado |
+| AG-CRUD-05 | Listar eventos do dia (API) | Cards visíveis na grade |
+| AG-CRUD-06 | Editar compromisso | Título atualizado na grade |
+| AG-CRUD-07 | Excluir compromisso | Card some após confirmação |
+| AG-CRUD-08 | Abrir evento na grade | Modal de edição abre |
+| AG-STS-01 | Marcar como Atendido | Status refletido no card |
+| AG-STS-02 | Cancelar/concluir compromisso | Ação aplicada |
+| AG-STS-03 | Confirmado / Aguardando | Status alternável em consulta |
+| AG-STS-04 | Filtro Cancelado | Grade ajustada |
+| AG-LBL-01 | Adicionar etiqueta | Chip selecionado no modal |
+| AG-LBL-02 | Remover etiqueta | Chip desmarcado |
+| AG-LBL-03 | Etiqueta de compromisso | Reunião interna visível |
+| AG-FLT-01 | Todos os profissionais | Eventos seedados visíveis |
+| AG-FLT-02 | Um profissional | Só eventos do profissional |
+| AG-FLT-03 | Alternar profissional A→B | Grade troca eventos |
+| AG-FLT-04 | Filtro status | Painel Outros filtros |
+| AG-FLT-05 | Filtro sala | Painel Outros filtros |
+| AG-FLT-06 | Profissional + status | Combinação aplicada |
+| AG-FLT-07 | Restaurar filtros | Todos os profissionais |
+| AG-VIEW-01 | Visão Dia | Evento do dia visível |
+| AG-VIEW-02 | Visão Semana | Layout semanal |
+| AG-VIEW-03 | Visão Mês | Calendário mensal |
+| AG-VIEW-04 | Anterior/Próximo | Período alterado |
+| AG-VIEW-05 | Hoje | Retorna ao período atual |
+| AG-VIEW-06 | Visualização da agenda | Opções de layout |
+| AG-ADV-01 | Repetição semanal | Série na visão Semana |
+| AG-ADV-02 | Editar ocorrência única | Diálogo somente esta |
+| AG-ADV-03 | Retornar em | Retorno configurado |
+| AG-ADV-04 | Encontrar horários | Painel de slots |
+| AG-ADV-05 | Fora do expediente | Alertdialog de confirmação |
+| AG-PRT-01 | Imprimir agenda | Permanece em `/agenda` |
+| AG-PRT-02 | Imprimir com filtros | Permanece em `/agenda` |
+
 ### Google Calendar (sync por profissional)
 
 **UI principal:** Configurações → Meu perfil · **Atalho:** Agenda → Configurações da grade · **Ponte:** Configurações → Integrações

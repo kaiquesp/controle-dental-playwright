@@ -1,0 +1,72 @@
+{
+  "inputInfo": [
+    {
+      "id": "nova-consulta-prof",
+      "placeholder": null,
+      "aria": "Dr. Kaique",
+      "role": "combobox"
+    },
+    {
+      "id": "nova-consulta-paciente",
+      "placeholder": "Buscar paciente por nome, CPF ou prontuário...",
+      "aria": null,
+      "role": null
+    },
+    {
+      "id": "nova-consulta-sala",
+      "placeholder": null,
+      "aria": "Principal",
+      "role": "combobox"
+    },
+    {
+      "id": "nova-consulta-data",
+      "placeholder": "DD/MM/AAAA",
+      "aria": null,
+      "role": "combobox"
+    },
+    {
+      "id": "nova-consulta-hora",
+      "placeholder": "HH:mm",
+      "aria": null,
+      "role": null
+    },
+    {
+      "id": "nova-consulta-duracao",
+      "placeholder": null,
+      "aria": "30 min",
+      "role": "combobox"
+    },
+    {
+      "id": "nova-consulta-proc",
+      "placeholder": null,
+      "aria": "Selecione o procedimento...",
+      "role": "combobox"
+    },
+    {
+      "id": "nova-consulta-convenio",
+      "placeholder": null,
+      "aria": "Particular",
+      "role": "combobox"
+    },
+    {
+      "id": "agenda-consulta-whatsapp",
+      "placeholder": null,
+      "aria": null,
+      "role": null
+    },
+    {
+      "id": "agenda-consulta-recorrencia",
+      "placeholder": null,
+      "aria": "Não se repete",
+      "role": "combobox"
+    },
+    {
+      "id": "agenda-consulta-retorno",
+      "placeholder": null,
+      "aria": "Sem retorno",
+      "role": "combobox"
+    }
+  ],
+  "captured": [],
+  "patientName": "E2E-UI-Probe"
+}

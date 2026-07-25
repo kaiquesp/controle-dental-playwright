@@ -10,6 +10,9 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 
 | Arquivo | Função |
 |---------|--------|
+| `tests/support/agenda-helpers.ts` | API agenda (eventos, tarefas, compromissos), slots únicos, cleanup `E2E-*` |
+| `tests/pages/agenda.page.ts` | Page Object da agenda (modal, filtros, grade, navegação) |
+| `tests/data/agenda.ts` | Constantes, seletores e IDs de formulário da agenda |
 | `tests/support/billing-mocks.ts` | Mock `/api/billing/**` + checkout paciente (`E2E_ALLOW_REAL_BILLING=false`) |
 | `tests/support/google-calendar-mocks.ts` | Mock `/api/integracoes/google-calendar/**` + overlay `agenda/eventos` |
 | `tests/support/crud-helpers.ts` | Prefixo `E2E-`, cleanup via API, CPF válido |
@@ -20,7 +23,12 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 
 | Arquivo | Cenários |
 |---------|----------|
-| `agenda.funcional.spec.ts` | AG-05–08, AG-14–16 — filtros, modais, visualização |
+| `agenda.funcional.spec.ts` | AG-05–08, AG-14–16 — smoke de filtros, modais, visualização |
+| `agenda.crud.funcional.spec.ts` | **AG-CRUD-01–08** — CRUD Consulta/Compromisso/Tarefa |
+| `agenda.status-etiquetas.funcional.spec.ts` | **AG-STS-01–04**, **AG-LBL-01–03** |
+| `agenda.filtros.funcional.spec.ts` | **AG-FLT-01–07** — profissional, status, sala |
+| `agenda.visualizacao.funcional.spec.ts` | **AG-VIEW-01–06** — Dia/Semana/Mês, navegação |
+| `agenda.avancado.funcional.spec.ts` | **AG-ADV-01–05**, **AG-PRT-01–02** |
 | `google-calendar.funcional.spec.ts` | **GC-01–13** — sync Perfil / Agenda / Integrações (mock) |
 | `pacientes.funcional.spec.ts` | PAC-LIST/Novo + **PAC-CRUD-01** create/delete |
 | `financeiro.funcional.spec.ts` | FIN-PAIN/FIN-FLUX modais e busca |

@@ -1,0 +1,377 @@
+{
+  "probedAt": "2026-07-22T19:38:01.579Z",
+  "baseURL": "https://app.controledental.com.br",
+  "apiUrl": "https://api.controledental.com.br/api",
+  "initialApiCalls": [
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/profissionais"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/salas-cadeiras"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/eventos?de=2026-07-19&ate=2026-07-25"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/profissionais",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "profissionais",
+          "paginacao"
+        ],
+        "preview": "{\"profissionais\":[{\"id\":12,\"tenant_id\":73,\"nome_exibicao\":\"Kaique\",\"especialidade\":null,\"ativo\":true,\"user_id\":77,\"created_at\":\"2026-07-04T18:59:53.204Z\",\"updated_at\":null,\"usuario_nome\":\"Kaique\",\"usuario_email\":\"kaiquesp@hotmail.com\"}],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":1,\"total_paginas\":1}}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/salas-cadeiras",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "salasCadeiras",
+          "paginacao"
+        ],
+        "preview": "{\"salasCadeiras\":[{\"id\":6,\"tenant_id\":73,\"nome\":\"Principal\",\"descricao\":null,\"ativo\":true,\"created_at\":\"2026-07-04T18:59:53.126Z\",\"updated_at\":null}],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":1,\"total_paginas\":1}}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/eventos?de=2026-07-19&ate=2026-07-25",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "eventos"
+        ],
+        "preview": "{\"eventos\":[]}"
+      }
+    }
+  ],
+  "modals": {
+    "Consulta": {
+      "dialogVisible": true,
+      "headings": [],
+      "inputs": [],
+      "buttons": [],
+      "tabs": []
+    },
+    "Compromisso": {
+      "dialogVisible": true,
+      "headings": [],
+      "inputs": [],
+      "buttons": [],
+      "tabs": []
+    },
+    "Tarefa": {
+      "dialogVisible": true,
+      "headings": [],
+      "inputs": [],
+      "buttons": [],
+      "tabs": []
+    }
+  },
+  "filters": {
+    "professionals": [
+      "Contratar plano",
+      "Kaique admin",
+      "Hoje",
+      "Outros filtrosStatusSala",
+      "Dia",
+      "Semana",
+      "Mês",
+      "+ Novo agendamento",
+      "Todos os profissionais",
+      "Convidar profissional",
+      "Feedback"
+    ],
+    "other": {
+      "visible": true,
+      "text": "",
+      "labels": []
+    }
+  },
+  "views": [
+    "Dia",
+    "Semana",
+    "Mês"
+  ],
+  "consultaActions": [
+    {
+      "text": "Criar nova etiqueta",
+      "ariaLabel": null,
+      "href": null
+    }
+  ],
+  "apiSamples": {
+    "/agenda/eventos": {
+      "status": 400,
+      "body": "{\"erro\":\"Parametros de e ate obrigatorios (YYYY-MM-DD).\"}"
+    },
+    "/agenda/etiquetas": {
+      "status": 200,
+      "body": "{\"etiquetas\":[{\"id\":45,\"nome\":\"Avaliação\",\"cor_hex\":\"#EC4899\",\"escopo\":\"consulta\",\"status\":\"ativa\",\"ordem\":1,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.280Z\",\"updated_at\":null},{\"id\":53,\"nome\":\"Operacional\",\"cor_hex\":\"#64748B\",\"escopo\":\"tarefa\",\"status\":\"ativa\",\"ordem\":1,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.283Z\",\"updated_at\":null},{\"id\":51,\"nome\":\"Reunião interna\",\"cor_hex\":\"#0D9488\",\"escopo\":\"compromisso\",\"status\":\"ativa\",\"ordem\":1,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.282Z\",\"updated_at\":null},{\"id\":54,\"nome\":\"Administrativo\",\"cor_hex\":\"#6366F1\",\"escopo\":\"tarefa\",\"status\":\"ativa\",\"ordem\":2,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.283Z\",\"updated_at\":null},{\"id\":46,\"nome\":\"Cirurgia\",\"cor_hex\":\"#991B1B\",\"escopo\":\"consulta\",\"status\":\"ativa\",\"ordem"
+    },
+    "/dentistas": {
+      "status": 404,
+      "body": "null"
+    },
+    "/configuracoes/salas-cadeiras": {
+      "status": 404,
+      "body": "null"
+    }
+  },
+  "allApiCalls": [
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/profissionais"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/salas-cadeiras"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/eventos?de=2026-07-19&ate=2026-07-25"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/profissionais",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "profissionais",
+          "paginacao"
+        ],
+        "preview": "{\"profissionais\":[{\"id\":12,\"tenant_id\":73,\"nome_exibicao\":\"Kaique\",\"especialidade\":null,\"ativo\":true,\"user_id\":77,\"created_at\":\"2026-07-04T18:59:53.204Z\",\"updated_at\":null,\"usuario_nome\":\"Kaique\",\"usuario_email\":\"kaiquesp@hotmail.com\"}],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":1,\"total_paginas\":1}}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/salas-cadeiras",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "salasCadeiras",
+          "paginacao"
+        ],
+        "preview": "{\"salasCadeiras\":[{\"id\":6,\"tenant_id\":73,\"nome\":\"Principal\",\"descricao\":null,\"ativo\":true,\"created_at\":\"2026-07-04T18:59:53.126Z\",\"updated_at\":null}],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":1,\"total_paginas\":1}}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/eventos?de=2026-07-19&ate=2026-07-25",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "eventos"
+        ],
+        "preview": "{\"eventos\":[]}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/etiquetas?escopo=consulta&status=ativa"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/profissionais"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/salas-cadeiras"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/catalogo-retorno"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/catalogo-recorrencia"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/salas-cadeiras",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "salasCadeiras",
+          "paginacao"
+        ],
+        "preview": "{\"salasCadeiras\":[{\"id\":6,\"tenant_id\":73,\"nome\":\"Principal\",\"descricao\":null,\"ativo\":true,\"created_at\":\"2026-07-04T18:59:53.126Z\",\"updated_at\":null}],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":1,\"total_paginas\":1}}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/profissionais",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "profissionais",
+          "paginacao"
+        ],
+        "preview": "{\"profissionais\":[{\"id\":12,\"tenant_id\":73,\"nome_exibicao\":\"Kaique\",\"especialidade\":null,\"ativo\":true,\"user_id\":77,\"created_at\":\"2026-07-04T18:59:53.204Z\",\"updated_at\":null,\"usuario_nome\":\"Kaique\",\"usuario_email\":\"kaiquesp@hotmail.com\"}],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":1,\"total_paginas\":1}}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/etiquetas?escopo=consulta&status=ativa",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "etiquetas",
+          "total_ativas"
+        ],
+        "preview": "{\"etiquetas\":[{\"id\":45,\"nome\":\"Avaliação\",\"cor_hex\":\"#EC4899\",\"escopo\":\"consulta\",\"status\":\"ativa\",\"ordem\":1,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.280Z\",\"updated_at\":null},{\"id\":46,\"nome\":\"Cirurgia\",\"cor_hex\":\"#991B1B\",\"escopo\":\"consulta\",\"status\":\"ativa\",\"ordem\":2,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.280Z\",\"updated_at\":null},{\"id\":47,\"nome\":\"Encaixe\",\"cor_hex\":\"#EAB308\",\"escopo\":\"consulta\",\"status\":\"ativa\",\"ordem\":3,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.2"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/catalogo-retorno",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "retorno_tipos"
+        ],
+        "preview": "{\"retorno_tipos\":[{\"codigo\":\"nenhum\",\"label\":\"Sem retorno\"},{\"codigo\":\"15_dias\",\"label\":\"15 dias\"},{\"codigo\":\"1_mes\",\"label\":\"1 mês\"},{\"codigo\":\"6_meses\",\"label\":\"6 meses\"},{\"codigo\":\"12_meses\",\"label\":\"12 meses\"},{\"codigo\":\"outro\",\"label\":\"Outro\"}]}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/catalogo-recorrencia",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "presets",
+          "unidades",
+          "dias_semana",
+          "terminos",
+          "mensal_posicoes",
+          "escopos_cancelamento"
+        ],
+        "preview": "{\"presets\":[{\"codigo\":\"nenhuma\",\"label\":\"Não se repete\"},{\"codigo\":\"diaria\",\"label\":\"Todos os dias\"},{\"codigo\":\"semanal\",\"label_dinamico\":true},{\"codigo\":\"mensal_posicao\",\"label_dinamico\":true},{\"codigo\":\"dias_uteis\",\"label\":\"Todos os dias da semana (segunda a sexta-feira)\"},{\"codigo\":\"personalizada\",\"label\":\"Personalizar...\"}],\"unidades\":[{\"codigo\":\"dia\",\"label\":\"dia\"},{\"codigo\":\"semana\",\"label\":\"semana\"},{\"codigo\":\"mes\",\"label\":\"mês\"}],\"dias_semana\":[{\"valor\":0,\"sigla\":\"D\",\"label\":\"Domingo\"},{"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/etiquetas?escopo=compromisso&status=ativa"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/catalogo-recorrencia"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/profissionais"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/catalogo-recorrencia",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "presets",
+          "unidades",
+          "dias_semana",
+          "terminos",
+          "mensal_posicoes",
+          "escopos_cancelamento"
+        ],
+        "preview": "{\"presets\":[{\"codigo\":\"nenhuma\",\"label\":\"Não se repete\"},{\"codigo\":\"diaria\",\"label\":\"Todos os dias\"},{\"codigo\":\"semanal\",\"label_dinamico\":true},{\"codigo\":\"mensal_posicao\",\"label_dinamico\":true},{\"codigo\":\"dias_uteis\",\"label\":\"Todos os dias da semana (segunda a sexta-feira)\"},{\"codigo\":\"personalizada\",\"label\":\"Personalizar...\"}],\"unidades\":[{\"codigo\":\"dia\",\"label\":\"dia\"},{\"codigo\":\"semana\",\"label\":\"semana\"},{\"codigo\":\"mes\",\"label\":\"mês\"}],\"dias_semana\":[{\"valor\":0,\"sigla\":\"D\",\"label\":\"Domingo\"},{"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/profissionais",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "profissionais",
+          "paginacao"
+        ],
+        "preview": "{\"profissionais\":[{\"id\":12,\"tenant_id\":73,\"nome_exibicao\":\"Kaique\",\"especialidade\":null,\"ativo\":true,\"user_id\":77,\"created_at\":\"2026-07-04T18:59:53.204Z\",\"updated_at\":null,\"usuario_nome\":\"Kaique\",\"usuario_email\":\"kaiquesp@hotmail.com\"}],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":1,\"total_paginas\":1}}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/etiquetas?escopo=compromisso&status=ativa",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "etiquetas",
+          "total_ativas"
+        ],
+        "preview": "{\"etiquetas\":[{\"id\":51,\"nome\":\"Reunião interna\",\"cor_hex\":\"#0D9488\",\"escopo\":\"compromisso\",\"status\":\"ativa\",\"ordem\":1,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.282Z\",\"updated_at\":null},{\"id\":52,\"nome\":\"Manutenção\",\"cor_hex\":\"#F97316\",\"escopo\":\"compromisso\",\"status\":\"ativa\",\"ordem\":2,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.282Z\",\"updated_at\":null}],\"total_ativas\":2}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/etiquetas?escopo=tarefa&status=ativa"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/tarefas/catalogo-prioridades"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/tarefas/catalogo-areas"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/catalogo-recorrencia"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/catalogo-recorrencia",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "presets",
+          "unidades",
+          "dias_semana",
+          "terminos",
+          "mensal_posicoes",
+          "escopos_cancelamento"
+        ],
+        "preview": "{\"presets\":[{\"codigo\":\"nenhuma\",\"label\":\"Não se repete\"},{\"codigo\":\"diaria\",\"label\":\"Todos os dias\"},{\"codigo\":\"semanal\",\"label_dinamico\":true},{\"codigo\":\"mensal_posicao\",\"label_dinamico\":true},{\"codigo\":\"dias_uteis\",\"label\":\"Todos os dias da semana (segunda a sexta-feira)\"},{\"codigo\":\"personalizada\",\"label\":\"Personalizar...\"}],\"unidades\":[{\"codigo\":\"dia\",\"label\":\"dia\"},{\"codigo\":\"semana\",\"label\":\"semana\"},{\"codigo\":\"mes\",\"label\":\"mês\"}],\"dias_semana\":[{\"valor\":0,\"sigla\":\"D\",\"label\":\"Domingo\"},{"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/tarefas/catalogo-prioridades",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "prioridades"
+        ],
+        "preview": "{\"prioridades\":[{\"codigo\":\"baixa\",\"label\":\"Baixa\"},{\"codigo\":\"media\",\"label\":\"Média\"},{\"codigo\":\"alta\",\"label\":\"Alta\"},{\"codigo\":\"urgente\",\"label\":\"Urgente\"}]}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/tarefas/catalogo-areas",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "areas"
+        ],
+        "preview": "{\"areas\":[{\"codigo\":\"estoque_materiais\",\"label\":\"Estoque e materiais\"},{\"codigo\":\"financeiro\",\"label\":\"Financeiro\"},{\"codigo\":\"recepcao\",\"label\":\"Recepção\"},{\"codigo\":\"clinico\",\"label\":\"Clínico\"},{\"codigo\":\"administrativo\",\"label\":\"Administrativo\"},{\"codigo\":\"outro\",\"label\":\"Outro\"}]}"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/agenda/etiquetas?escopo=tarefa&status=ativa",
+      "status": 200,
+      "sample": {
+        "keys": [
+          "etiquetas",
+          "total_ativas"
+        ],
+        "preview": "{\"etiquetas\":[{\"id\":53,\"nome\":\"Operacional\",\"cor_hex\":\"#64748B\",\"escopo\":\"tarefa\",\"status\":\"ativa\",\"ordem\":1,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.283Z\",\"updated_at\":null},{\"id\":54,\"nome\":\"Administrativo\",\"cor_hex\":\"#6366F1\",\"escopo\":\"tarefa\",\"status\":\"ativa\",\"ordem\":2,\"is_system\":true,\"created_at\":\"2026-07-04T18:59:53.283Z\",\"updated_at\":null},{\"id\":55,\"nome\":\"Financeiro\",\"cor_hex\":\"#059669\",\"escopo\":\"tarefa\",\"status\":\"ativa\",\"ordem\":3,\"is_system\":true,\"created_at\":\"2026-07-04T18:59"
+      }
+    }
+  ]
+}

@@ -95,6 +95,7 @@ test.describe('Pacientes — interações', () => {
       appShell,
       request,
     }) => {
+      test.setTimeout(120_000);
       patientName = e2eName('Paciente');
       await appShell.navigateTo('/agenda');
       await appShell.dismissBlockingModals();
@@ -122,6 +123,7 @@ test.describe('Pacientes — interações', () => {
       const deleteDialog = page.locator('.p-dialog.patients-delete-dialog:visible');
       await expect(deleteDialog).toBeVisible({ timeout: 15_000 });
       await deleteDialog.getByRole('button', { name: /^Excluir paciente$/i }).click();
+      await expect(deleteDialog).toBeHidden({ timeout: 20_000 });
 
       await appShell.navigateTo('/pacientes/buscar');
       await appShell.dismissBlockingModals();

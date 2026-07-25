@@ -1,0 +1,123 @@
+{
+  "patientId": 125,
+  "professional": {
+    "id": 12,
+    "tenant_id": 73,
+    "nome_exibicao": "Kaique",
+    "especialidade": null,
+    "ativo": true,
+    "user_id": 77,
+    "created_at": "2026-07-04T18:59:53.204Z",
+    "updated_at": null,
+    "usuario_nome": "Kaique",
+    "usuario_email": "kaiquesp@hotmail.com"
+  },
+  "sala": {
+    "id": 6,
+    "tenant_id": 73,
+    "nome": "Principal",
+    "descricao": null,
+    "ativo": true,
+    "created_at": "2026-07-04T18:59:53.126Z",
+    "updated_at": null
+  },
+  "targetDate": "2026-07-24",
+  "attempts": [
+    {
+      "name": "consulta_v1",
+      "url": "https://api.controledental.com.br/api/agenda/consultas",
+      "data": {
+        "paciente_id": 125,
+        "profissional_id": 12,
+        "sala_cadeira_id": 6,
+        "inicio": "2026-07-24T10:00:00",
+        "fim": "2026-07-24T10:30:00",
+        "observacoes": "E2E probe consulta"
+      },
+      "status": 404,
+      "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/agenda/consultas</pre>\n</body>\n</html>\n"
+    },
+    {
+      "name": "consulta_v2",
+      "url": "https://api.controledental.com.br/api/agenda/eventos",
+      "data": {
+        "tipo": "consulta",
+        "paciente_id": 125,
+        "profissional_id": 12,
+        "sala_cadeira_id": 6,
+        "inicio": "2026-07-24T10:00:00",
+        "fim": "2026-07-24T10:30:00",
+        "titulo": "E2E probe consulta"
+      },
+      "status": 404,
+      "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/agenda/eventos</pre>\n</body>\n</html>\n"
+    },
+    {
+      "name": "compromisso_v1",
+      "url": "https://api.controledental.com.br/api/agenda/compromissos",
+      "data": {
+        "profissional_id": 12,
+        "sala_cadeira_id": 6,
+        "inicio": "2026-07-24T10:00:00",
+        "fim": "2026-07-24T10:30:00",
+        "titulo": "E2E probe compromisso",
+        "descricao": "Probe"
+      },
+      "status": 400,
+      "body": {
+        "erro": "professional_id obrigatorio."
+      }
+    },
+    {
+      "name": "tarefa_v1",
+      "url": "https://api.controledental.com.br/api/agenda/tarefas",
+      "data": {
+        "profissional_id": 12,
+        "data": "2026-07-24",
+        "hora_inicio": "11:00",
+        "hora_fim": "11:30",
+        "titulo": "E2E probe tarefa",
+        "prioridade": "media",
+        "area": "administrativo"
+      },
+      "status": 201,
+      "body": {
+        "mensagem": "Tarefa criada.",
+        "tarefa": {
+          "id": 2,
+          "titulo": "E2E probe tarefa",
+          "descricao": null,
+          "label_id": null,
+          "labels": [],
+          "label": null,
+          "assigned_user_id": null,
+          "assigned_user_nome": null,
+          "prazo_at": null,
+          "prioridade": "media",
+          "area": "administrativo",
+          "patient_id": null,
+          "paciente_nome": null,
+          "enviar_lembrete": false,
+          "status": "pendente",
+          "concluida_em": null,
+          "created_by_user_id": 77,
+          "created_at": "2026-07-22T19:38:59.036Z",
+          "updated_at": null,
+          "checklist": [],
+          "repetir": false,
+          "recorrencia_intervalo": 1,
+          "recorrencia_unidade": null,
+          "recorrencia_dias_semana": [],
+          "recorrencia_mensal_modo": null,
+          "recorrencia_dia_mes": null,
+          "recorrencia_posicao_mes": null,
+          "recorrencia_dia_semana_mensal": null,
+          "recorrencia_termino": null,
+          "recorrencia_ate": null,
+          "recorrencia_max_ocorrencias": null,
+          "recorrencia_resumo": "Não se repete"
+        }
+      }
+    }
+  ]
+}

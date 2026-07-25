@@ -11,6 +11,7 @@ import {
 } from './support/onboarding';
 import { installAllPaymentMocks, installAllPaymentMocksOnContext } from './support/billing-mocks';
 import { installFeatureMocks, installFeatureMocksOnContext } from './support/feature-mocks';
+import { installVideoCursorOnContext } from './support/video-cursor';
 
 setup.setTimeout(180_000);
 
@@ -21,6 +22,7 @@ setup('login com usuário e senha', async ({ page, context }) => {
 
   await installAllPaymentMocksOnContext(context);
   await installFeatureMocksOnContext(context);
+  await installVideoCursorOnContext(context);
   await installAllPaymentMocks(page);
   await installFeatureMocks(page);
 

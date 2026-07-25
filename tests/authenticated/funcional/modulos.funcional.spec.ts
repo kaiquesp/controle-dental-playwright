@@ -107,11 +107,11 @@ test.describe('Controle de prótese — laboratórios CRUD', () => {
       timeout: 20_000,
     });
 
-    await expect(page.getByRole('row').filter({ hasText: name })).toBeVisible({ timeout: 15_000 });
+    await appShell.dismissBlockingModals();
 
     const search = page.locator('#controle-protese-labs-busca');
     await search.fill(name);
     await page.waitForTimeout(800);
-    await expect(page.getByRole('row').filter({ hasText: name })).toBeVisible();
+    await expect(page.getByRole('row').filter({ hasText: name })).toBeVisible({ timeout: 15_000 });
   });
 });

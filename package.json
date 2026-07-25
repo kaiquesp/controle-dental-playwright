@@ -34,7 +34,9 @@
     "codegen": "playwright codegen",
     "codegen:local": "playwright codegen http://localhost:4200/login",
     "codegen:app": "playwright codegen https://app.controledental.com.br/login",
-    "help:capture": "node scripts/capture-help-screenshots.mjs"
+    "help:capture": "node scripts/capture-help-screenshots.mjs",
+    "demo:agenda": "node scripts/demo-agenda.mjs app",
+    "demo:agenda:local": "node scripts/demo-agenda.mjs local"
   },
   "keywords": [],
   "author": "",
