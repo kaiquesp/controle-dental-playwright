@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { dismissCookieConsent } from '../support/cookie-consent';
 
 export class LoginPage {
   readonly emailInput: Locator;
@@ -15,8 +16,11 @@ export class LoginPage {
     this.title = page.getByRole('heading', { name: 'Acesse sua conta' });
   }
 
-  async goto(): Promise<void> {
+  async goto(options: { dismissCookieConsent?: boolean } = {}): Promise<void> {
     await this.page.goto('/login');
+    if (options.dismissCookieConsent !== false) {
+      await dismissCookieConsent(this.page, 'all', 15_000);
+    }
     await expect(this.title).toBeVisible({ timeout: 30_000 });
   }
 

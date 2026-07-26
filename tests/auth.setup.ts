@@ -9,6 +9,7 @@ import {
   prepareSessionForE2eSave,
   waitForPostLoginDestination,
 } from './support/onboarding';
+import { dismissCookieConsent } from './support/cookie-consent';
 import { installAllPaymentMocks, installAllPaymentMocksOnContext } from './support/billing-mocks';
 import { installFeatureMocks, installFeatureMocksOnContext } from './support/feature-mocks';
 import { instrumentVideoCursorOnContext } from './support/video-cursor';
@@ -28,6 +29,7 @@ setup('login com usuário e senha', async ({ page, context }) => {
 
   await context.clearCookies();
   await page.goto('/login', { waitUntil: 'domcontentloaded' });
+  await dismissCookieConsent(page, 'all', 15_000);
 
   const loginPage = new LoginPage(page);
   await expect(loginPage.title).toBeVisible({ timeout: 30_000 });

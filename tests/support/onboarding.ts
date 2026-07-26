@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
+import { dismissCookieConsent, isCookieConsentVisible } from './cookie-consent';
 
 const ONBOARDING_KEY = 'controleDentalOnboardingV1';
 const SESSION_KEY = 'controleDentalSession';
@@ -94,6 +95,12 @@ export async function waitForPostLoginDestination(page: Page, timeoutMs = 120_00
       return;
     }
 
+    if (await isCookieConsentVisible(page)) {
+      await dismissCookieConsent(page, 'all', 2_000);
+      await page.waitForTimeout(400);
+      continue;
+    }
+
     const lgpdVisible =
       (await page.locator('.p-dialog.aceitar-documentos-modal-dialog:visible').isVisible().catch(() => false)) ||
       (await page.getByRole('heading', { name: /Aceite de Documentos LGPD/i }).isVisible().catch(() => false));
@@ -132,6 +139,8 @@ export async function completeOnboardingStorage(page: Page): Promise<void> {
 
 /** Fecha tour e modais bloqueantes sem depender de timing da sidebar. */
 export async function dismissAppModals(page: Page): Promise<void> {
+  await dismissCookieConsent(page, 'all', 2_000);
+
   const sessionPatched = await page.evaluate((sessionKey) => {
     const patchSessionSnapshot = (raw: string): string | null => {
       try {

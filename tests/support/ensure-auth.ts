@@ -4,6 +4,7 @@ import path from 'path';
 import { e2eEnv, requireCredentials } from './env';
 import { LoginPage } from '../pages/login.page';
 import { acceptPendingLegalDocuments, dismissAppModals, waitForPostLoginDestination } from './onboarding';
+import { dismissCookieConsent } from './cookie-consent';
 import { AUTH_FILE, TOKEN_KEY, authFileHasToken, authFileIsFresh } from './auth-state';
 
 interface LoginApiResponse {
@@ -98,6 +99,7 @@ async function injectSession(page: Page, apiBody: LoginApiResponse): Promise<voi
   const snapshot = buildSessionSnapshot(apiBody);
 
   await page.goto(e2eEnv.baseUrl);
+  await dismissCookieConsent(page, 'all', 15_000);
   await page.evaluate(
     ({ tokenValue, sessionValue, rememberKey, tokenKey, sessionKey }) => {
       localStorage.setItem(tokenKey, tokenValue);

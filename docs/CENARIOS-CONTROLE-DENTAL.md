@@ -67,6 +67,20 @@ O Controle Dental é um sistema de gestão para clínicas odontológicas com mó
 
 ---
 
+### Banner de cookies (rotas públicas)
+
+**Elementos:** título "Cookies e privacidade", botões "Apenas necessários" e "Aceitar todos", link Política de Privacidade.
+
+| ID | Cenário | Resultado esperado |
+|----|---------|-------------------|
+| PUB-COOKIE-01 | Acessar `/login` sem consentimento prévio | Exibe banner com texto e ações |
+| PUB-COOKIE-02 | Clicar em "Aceitar todos" | Banner some e preferência persiste na sessão |
+| PUB-COOKIE-03 | Clicar em "Apenas necessários" | Banner some |
+| PUB-COOKIE-04 | Clicar em "Política de Privacidade" | Abre `/politica-de-privacidade` |
+| PUB-COOKIE-05 | Navegar para outras rotas públicas após aceite | Banner não reaparece na mesma sessão |
+
+---
+
 ### Recuperar senha (`/recuperar-senha`)
 
 **Elementos:** campo e-mail, botão Continuar, links Voltar para o Login e Fale com o suporte.

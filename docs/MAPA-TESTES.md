@@ -91,6 +91,7 @@ npx playwright test --project=chromium          # autenticado
 | Arquivo | IDs de cenário | Escopo |
 |---------|----------------|--------|
 | `login.spec.ts` | PUB-LOGIN-01, 03, 07, 08 | Carregamento de rotas + formulário, credenciais inválidas, links |
+| `cookie-consent.spec.ts` | PUB-COOKIE-01–05 | Banner de cookies: exibição, aceite, link da política, persistência |
 | `recuperar-senha.spec.ts` | PUB-REC-01, 03 | Formulário e retorno ao login |
 | `registro.spec.ts` | PUB-REG-01, 02, 04 | Formulário trial, validação de senha, link para login |
 | `portal-titular.spec.ts` | PUB-LGPD-01 | Portal LGPD e abas de direitos |

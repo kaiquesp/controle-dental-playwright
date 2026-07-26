@@ -22,4 +22,8 @@ test.describe('Shell autenticado', () => {
   test('[SHELL-05] exibe chat de suporte', async ({ page }) => {
     await expect(page.getByRole('button', { name: /Abrir chat de suporte/i })).toBeVisible();
   });
+
+  test('[SHELL-06] banner de cookies não bloqueia a agenda autenticada', async ({ page }) => {
+    await expect(page.getByText(/Cookies e privacidade/i)).toBeHidden();
+  });
 });
