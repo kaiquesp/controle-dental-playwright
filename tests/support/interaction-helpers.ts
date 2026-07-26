@@ -52,10 +52,17 @@ export async function expectSubmitBlocked(
   await expect(page).not.toHaveURL(/\/login/);
 }
 
-export async function fillFirstEmptyInput(dialog: Locator, value: string): Promise<void> {
-  const input = dialog.locator('input:visible:not([type="hidden"]):not([disabled])').first();
-  await expect(input).toBeVisible();
-  await input.fill(value);
+/** Primeiro campo editável em um modal (ignora paciente/readonly). */
+export function editableFields(dialog: Locator): Locator {
+  return dialog.locator(
+    'textarea:visible, input:visible:not([readonly]):not([type="hidden"]):not([id*="paciente"]):not([name*="paciente" i])'
+  );
+}
+
+export async function fillFirstEditableField(dialog: Locator, value: string): Promise<void> {
+  const field = editableFields(dialog).first();
+  await expect(field).toBeVisible({ timeout: 10_000 });
+  await field.fill(value);
 }
 
 export async function expectMainText(page: Page, pattern: RegExp): Promise<void> {
@@ -84,6 +91,24 @@ export async function selectIftaByInputId(
     .filter({ hasText: option })
     .first();
   await panelOption.click({ timeout: 10_000 });
+}
+
+export async function fillSearchSelect(
+  page: Page,
+  inputId: string,
+  query: string,
+  scope?: Page | Locator
+): Promise<void> {
+  const root = scope ?? page;
+  const input = root.locator(`#${inputId}`);
+  await expect(input).toBeVisible({ timeout: 10_000 });
+  await input.fill(query);
+  const option = page
+    .locator('.p-autocomplete-option, .p-autocomplete-item, .p-select-overlay .p-select-option, [role="option"]')
+    .filter({ hasText: /.+/ })
+    .first();
+  await expect(option).toBeVisible({ timeout: 10_000 });
+  await option.click();
 }
 
 export async function selectIftaOption(

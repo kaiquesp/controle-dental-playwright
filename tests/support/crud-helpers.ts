@@ -18,7 +18,7 @@ export async function deletePatientByApi(request: APIRequestContext, token: stri
   });
 }
 
-function extractPatientId(body: unknown): string | null {
+export function extractPatientId(body: unknown): string | null {
   if (!body || typeof body !== 'object') {
     return null;
   }

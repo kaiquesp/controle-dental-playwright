@@ -149,10 +149,16 @@ export class AgendaPage {
       const url = res.url();
       return url.includes('/api/agenda/') || url.includes('/api/consultas/');
     };
-    const clickSave = () =>
-      this.page.waitForResponse(isSaveResponse, { timeout: 25_000 }).catch(() => null);
-    let saveResponse = clickSave();
-    await save.click();
+
+    const clickSave = async (): Promise<Awaited<ReturnType<Page['waitForResponse']>> | null> => {
+      const [response] = await Promise.all([
+        this.page.waitForResponse(isSaveResponse, { timeout: 25_000 }).catch(() => null),
+        save.click(),
+      ]);
+      return response;
+    };
+
+    let response = await clickSave();
     for (let attempt = 0; attempt < 3; attempt++) {
       await this.dismissNestedScheduleDialogs();
       const outside = this.page.getByRole('alertdialog', { name: /fora do expediente/i });
@@ -160,17 +166,18 @@ export class AgendaPage {
       if (!confirmOutside) return;
       await outside.getByRole('button', { name: /^Sim,\s*prosseguir$/i }).click();
       await expect(outside).toBeHidden({ timeout: 8_000 });
-      saveResponse = clickSave();
-      await save.click();
+      response = await clickSave();
     }
-    const response = await saveResponse;
+
     if (response) {
       if (await dialog.isVisible().catch(() => false)) {
         await this.page.keyboard.press('Escape');
       }
+      await expect(dialog).toBeHidden({ timeout: 15_000 });
       await waitForAgendaEventsReload(this.page);
       return;
     }
+
     if (await dialog.isVisible().catch(() => false)) {
       const horaField = dialog.getByRole('textbox', { name: /Horário/i });
       const hora = ((await horaField.inputValue().catch(() => '')) ?? '').trim();
@@ -181,6 +188,7 @@ export class AgendaPage {
       if (await validation.isVisible().catch(() => false)) {
         throw new Error(`Modal não fechou após salvar: ${(await validation.textContent()) ?? 'validação'}`);
       }
+      await this.page.keyboard.press('Escape');
     }
     await expect(dialog).toBeHidden({ timeout: 20_000 });
     await waitForAgendaEventsReload(this.page);
@@ -420,6 +428,21 @@ export class AgendaPage {
   async setRecurrence(label: string | RegExp, options?: { preserveHora?: string }): Promise<void> {
     const dialog = this.scheduleDialog();
     await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.recorrencia, label, dialog);
+
+    const maxOcorrencias = dialog.locator('input[placeholder*="ocorr" i], input[name*="ocorr" i]').first();
+    if (await maxOcorrencias.isVisible().catch(() => false)) {
+      await maxOcorrencias.fill('4');
+    }
+
+    const ateField = dialog.getByRole('textbox', { name: /até|término|data final/i }).first();
+    if (await ateField.isVisible().catch(() => false)) {
+      const dataField = dialog.locator(`#${AGENDA_FORM_IDS.consulta.data}`);
+      const dataVal = ((await dataField.inputValue().catch(() => '')) ?? '').trim();
+      if (dataVal) {
+        await ateField.fill(dataVal);
+      }
+    }
+
     if (options?.preserveHora) {
       const horaField = dialog.getByRole('textbox', { name: /Horário/i });
       const current = (await horaField.inputValue()).trim();
@@ -447,17 +470,28 @@ export class AgendaPage {
           { timeout: 15_000 }
         )
         .catch(() => null);
-      await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.detalheStatus, status, details);
+      await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.detalheStatus, status, details).catch(
+        async () => {
+          await details.getByRole('button', { name: status }).click();
+        }
+      );
       await statusResponse;
       return;
     }
 
     const dialog = this.scheduleDialog();
+    const statusChip = dialog.getByRole('button', { name: status }).first();
+    if (await statusChip.isVisible().catch(() => false)) {
+      await statusChip.click();
+      return;
+    }
+
     const statusField = dialog.locator(`#${AGENDA_FORM_IDS.consulta.status}`);
     if (await statusField.isVisible().catch(() => false)) {
       await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.status, status, dialog);
       return;
     }
+
     await expect(
       statusField,
       'Campo "Status da consulta" só aparece em modo edição — abra uma consulta existente na grade'

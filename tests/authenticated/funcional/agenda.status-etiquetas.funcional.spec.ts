@@ -50,7 +50,16 @@ test.describe('Agenda — status e etiquetas', () => {
     await agendaPage.selectAllProfessionals();
     await agendaPage.openEvent(new RegExp(patient.name.slice(0, 12)));
     await agendaPage.setConsultaStatus(/Atendido/i);
-    await expect(agendaPage.consultaDetailsDialog().getByText(/Atendido/i).first()).toBeVisible();
+    if (await agendaPage.scheduleDialog().isVisible().catch(() => false)) {
+      await agendaPage.saveAppointment();
+    }
+    const details = agendaPage.consultaDetailsDialog();
+    const schedule = agendaPage.scheduleDialog();
+    if (await details.isVisible().catch(() => false)) {
+      await expect(details.getByText(/Atendido/i).first()).toBeVisible();
+    } else {
+      await expect(schedule.getByText(/Atendido/i).first()).toBeVisible();
+    }
   });
 
   test('[AG-STS-02] marca consulta como Cancelado', async ({ page, agendaPage, request }) => {

@@ -92,6 +92,8 @@ export const PATIENT_FORM_TABS = [
   'pagamentos',
 ] as const;
 
+export type PatientFormTab = (typeof PATIENT_FORM_TABS)[number];
+
 /** Seções internas do hub `/configuracoes` (exploração UI). */
 export const CONFIG_SECTIONS = [
   { id: 'CFG-02', label: 'Meu perfil', expectPattern: /Informações pessoais|Segurança|cfg-nome/i },

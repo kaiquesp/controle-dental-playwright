@@ -13,7 +13,13 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 | `tests/support/agenda-helpers.ts` | API agenda (eventos, tarefas, compromissos), slots únicos, cleanup `E2E-*` |
 | `tests/pages/agenda.page.ts` | Page Object da agenda (modal, filtros, grade, navegação) |
 | `tests/data/agenda.ts` | Constantes, seletores e IDs de formulário da agenda |
-| `tests/support/billing-mocks.ts` | Mock `/api/billing/**` + checkout paciente (`E2E_ALLOW_REAL_BILLING=false`) |
+| `tests/data/pacientes.ts` | Seletores, screen maps e labels das abas do prontuário |
+| `tests/pages/pacientes-list.page.ts` | Page Object da listagem `/pacientes/buscar` |
+| `tests/pages/paciente-form.page.ts` | Page Object do formulário/edição de paciente |
+| `tests/pages/prontuario.page.ts` | Page Object do prontuário (abas, orçamentos, tratamentos, etc.) |
+| `tests/support/pacientes-helpers.ts` | Provisionamento/cleanup de paciente E2E, upload de arquivo |
+| `tests/support/screen-map.ts` | Validação de screen maps e baseline de textos visíveis |
+| `tests/support/billing-mocks.ts` | Mock `/api/billing/**`, pagamentos do paciente (Asaas/boleto/link/baixa) e bloqueio de domínios externos (`E2E_ALLOW_REAL_BILLING=false`) |
 | `tests/support/google-calendar-mocks.ts` | Mock `/api/integracoes/google-calendar/**` + overlay `agenda/eventos` |
 | `tests/support/crud-helpers.ts` | Prefixo `E2E-`, cleanup via API, CPF válido |
 | `tests/support/toast-helpers.ts` | Assert `.p-toast-message` |
@@ -31,11 +37,23 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 | `agenda.avancado.funcional.spec.ts` | **AG-ADV-01–05**, **AG-PRT-01–02** |
 | `google-calendar.funcional.spec.ts` | **GC-01–13** — sync Perfil / Agenda / Integrações (mock) |
 | `pacientes.funcional.spec.ts` | PAC-LIST/Novo + **PAC-CRUD-01** create/delete |
+| `pacientes.listagem.funcional.spec.ts` | **PAC-LIST-MAP-01**, **PAC-LIST-12–21** — CRUD listagem, filtros, atalhos, modelos, consulta |
+| `pacientes.crud.funcional.spec.ts` | **PAC-CRUD-02** — cadastro/edição/exclusão via UI |
+| `prontuario.informacoes.funcional.spec.ts` | **PAC-PRONT-INFO-MAP/01** — mapeamento e edição |
+| `prontuario.plano-ficha.funcional.spec.ts` | **PAC-PRONT-PLANO-MAP/01–02** — plano aprovado e ficha clínica |
+| `prontuario.orcamentos.funcional.spec.ts` | **PAC-PRONT-ORC-MAP/01–07** — CRUD orçamento, contrato, documento, boleto |
+| `prontuario.tratamentos.funcional.spec.ts` | **PAC-PRONT-TRAT-MAP/01–05** — CRUD tratamento e odontograma |
+| `prontuario.receituario.funcional.spec.ts` | **PAC-PRONT-REC-MAP/01–07** — prescrição, atestado, declaração, encaminhamento |
+| `prontuario.arquivos.funcional.spec.ts` | **PAC-PRONT-ARQ-MAP/01–04** — upload, visualizar, download, excluir |
+| `prontuario.anamneses.funcional.spec.ts` | **PAC-PRONT-ANAM-MAP/01–05** — CRUD, pesquisa, modelos |
+| `prontuario.documentos.funcional.spec.ts` | **PAC-PRONT-DOC-MAP/01–04** — mesmo fluxo de arquivos |
+| `prontuario.pagamentos.funcional.spec.ts` | **PAC-PRONT-PAG-MAP/01–09** — lançamentos, pagar, filtros, extrato, cobrança |
 | `financeiro.funcional.spec.ts` | FIN-PAIN/FIN-FLUX modais e busca |
 | `modulos.funcional.spec.ts` | REL, EST, PRO, PRO-LAB |
 | `configuracoes.funcional.spec.ts` | CFG-FUNC perfil, equipe, convênios, assinatura |
 | `shell.funcional.spec.ts` | SHELL-FUNC menu, notificações, sidebar |
 | `billing.funcional.spec.ts` | BILL assinatura mockada |
+| `billing.patient-payments.funcional.spec.ts` | **BILL-PAY-01–03** — mock Asaas/boleto/link/baixa do paciente |
 | `prontuario.funcional.spec.ts` | PAC-PRONT-* — 9 abas do prontuário |
 | `public/funcional/publico.funcional.spec.ts` | PUB-LOGIN/REC/REG/PORT validações |
 

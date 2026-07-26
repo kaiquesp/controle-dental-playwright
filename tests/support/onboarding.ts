@@ -4,6 +4,16 @@ import { expect } from '@playwright/test';
 const ONBOARDING_KEY = 'controleDentalOnboardingV1';
 const SESSION_KEY = 'controleDentalSession';
 
+/** Reload tolerante — agenda em headed pode não disparar domcontentloaded a tempo. */
+async function safePageReload(page: Page): Promise<void> {
+  try {
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 60_000 });
+  } catch {
+    await page.reload({ waitUntil: 'commit', timeout: 30_000 });
+    await page.waitForLoadState('domcontentloaded', { timeout: 30_000 }).catch(() => undefined);
+  }
+}
+
 /**
  * Aceita documentos LGPD pendentes (modal pós-login).
  * Usa o overlay visível do PrimeNG — o host `<p-dialog>` também tem role=dialog e não contém os inputs.
@@ -207,7 +217,7 @@ export async function dismissAppModals(page: Page): Promise<void> {
   }, SESSION_KEY);
 
   if (sessionPatched && !page.url().includes('/pacientes/')) {
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await safePageReload(page);
     await page.waitForTimeout(500);
   }
 
@@ -287,7 +297,7 @@ export async function prepareSessionForE2eSave(page: Page): Promise<void> {
       }
     }, SESSION_KEY);
 
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await safePageReload(page);
     await page.waitForTimeout(800);
     await dismissAppModals(page);
 

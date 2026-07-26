@@ -302,6 +302,16 @@ Mocks: `tests/support/google-calendar-mocks.ts` (sem OAuth real).
 | PAC-LIST-09 | Filtrar em débito | Exibe pacientes com pendências financeiras |
 | PAC-LIST-10 | Abrir paciente existente | Navega para prontuário do paciente |
 | PAC-LIST-11 | Gerenciar modelos de mensagem | Abre configuração de templates |
+| PAC-LIST-MAP-01 | Mapeamento da listagem | Valida screen map baseline |
+| PAC-LIST-12 | Cadastrar novo paciente (UI) | Paciente aparece na busca |
+| PAC-LIST-13 | Pesquisar paciente | Filtra por nome E2E |
+| PAC-LIST-16 | Filtro status | Altera contexto da listagem |
+| PAC-LIST-17 | Filtro convênio | Altera contexto da listagem |
+| PAC-LIST-18 | Atenção da semana | Abre painel semanal |
+| PAC-LIST-19 | Gerenciar modelos de mensagem (link) | Abre `/configuracoes?aba=mensagens-relacionamento` |
+| PAC-LIST-20 | Nova consulta no card | Abre modal de agendamento |
+| PAC-LIST-21 | Abrir prontuário | Navega para aba Informações com screen map |
+| PAC-CRUD-02 | CRUD completo via UI | Cria, edita nome, exclui e valida ausência na busca |
 
 ---
 
@@ -344,6 +354,24 @@ Mocks: `tests/support/google-calendar-mocks.ts` (sem OAuth real).
 | PAC-PRONT-08 | Aba Receituário — emitir receita | Receita gerada (validável em `/validar-receita`) |
 | PAC-PRONT-09 | Aba Documentos — gerar contrato/termo | Documento a partir de modelo |
 | PAC-PRONT-10 | Aba Pagamentos — registrar/lançar | Integração com financeiro |
+
+#### Prontuário — cenários expandidos (funcional)
+
+| ID | Cenário | Resultado esperado |
+|----|---------|-------------------|
+| PAC-PRONT-INFO-MAP | Mapeamento aba Informações | Screen map validado em todos os testes da aba |
+| PAC-PRONT-INFO-01 | Editar paciente | Nome atualizado visível no prontuário |
+| PAC-PRONT-PLANO-MAP | Mapeamento Plano e Ficha | Baseline de planos/ficha/odontograma |
+| PAC-PRONT-ORC-01 | Orçamento + gerar contrato | Contrato visualizável com dados do paciente |
+| PAC-PRONT-ORC-02 | Orçamento + aprovar imediato | Status aprovado após salvar |
+| PAC-PRONT-ORC-03 | Aprovar manualmente na lista | Botão Aprovar altera status |
+| PAC-PRONT-ORC-04 | Visualizar contrato / Abrir documento | Baseline de textos reutilizado |
+| PAC-PRONT-ORC-05–07 | Editar, excluir, boleto | CRUD e emissão quando disponível |
+| PAC-PRONT-TRAT-01–05 | CRUD tratamentos | Odontograma e cores quando aplicável |
+| PAC-PRONT-REC-01–07 | Receituário completo | Prescrição, atestado, declaração, encaminhamento; assinatura digital pendente |
+| PAC-PRONT-ARQ/DOC | Arquivos e Documentos | Upload, visualizar, download, excluir |
+| PAC-PRONT-ANAM-01–05 | Anamneses | CRUD, pesquisa, modelos |
+| PAC-PRONT-PAG-01–09 | Pagamentos | Orçamentos lançados, CRUD manual, Pagar, filtros, totais, extrato, link cobrança |
 
 ---
 
