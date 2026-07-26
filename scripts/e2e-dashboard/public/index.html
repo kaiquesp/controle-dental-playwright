@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controle Dental — E2E Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div>
+        <h1>E2E Dashboard</h1>
+        <p class="subtitle">Execute testes Playwright e acompanhe o resultado neste projeto.</p>
+      </div>
+      <div class="status-pill" id="status-pill" data-state="idle">Ocioso</div>
+    </header>
+
+    <main class="layout">
+      <section class="card">
+        <h2>Executar</h2>
+        <form id="run-form" class="form">
+          <label>
+            Ambiente
+            <select name="target" id="target">
+              <option value="app" selected>app (produção)</option>
+              <option value="local">local (localhost)</option>
+            </select>
+          </label>
+
+          <label>
+            Projeto
+            <select name="project" id="project">
+              <option value="all">Todos (setup + public + authenticated)</option>
+              <option value="setup">setup (login)</option>
+              <option value="public">public</option>
+              <option value="authenticated" selected>authenticated</option>
+            </select>
+          </label>
+
+          <label>
+            Filtro (-g)
+            <input type="text" name="grep" id="grep" placeholder="Ex.: PAC-CRUD-02|AG-STS-01" />
+          </label>
+
+          <label class="checkbox">
+            <input type="checkbox" name="headed" id="headed" />
+            Headed (navegador visível)
+          </label>
+
+          <label>
+            Workers
+            <input type="number" name="workers" id="workers" min="1" max="8" value="1" />
+          </label>
+
+          <div class="actions">
+            <button type="submit" class="btn primary" id="btn-run">Rodar testes</button>
+            <button type="button" class="btn danger" id="btn-stop" disabled>Parar</button>
+            <a class="btn ghost" id="link-report" href="/report/" target="_blank" rel="noopener">Abrir report HTML</a>
+          </div>
+        </form>
+
+        <details class="presets">
+          <summary>Presets rápidos</summary>
+          <div class="preset-grid">
+            <button type="button" class="btn small" data-preset="authenticated">Autenticados</button>
+            <button type="button" class="btn small" data-preset="public">Públicos</button>
+            <button type="button" class="btn small" data-preset="setup">Só login</button>
+            <button type="button" class="btn small" data-preset="pacientes">Pacientes</button>
+            <button type="button" class="btn small" data-preset="agenda">Agenda</button>
+            <button type="button" class="btn small" data-preset="prontuario">Prontuário</button>
+          </div>
+        </details>
+      </section>
+
+      <section class="card summary" id="summary-card">
+        <h2>Resumo</h2>
+        <div class="stats" id="stats">
+          <div class="stat ok"><span id="stat-pass">—</span><small>Passou</small></div>
+          <div class="stat fail"><span id="stat-fail">—</span><small>Falhou</small></div>
+          <div class="stat skip"><span id="stat-skip">—</span><small>Skip</small></div>
+          <div class="stat"><span id="stat-duration">—</span><small>Duração</small></div>
+        </div>
+        <p class="meta" id="results-meta">Nenhum resultado carregado.</p>
+      </section>
+
+      <section class="card tests-card">
+        <h2>Testes</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Teste</th>
+                <th>Duração</th>
+              </tr>
+            </thead>
+            <tbody id="tests-body">
+              <tr>
+                <td colspan="3" class="empty">Rode os testes para ver o resumo.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card log-card">
+        <div class="log-header">
+          <h2>Log</h2>
+          <button type="button" class="btn small ghost" id="btn-clear-log">Limpar</button>
+        </div>
+        <pre id="log" aria-live="polite"></pre>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

@@ -17,6 +17,7 @@
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
     "test:report": "playwright show-report",
+    "test:dashboard": "node scripts/e2e-dashboard/server.mjs",
     "test:setup": "playwright test --project=setup",
     "test:setup:local": "node scripts/e2e-run.mjs local -- --project=setup",
     "test:setup:app": "node scripts/e2e-run.mjs app -- --project=setup",

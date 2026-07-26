@@ -1,0 +1,179 @@
+const $ = (sel) => document.querySelector(sel);
+
+const statusPill = $('#status-pill');
+const btnRun = $('#btn-run');
+const btnStop = $('#btn-stop');
+const btnClearLog = $('#btn-clear-log');
+const logEl = $('#log');
+const form = $('#run-form');
+const linkReport = $('#link-report');
+
+const PRESETS = {
+  authenticated: { project: 'authenticated', grep: '', workers: 1 },
+  public: { project: 'public', grep: '', workers: 1 },
+  setup: { project: 'setup', grep: '', workers: 1 },
+  pacientes: { project: 'authenticated', grep: 'PAC-', workers: 1 },
+  agenda: { project: 'authenticated', grep: 'AG-', workers: 1 },
+  prontuario: { project: 'authenticated', grep: 'PAC-PRONT-', workers: 1 },
+};
+
+function formatDuration(ms) {
+  if (!ms && ms !== 0) return '—';
+  if (ms < 1000) return `${ms}ms`;
+  const s = Math.round(ms / 1000);
+  const m = Math.floor(s / 60);
+  const rest = s % 60;
+  return m ? `${m}m ${rest}s` : `${rest}s`;
+}
+
+function appendLog(line, stream = 'stdout') {
+  const span = document.createElement('span');
+  span.className = stream;
+  span.textContent = `${line}\n`;
+  logEl.appendChild(span);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function setRunning(running) {
+  btnRun.disabled = running;
+  btnStop.disabled = !running;
+  form.querySelectorAll('input, select').forEach((el) => {
+    if (el.id !== 'headed') el.disabled = running;
+  });
+}
+
+function setStatus(state, label) {
+  statusPill.dataset.state = state;
+  statusPill.textContent = label;
+}
+
+function renderResults(data) {
+  const stats = data?.stats;
+  $('#stat-pass').textContent = stats ? String(stats.expected ?? 0) : '—';
+  $('#stat-fail').textContent = stats ? String((stats.unexpected ?? 0) + (stats.flaky ?? 0)) : '—';
+  $('#stat-skip').textContent = stats ? String(stats.skipped ?? 0) : '—';
+  $('#stat-duration').textContent = stats ? formatDuration(stats.duration) : '—';
+
+  const meta = $('#results-meta');
+  if (!data?.available) {
+    meta.textContent = data?.error ? `Erro ao ler resultados: ${data.error}` : 'Nenhum resultado em test-results/results.json.';
+  } else {
+    meta.textContent = `Atualizado em ${new Date(data.generatedAt).toLocaleString('pt-BR')} — ${data.tests.length} teste(s)`;
+  }
+
+  const tbody = $('#tests-body');
+  tbody.innerHTML = '';
+  if (!data?.tests?.length) {
+    tbody.innerHTML = '<tr><td colspan="3" class="empty">Sem testes no último report JSON.</td></tr>';
+    return;
+  }
+
+  for (const test of data.tests) {
+    const tr = document.createElement('tr');
+    const status = test.status === 'expected' ? 'passed' : test.status;
+    tr.innerHTML = `
+      <td><span class="badge ${status}">${status}</span></td>
+      <td>${escapeHtml(test.title)}${test.error ? `<br><small style="color:#ff9f9f">${escapeHtml(test.error)}</small>` : ''}</td>
+      <td>${formatDuration(test.duration)}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+async function refreshStatus() {
+  const res = await fetch('/api/status');
+  const data = await res.json();
+  renderResults(data.results);
+  linkReport.classList.toggle('disabled', !data.reportAvailable);
+  if (data.status === 'running') {
+    setRunning(true);
+    setStatus('running', 'Executando…');
+  } else if (data.exitCode === 0) {
+    setRunning(false);
+    setStatus('done-ok', 'Concluído ✓');
+  } else if (data.exitCode != null) {
+    setRunning(false);
+    setStatus('done-fail', `Falhou (${data.exitCode})`);
+  } else {
+    setRunning(false);
+    setStatus('idle', 'Ocioso');
+  }
+}
+
+function readForm() {
+  return {
+    target: $('#target').value,
+    project: $('#project').value,
+    grep: $('#grep').value.trim(),
+    headed: $('#headed').checked,
+    workers: Number($('#workers').value) || 1,
+  };
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  setRunning(true);
+  setStatus('running', 'Iniciando…');
+  appendLog('Solicitando execução…', 'system');
+
+  const res = await fetch('/api/run', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(readForm()),
+  });
+  const data = await res.json();
+  if (!data.ok) {
+    appendLog(data.error ?? 'Falha ao iniciar', 'stderr');
+    setRunning(false);
+    setStatus('idle', 'Ocioso');
+  }
+});
+
+btnStop.addEventListener('click', async () => {
+  await fetch('/api/stop', { method: 'POST' });
+});
+
+btnClearLog.addEventListener('click', () => {
+  logEl.innerHTML = '';
+});
+
+document.querySelectorAll('[data-preset]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const preset = PRESETS[btn.dataset.preset];
+    if (!preset) return;
+    $('#project').value = preset.project;
+    $('#grep').value = preset.grep;
+    $('#workers').value = String(preset.workers);
+  });
+});
+
+const events = new EventSource('/api/events');
+events.addEventListener('log', (ev) => {
+  const { line, stream } = JSON.parse(ev.data);
+  appendLog(line, stream);
+});
+events.addEventListener('status', (ev) => {
+  const data = JSON.parse(ev.data);
+  if (data.status === 'running') {
+    setRunning(true);
+    setStatus('running', 'Executando…');
+  } else if (data.exitCode === 0) {
+    setRunning(false);
+    setStatus('done-ok', 'Concluído ✓');
+  } else if (data.exitCode != null) {
+    setRunning(false);
+    setStatus('done-fail', `Falhou (${data.exitCode})`);
+  }
+});
+events.addEventListener('results', (ev) => {
+  renderResults(JSON.parse(ev.data));
+});
+
+refreshStatus();
