@@ -1,0 +1,135 @@
+{
+  "generatedAt": "2026-07-25T22:30:58.408Z",
+  "captured": [
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":null}"
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/consent/pending",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":null}"
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/consent/pending",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/consent/pending",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/notifications?page=1&page_size=20",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/configuracoes/personalizacao",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/configuracoes/perfil/me",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/message-packages/balances",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/auth/me",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/configuracoes/convenios?ativo=1",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/auth/users",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/pacientes/276/edit/pagamentos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/pacientes/276/edit/pagamentos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/presence/heartbeat",
+      "body": "{\"page\":\"/pacientes/276/edit/pagamentos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/financeiro/patient-payment-checkouts/gateways",
+      "body": null
+    }
+  ]
+}

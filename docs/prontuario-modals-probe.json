@@ -1,0 +1,1481 @@
+{
+  "patientId": "394",
+  "orcamentoModal": {
+    "buttons": [
+      {
+        "text": "Contratar plano",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Notificações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Kaique admin",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Link de Agendamento",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Enviar link de cadastro",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Mais ações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Informações",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Plano e Ficha Clínica",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Orçamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Tratamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Receituário",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Arquivos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Anamneses",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Pagamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Criar orçamento",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Conhecer planos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Feedback",
+        "aria": "Enviar feedback sobre o sistema",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Abrir chat de suporte",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 18. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 17. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 16. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 15. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 14. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 13. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 12. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 11. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 21. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 22. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 23. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 24. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 25. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 26. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 27. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 28. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 48. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 47. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 46. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 45. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 44. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 43. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 42. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 41. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 31. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 32. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 33. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 34. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 35. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 36. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 37. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Dente 38. Situação atual: sadio.",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      },
+      {
+        "text": "Cancelar",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Salvar Orçamento",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      }
+    ],
+    "inputs": [
+      {
+        "id": "orc-modal-titulo",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "text",
+        "placeholder": "Ex.: Tratamento estético e restaurações",
+        "readonly": false
+      },
+      {
+        "id": "orc-modal-prof",
+        "role": "combobox",
+        "ariaDisabled": "false",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      },
+      {
+        "id": "orc-modal-validade",
+        "role": "combobox",
+        "ariaDisabled": null,
+        "type": "text",
+        "placeholder": "DD/MM/AAAA",
+        "readonly": false
+      },
+      {
+        "id": "orc-draft-proc",
+        "role": "combobox",
+        "ariaDisabled": "false",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      },
+      {
+        "id": "orc-modal-condicoes",
+        "role": null,
+        "ariaDisabled": null,
+        "type": null,
+        "placeholder": "Adicione notas, condições especiais ou detalhes clínicos visíveis para o paciente...",
+        "readonly": false
+      },
+      {
+        "id": "orc-aprov-imediato",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "checkbox",
+        "placeholder": null,
+        "readonly": false
+      }
+    ]
+  },
+  "tratamentoModal": {
+    "buttons": [
+      {
+        "text": "Contratar plano",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Notificações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Kaique admin",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Link de Agendamento",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Enviar link de cadastro",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Mais ações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Informações",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Plano e Ficha Clínica",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Orçamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Tratamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Receituário",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Arquivos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Anamneses",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Pagamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Novo tratamento",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Feedback",
+        "aria": "Enviar feedback sobre o sistema",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Abrir chat de suporte",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Fechar modal",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Permanentes",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Decíduos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "18",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "17",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "16",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "15",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "14",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "13",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "12",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "11",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "21",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "22",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "23",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "24",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "25",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "26",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "27",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "28",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "48",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "47",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "46",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "45",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "44",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "43",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "42",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "41",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "31",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "32",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "33",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "34",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "35",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "36",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "37",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "38",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "O/I",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "D",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "M",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "V",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "L/P",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Abrir orçamento",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Adicionar outro tratamento",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Cancelar",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Salvar e adicionar outro",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Adicionar tratamento",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      }
+    ],
+    "inputs": [
+      {
+        "id": "trat-modal-paciente",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "text",
+        "placeholder": "",
+        "readonly": true
+      },
+      {
+        "id": "trat-modal-prof",
+        "role": "combobox",
+        "ariaDisabled": "true",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      },
+      {
+        "id": "trat-modal-data",
+        "role": "combobox",
+        "ariaDisabled": null,
+        "type": "text",
+        "placeholder": "DD/MM/AAAA",
+        "readonly": false
+      },
+      {
+        "id": "trat-modal-origem",
+        "role": "combobox",
+        "ariaDisabled": "true",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      },
+      {
+        "id": "trat-modal-status",
+        "role": "combobox",
+        "ariaDisabled": "false",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      },
+      {
+        "id": "trat-modal-proc",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "search",
+        "placeholder": "Buscar procedimento",
+        "readonly": false
+      },
+      {
+        "id": "trat-modal-categoria",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "text",
+        "placeholder": "",
+        "readonly": true
+      },
+      {
+        "id": "trat-modal-valor",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "text",
+        "placeholder": "",
+        "readonly": true
+      },
+      {
+        "id": "trat-modal-sessoes",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "text",
+        "placeholder": "",
+        "readonly": true
+      },
+      {
+        "id": "trat-modal-detalhes",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "text",
+        "placeholder": "Opcional",
+        "readonly": false
+      },
+      {
+        "id": "trat-modal-obs",
+        "role": null,
+        "ariaDisabled": null,
+        "type": null,
+        "placeholder": "Adicione orientações importantes para a equipe clínica ou detalhes do procedimento.",
+        "readonly": false
+      }
+    ]
+  },
+  "arquivosUpload": {
+    "buttons": [
+      {
+        "text": "Contratar plano",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Notificações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Kaique admin",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Link de Agendamento",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Enviar link de cadastro",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Mais ações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Informações",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Plano e Ficha Clínica",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Orçamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Tratamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Receituário",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Arquivos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Anamneses",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Pagamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Fazer Upload",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Feedback",
+        "aria": "Enviar feedback sobre o sistema",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Abrir chat de suporte",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Cancelar",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Enviar arquivos",
+        "aria": "",
+        "id": "",
+        "disabled": true,
+        "form": ""
+      }
+    ],
+    "inputs": [
+      {
+        "id": "",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "file",
+        "placeholder": null,
+        "readonly": false
+      }
+    ]
+  },
+  "arquivosFileInputs": 1,
+  "anamneseAfterNova": {
+    "buttons": [
+      {
+        "text": "Contratar plano",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Notificações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Kaique admin",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Link de Agendamento",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Enviar link de cadastro",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Mais ações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Informações",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Plano e Ficha Clínica",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Orçamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Tratamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Receituário",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Arquivos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Anamneses",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Pagamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Voltar",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Salvar anamnese",
+        "aria": "",
+        "id": "",
+        "disabled": true,
+        "form": "novo-paciente-anamnese-editor-form"
+      },
+      {
+        "text": "Configurar modelos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Adicionar pergunta",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Marcar alerta clínico",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Salvar rascunho em PDF",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Feedback",
+        "aria": "Enviar feedback sobre o sistema",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Abrir chat de suporte",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      }
+    ],
+    "inputs": [
+      {
+        "id": "anam-modelo",
+        "role": "combobox",
+        "ariaDisabled": "true",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      },
+      {
+        "id": "anam-queixa",
+        "role": null,
+        "ariaDisabled": null,
+        "type": null,
+        "placeholder": "Descreva o motivo da consulta ou queixa do paciente.",
+        "readonly": false
+      },
+      {
+        "id": "anam-obs-inicial",
+        "role": null,
+        "ariaDisabled": null,
+        "type": null,
+        "placeholder": "Alergias, medicamentos em uso, histórico relevante (opcional).",
+        "readonly": false
+      }
+    ]
+  },
+  "pagamentoLink": {
+    "buttons": [
+      {
+        "text": "Contratar plano",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Notificações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Kaique admin",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Link de Agendamento",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Enviar link de cadastro",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Mais ações",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Informações",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Plano e Ficha Clínica",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Orçamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Tratamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Receituário",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Arquivos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Anamneses",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Pagamentos",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Extrato",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Link de cobrança",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Novo pagamento",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "Feedback",
+        "aria": "Enviar feedback sobre o sistema",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "Abrir chat de suporte",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      },
+      {
+        "text": "",
+        "aria": "",
+        "id": "",
+        "disabled": false,
+        "form": ""
+      }
+    ],
+    "inputs": [
+      {
+        "id": "pagamentos-busca",
+        "role": null,
+        "ariaDisabled": null,
+        "type": "search",
+        "placeholder": "Buscar por orçamento, parcela ou descrição",
+        "readonly": false
+      },
+      {
+        "id": "pagamentos-filtro-status",
+        "role": "combobox",
+        "ariaDisabled": "false",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      },
+      {
+        "id": "pagamentos-filtro-metodo",
+        "role": "combobox",
+        "ariaDisabled": "false",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      },
+      {
+        "id": "pagamentos-filtro-periodo",
+        "role": "combobox",
+        "ariaDisabled": "false",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      },
+      {
+        "id": "pagamentos-filtro-boleto",
+        "role": "combobox",
+        "ariaDisabled": "false",
+        "type": null,
+        "placeholder": null,
+        "readonly": false
+      }
+    ]
+  }
+}
