@@ -25,6 +25,16 @@ export function isGithubRunner() {
   return getRunnerMode() === 'github';
 }
 
+export function buildGithubActionsUrl(runId, htmlUrl) {
+  if (htmlUrl && isGithubActionsUrl(htmlUrl)) return htmlUrl;
+  if (!runId) return null;
+  return `https://github.com/${REPO}/actions/runs/${runId}`;
+}
+
+export function isGithubActionsUrl(url) {
+  return typeof url === 'string' && /^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+/.test(url);
+}
+
 export function githubConfigured() {
   return Boolean(TOKEN && REPO);
 }

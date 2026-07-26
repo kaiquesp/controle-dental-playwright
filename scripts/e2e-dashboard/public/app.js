@@ -25,24 +25,41 @@ function stepIcon(step) {
   return '·';
 }
 
-function renderGithubProgress(payload) {
-  const url = payload?.htmlUrl ?? payload?.githubRunUrl ?? null;
-  const progress = payload?.progress ?? payload?.githubProgress ?? payload;
-  const steps = progress?.steps ?? [];
+function isGithubActionsUrl(url) {
+  return typeof url === 'string' && /^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+/.test(url);
+}
 
-  if (url) {
-    btnGithubLive.href = url;
+function renderGithubProgress(payload) {
+  const url =
+    payload?.githubActionsUrl ?? payload?.htmlUrl ?? payload?.githubRunUrl ?? null;
+  const validUrl = isGithubActionsUrl(url) ? url : null;
+  const progress = payload?.progress ?? payload?.githubProgress ?? null;
+  const steps = progress?.steps ?? [];
+  const running = payload?.status === 'running';
+
+  if (validUrl) {
     btnGithubLive.hidden = false;
+    btnGithubLive.onclick = () => {
+      window.open(validUrl, '_blank', 'noopener,noreferrer');
+    };
   } else {
     btnGithubLive.hidden = true;
+    btnGithubLive.onclick = null;
   }
 
-  if (!steps.length && !url) {
+  if (!running && !validUrl && !steps.length) {
     githubProgressCard.classList.add('hidden');
+    githubSteps.innerHTML = '';
     return;
   }
 
   githubProgressCard.classList.remove('hidden');
+
+  if (!steps.length) {
+    githubSteps.innerHTML = `<li class="github-step github-step--placeholder">Aguardando o workflow no GitHub Actions…</li>`;
+    return;
+  }
+
   githubSteps.innerHTML = steps
     .map(
       (step) => `
@@ -233,8 +250,11 @@ async function refreshStatus() {
   }
   renderBrowserStatus(data.browsers);
   renderResults(data.results);
-  if (data.runner === 'github' && (data.githubProgress?.steps?.length || data.githubRunUrl)) {
+  if (data.runner === 'github' && (data.status === 'running' || data.githubActionsUrl || data.githubProgress?.steps?.length)) {
     renderGithubProgress(data);
+  } else if (data.runner === 'github') {
+    githubProgressCard.classList.add('hidden');
+    btnGithubLive.hidden = true;
   }
   linkReport.classList.toggle('disabled', !data.reportAvailable);
   if (data.status === 'running') {
@@ -307,8 +327,11 @@ events.addEventListener('log', (ev) => {
 });
 events.addEventListener('status', (ev) => {
   const data = JSON.parse(ev.data);
-  if (data.runner === 'github' && (data.githubProgress?.steps?.length || data.githubRunUrl)) {
+  if (data.runner === 'github' && (data.status === 'running' || data.githubActionsUrl || data.githubProgress?.steps?.length)) {
     renderGithubProgress(data);
+  } else if (data.runner === 'github') {
+    githubProgressCard.classList.add('hidden');
+    btnGithubLive.hidden = true;
   }
   if (data.status === 'running') {
     setRunning(true);

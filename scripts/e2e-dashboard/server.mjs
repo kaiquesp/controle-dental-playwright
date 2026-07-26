@@ -36,6 +36,7 @@ import {
   fetchRunLogsText,
   fetchRunProgress,
   fetchRunStatus,
+  buildGithubActionsUrl,
   getRunnerMode,
   githubConfigured,
   isGithubRunner,
@@ -282,7 +283,9 @@ async function pollGithubRun(runId) {
     if (stepsKey && stepsKey !== lastGithubStepsKey) {
       lastGithubStepsKey = stepsKey;
       broadcast('github-progress', {
+        status: 'running',
         htmlUrl: run.htmlUrl,
+        githubActionsUrl: buildGithubActionsUrl(runId, run.htmlUrl),
         progress,
       });
     }
@@ -290,6 +293,7 @@ async function pollGithubRun(runId) {
     runState = {
       ...runState,
       githubRunUrl: run.htmlUrl,
+      githubActionsUrl: buildGithubActionsUrl(runId, run.htmlUrl),
       githubProgress: progress,
     };
     broadcast('status', runState);
@@ -328,7 +332,11 @@ async function pollGithubRun(runId) {
     }
 
     const exitCode = run.conclusion === 'success' ? 0 : 1;
-    finishRun(exitCode, { githubRunUrl: run.htmlUrl, githubProgress: progress });
+    finishRun(exitCode, {
+      githubRunUrl: run.htmlUrl,
+      githubActionsUrl: buildGithubActionsUrl(runId, run.htmlUrl),
+      githubProgress: progress,
+    });
   } catch (err) {
     pushLog(`Erro ao consultar GitHub Actions: ${err.message}`, 'stderr');
   }
@@ -374,6 +382,7 @@ async function startGithubRun(body) {
     runState = {
       ...runState,
       githubRunUrl: dispatched.htmlUrl,
+      githubActionsUrl: buildGithubActionsUrl(dispatched.runId, dispatched.htmlUrl),
     };
     saveGithubRunState({
       runId: dispatched.runId,
@@ -509,10 +518,15 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (req.method === 'GET' && url.pathname === '/api/status') {
+    const saved = loadGithubRunState();
+    const activeRunId = githubRunId ?? saved?.runId ?? null;
+    const githubActionsUrl = buildGithubActionsUrl(activeRunId, runState.githubRunUrl ?? saved?.htmlUrl);
     return json(res, 200, {
       ...runState,
       runner: getRunnerMode(),
       githubConfigured: githubConfigured(),
+      githubRunId: activeRunId,
+      githubActionsUrl,
       reportAvailable: reportAvailable(),
       results: loadResults(),
       browsers:
@@ -656,6 +670,7 @@ function resumeGithubRunIfNeeded() {
     args: [],
     runner: 'github',
     githubRunUrl: saved.htmlUrl ?? null,
+    githubActionsUrl: buildGithubActionsUrl(saved.runId, saved.htmlUrl),
   };
   broadcast('status', runState);
   pushLog(`Retomando acompanhamento do workflow #${saved.runId}…`, 'system');

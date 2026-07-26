@@ -140,6 +140,12 @@ body {
   color: #ffb3b3;
 }
 
+.github-step--placeholder {
+  color: var(--muted);
+  font-style: italic;
+  justify-content: center;
+}
+
 .github-step__icon {
   width: 1.1rem;
   text-align: center;
