@@ -284,6 +284,8 @@ async function pollGithubRun(runId) {
       lastGithubStepsKey = stepsKey;
       broadcast('github-progress', {
         status: 'running',
+        githubRepo: REPO_GITHUB(),
+        githubRunId: runId,
         htmlUrl: run.htmlUrl,
         githubActionsUrl: buildGithubActionsUrl(runId, run.htmlUrl),
         progress,
@@ -292,6 +294,8 @@ async function pollGithubRun(runId) {
 
     runState = {
       ...runState,
+      githubRepo: REPO_GITHUB(),
+      githubRunId: runId,
       githubRunUrl: run.htmlUrl,
       githubActionsUrl: buildGithubActionsUrl(runId, run.htmlUrl),
       githubProgress: progress,
@@ -333,6 +337,8 @@ async function pollGithubRun(runId) {
 
     const exitCode = run.conclusion === 'success' ? 0 : 1;
     finishRun(exitCode, {
+      githubRepo: REPO_GITHUB(),
+      githubRunId: runId,
       githubRunUrl: run.htmlUrl,
       githubActionsUrl: buildGithubActionsUrl(runId, run.htmlUrl),
       githubProgress: progress,
@@ -381,6 +387,8 @@ async function startGithubRun(body) {
     const dispatched = await dispatchWorkflow(body);
     runState = {
       ...runState,
+      githubRepo: REPO_GITHUB(),
+      githubRunId: dispatched.runId,
       githubRunUrl: dispatched.htmlUrl,
       githubActionsUrl: buildGithubActionsUrl(dispatched.runId, dispatched.htmlUrl),
     };
@@ -519,12 +527,16 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === 'GET' && url.pathname === '/api/status') {
     const saved = loadGithubRunState();
-    const activeRunId = githubRunId ?? saved?.runId ?? null;
-    const githubActionsUrl = buildGithubActionsUrl(activeRunId, runState.githubRunUrl ?? saved?.htmlUrl);
+    const activeRunId = githubRunId ?? saved?.runId ?? runState.githubRunId ?? null;
+    const githubActionsUrl = buildGithubActionsUrl(
+      activeRunId,
+      runState.githubActionsUrl ?? runState.githubRunUrl ?? saved?.htmlUrl
+    );
     return json(res, 200, {
       ...runState,
       runner: getRunnerMode(),
       githubConfigured: githubConfigured(),
+      githubRepo: REPO_GITHUB(),
       githubRunId: activeRunId,
       githubActionsUrl,
       reportAvailable: reportAvailable(),
@@ -669,6 +681,8 @@ function resumeGithubRunIfNeeded() {
     target: saved.target ?? 'app',
     args: [],
     runner: 'github',
+    githubRepo: REPO_GITHUB(),
+    githubRunId: saved.runId,
     githubRunUrl: saved.htmlUrl ?? null,
     githubActionsUrl: buildGithubActionsUrl(saved.runId, saved.htmlUrl),
   };

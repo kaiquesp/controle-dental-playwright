@@ -83,6 +83,10 @@ body {
   color: #ffb3b3;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .github-progress-card {
   margin: 0 2rem 1rem;
 }

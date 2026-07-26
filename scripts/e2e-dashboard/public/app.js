@@ -16,6 +16,47 @@ const btnGithubLive = $('#btn-github-live');
 
 const fetchOpts = { credentials: 'same-origin' };
 let lastBrowserState = null;
+let githubRepo = 'kaiquesp/controle-dental-playwright';
+
+function isGithubActionsUrl(url) {
+  return (
+    typeof url === 'string' &&
+    /^https?:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+/.test(url.trim())
+  );
+}
+
+function resolveGithubActionsUrl(payload) {
+  for (const candidate of [
+    payload?.githubActionsUrl,
+    payload?.htmlUrl,
+    payload?.githubRunUrl,
+  ]) {
+    if (isGithubActionsUrl(candidate)) return candidate.trim();
+  }
+
+  const runId = payload?.githubRunId ?? payload?.runId;
+  const repo = payload?.githubRepo ?? githubRepo;
+  if (!runId || !repo) return null;
+  return `https://github.com/${repo}/actions/runs/${runId}`;
+}
+
+function updateGithubLiveButton(url) {
+  const validUrl = isGithubActionsUrl(url) ? url.trim() : null;
+  if (validUrl) {
+    btnGithubLive.href = validUrl;
+    btnGithubLive.hidden = false;
+  } else {
+    btnGithubLive.removeAttribute('href');
+    btnGithubLive.hidden = true;
+  }
+}
+
+btnGithubLive.addEventListener('click', (event) => {
+  const href = btnGithubLive.getAttribute('href');
+  if (!isGithubActionsUrl(href)) {
+    event.preventDefault();
+  }
+});
 
 function stepIcon(step) {
   if (step.status === 'in_progress') return '◌';
@@ -25,27 +66,16 @@ function stepIcon(step) {
   return '·';
 }
 
-function isGithubActionsUrl(url) {
-  return typeof url === 'string' && /^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+/.test(url);
-}
-
 function renderGithubProgress(payload) {
-  const url =
-    payload?.githubActionsUrl ?? payload?.htmlUrl ?? payload?.githubRunUrl ?? null;
-  const validUrl = isGithubActionsUrl(url) ? url : null;
+  if (payload?.githubRepo) {
+    githubRepo = payload.githubRepo;
+  }
+
+  const validUrl = resolveGithubActionsUrl(payload);
+  updateGithubLiveButton(validUrl);
   const progress = payload?.progress ?? payload?.githubProgress ?? null;
   const steps = progress?.steps ?? [];
   const running = payload?.status === 'running';
-
-  if (validUrl) {
-    btnGithubLive.hidden = false;
-    btnGithubLive.onclick = () => {
-      window.open(validUrl, '_blank', 'noopener,noreferrer');
-    };
-  } else {
-    btnGithubLive.hidden = true;
-    btnGithubLive.onclick = null;
-  }
 
   if (!running && !validUrl && !steps.length) {
     githubProgressCard.classList.add('hidden');
@@ -245,12 +275,15 @@ async function refreshStatus() {
     return;
   }
   const data = await res.json();
+  if (data.githubRepo) {
+    githubRepo = data.githubRepo;
+  }
   if (data.runner === 'github-unconfigured' || data.runner === 'github') {
     $('#headed-wrap').hidden = true;
   }
   renderBrowserStatus(data.browsers);
   renderResults(data.results);
-  if (data.runner === 'github' && (data.status === 'running' || data.githubActionsUrl || data.githubProgress?.steps?.length)) {
+  if (data.runner === 'github' && (data.status === 'running' || data.githubActionsUrl || data.githubRunId || data.githubProgress?.steps?.length)) {
     renderGithubProgress(data);
   } else if (data.runner === 'github') {
     githubProgressCard.classList.add('hidden');
@@ -327,7 +360,7 @@ events.addEventListener('log', (ev) => {
 });
 events.addEventListener('status', (ev) => {
   const data = JSON.parse(ev.data);
-  if (data.runner === 'github' && (data.status === 'running' || data.githubActionsUrl || data.githubProgress?.steps?.length)) {
+  if (data.runner === 'github' && (data.status === 'running' || data.githubActionsUrl || data.githubRunId || data.githubProgress?.steps?.length)) {
     renderGithubProgress(data);
   } else if (data.runner === 'github') {
     githubProgressCard.classList.add('hidden');

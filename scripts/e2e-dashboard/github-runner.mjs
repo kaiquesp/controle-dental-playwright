@@ -32,7 +32,10 @@ export function buildGithubActionsUrl(runId, htmlUrl) {
 }
 
 export function isGithubActionsUrl(url) {
-  return typeof url === 'string' && /^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+/.test(url);
+  return (
+    typeof url === 'string' &&
+    /^https?:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+/.test(url.trim())
+  );
 }
 
 export function githubConfigured() {
