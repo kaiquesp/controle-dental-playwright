@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "postinstall": "node scripts/postinstall.mjs",
+    "playwright:install": "node scripts/playwright-install.mjs",
     "test": "playwright test",
     "test:local": "node scripts/e2e-run.mjs local",
     "test:app": "node scripts/e2e-run.mjs app",
@@ -44,12 +46,11 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "devDependencies": {
-    "@playwright/test": "^1.61.1",
-    "@types/node": "^26.1.0",
-    "dotenv": "^17.2.3"
-  },
   "dependencies": {
+    "@playwright/test": "^1.61.1",
     "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0"
   }
 }

@@ -9,8 +9,40 @@ const userPill = $('#user-pill');
 const logEl = $('#log');
 const form = $('#run-form');
 const linkReport = $('#link-report');
+const browserBanner = $('#browser-banner');
 
 const fetchOpts = { credentials: 'same-origin' };
+let lastBrowserState = null;
+
+function renderBrowserStatus(browsers) {
+  lastBrowserState = browsers;
+  if (!browsers || browsers.installed) {
+    browserBanner.classList.add('hidden');
+    btnRun.disabled = false;
+    return;
+  }
+
+  browserBanner.classList.remove('hidden');
+  if (browsers.installing) {
+    browserBanner.dataset.state = 'installing';
+    browserBanner.textContent =
+      'Baixando o Chromium automaticamente (primeira vez). Pode levar alguns minutos — acompanhe no log abaixo.';
+    btnRun.disabled = true;
+    return;
+  }
+
+  if (browsers.error) {
+    browserBanner.dataset.state = 'error';
+    browserBanner.textContent = `${browsers.error} Clique em "Rodar testes" para tentar novamente.`;
+    btnRun.disabled = false;
+    return;
+  }
+
+  browserBanner.dataset.state = 'installing';
+  browserBanner.textContent =
+    'Chromium ainda não instalado. Ao clicar em "Rodar testes", o download começa automaticamente.';
+  btnRun.disabled = false;
+}
 
 async function ensureAuth() {
   const res = await fetch('/api/auth/me', fetchOpts);
@@ -57,7 +89,7 @@ function appendLog(line, stream = 'stdout') {
 }
 
 function setRunning(running) {
-  btnRun.disabled = running;
+  btnRun.disabled = running || Boolean(lastBrowserState?.installing);
   btnStop.disabled = !running;
   form.querySelectorAll('input, select').forEach((el) => {
     if (el.id !== 'headed') el.disabled = running;
@@ -116,6 +148,7 @@ async function refreshStatus() {
     return;
   }
   const data = await res.json();
+  renderBrowserStatus(data.browsers);
   renderResults(data.results);
   linkReport.classList.toggle('disabled', !data.reportAvailable);
   if (data.status === 'running') {
@@ -202,6 +235,15 @@ events.addEventListener('status', (ev) => {
 events.addEventListener('results', (ev) => {
   renderResults(JSON.parse(ev.data));
 });
+events.addEventListener('browsers', (ev) => {
+  renderBrowserStatus(JSON.parse(ev.data));
+});
 
 refreshStatus();
 void ensureAuth();
+
+if (document.visibilityState === 'visible') {
+  setInterval(() => {
+    if (document.visibilityState === 'visible') refreshStatus();
+  }, 5000);
+}

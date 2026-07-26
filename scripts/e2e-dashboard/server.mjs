@@ -17,6 +17,16 @@ import {
   platformLogin,
   PLATFORM_API_URL,
 } from './auth.mjs';
+import {
+  browsersInstalled,
+  PLAYWRIGHT_BROWSERS_PATH,
+  resolvePlaywrightCli,
+  buildPathEnv,
+} from '../playwright-cli.mjs';
+import {
+  ensureBrowsersInstalled,
+  getBrowserStatus,
+} from '../playwright-ensure-browsers.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
@@ -154,27 +164,6 @@ function buildPlaywrightArgs(body) {
   return args;
 }
 
-function resolvePlaywrightCli() {
-  const candidates = [
-    path.join(ROOT, 'node_modules', '@playwright', 'test', 'cli.js'),
-    path.join(ROOT, 'node_modules', 'playwright', 'cli.js'),
-  ];
-  return candidates.find((cli) => fs.existsSync(cli)) ?? null;
-}
-
-function buildRunEnv(target) {
-  const binDir = path.join(ROOT, 'node_modules', '.bin');
-  const pathKey = process.platform === 'win32' ? 'Path' : 'PATH';
-  const pathSep = process.platform === 'win32' ? ';' : ':';
-  const currentPath = process.env[pathKey] ?? '';
-  return {
-    ...process.env,
-    E2E_TARGET: target,
-    FORCE_COLOR: '1',
-    [pathKey]: currentPath.includes(binDir) ? currentPath : `${binDir}${pathSep}${currentPath}`,
-  };
-}
-
 function startRun(body) {
   if (activeProcess) {
     return { ok: false, error: 'Já existe uma execução em andamento.' };
@@ -206,7 +195,7 @@ function startRun(body) {
 
   activeProcess = spawn(nodeBin, cmdArgs, {
     cwd: ROOT,
-    env: buildRunEnv(target),
+    env: buildPathEnv({ E2E_TARGET: target, FORCE_COLOR: '1' }),
     shell: false,
   });
 
@@ -237,6 +226,22 @@ function startRun(body) {
   });
 
   return { ok: true, run: runState };
+}
+
+async function prepareAndStartRun(body) {
+  if (!browsersInstalled()) {
+    pushLog('Chromium não encontrado. Baixando automaticamente (pode levar alguns minutos)…', 'system');
+    broadcast('browsers', getBrowserStatus());
+    const install = await ensureBrowsersInstalled((line) => pushLog(line, 'stdout'));
+    broadcast('browsers', getBrowserStatus());
+    if (!install.ok) {
+      pushLog(install.error ?? 'Falha no download do Chromium', 'stderr');
+      return { ok: false, error: install.error };
+    }
+    pushLog('Chromium instalado. Iniciando testes…', 'system');
+  }
+
+  return startRun(body);
 }
 
 function stopRun() {
@@ -317,7 +322,26 @@ const server = http.createServer(async (req, res) => {
       ...runState,
       reportAvailable: reportAvailable(),
       results: loadResults(),
+      browsers: getBrowserStatus(),
     });
+  }
+
+  if (req.method === 'GET' && url.pathname === '/api/browsers') {
+    return json(res, 200, getBrowserStatus());
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/browsers/install') {
+    if (browsersInstalled()) {
+      return json(res, 200, { ok: true, browsers: getBrowserStatus() });
+    }
+    if (getBrowserStatus().installing) {
+      return json(res, 202, { ok: true, browsers: getBrowserStatus() });
+    }
+    void ensureBrowsersInstalled((line) => pushLog(line, 'stdout')).then((result) => {
+      broadcast('browsers', getBrowserStatus());
+      if (!result.ok) pushLog(result.error ?? 'Falha no download', 'stderr');
+    });
+    return json(res, 202, { ok: true, browsers: getBrowserStatus() });
   }
 
   if (req.method === 'GET' && url.pathname === '/api/results') {
@@ -339,7 +363,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'POST' && url.pathname === '/api/run') {
     try {
       const body = await readBody(req);
-      const result = startRun(body);
+      const result = await prepareAndStartRun(body);
       return json(res, result.ok ? 202 : 409, result);
     } catch {
       return json(res, 400, { ok: false, error: 'JSON inválido' });
@@ -446,6 +470,12 @@ export async function startDashboard() {
     try {
       const bound = await listen(port);
       printBanner(bound);
+      if (!browsersInstalled()) {
+        console.log('[e2e-dashboard] Chromium ausente — download automático em segundo plano.');
+        void ensureBrowsersInstalled((line) => {
+          console.log(`[playwright install] ${line}`);
+        }).then(() => broadcast('browsers', getBrowserStatus()));
+      }
       return bound;
     } catch (err) {
       if (err.code !== 'EADDRINUSE') {

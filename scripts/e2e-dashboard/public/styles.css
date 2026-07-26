@@ -52,6 +52,37 @@ body {
   background: #111a28;
 }
 
+.browser-banner {
+  margin: 0 2rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.browser-banner.hidden {
+  display: none;
+}
+
+.browser-banner[data-state='installing'] {
+  border-color: var(--skip);
+  background: rgba(240, 196, 25, 0.12);
+  color: #f0d878;
+}
+
+.browser-banner[data-state='ready'] {
+  border-color: var(--ok);
+  background: rgba(62, 207, 142, 0.12);
+  color: var(--ok);
+}
+
+.browser-banner[data-state='error'] {
+  border-color: var(--fail);
+  background: rgba(255, 107, 107, 0.12);
+  color: #ffb3b3;
+}
+
 h1 {
   margin: 0;
   font-size: 1.5rem;
