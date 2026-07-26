@@ -8,6 +8,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
+import {
+  buildSessionCookie,
+  clearSessionCookie,
+  createSessionPayload,
+  getSession,
+  isSecureRequest,
+  platformLogin,
+  PLATFORM_API_URL,
+} from './auth.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
@@ -122,7 +131,7 @@ function serveFile(res, filePath) {
 }
 
 function buildPlaywrightArgs(body) {
-  const args = ['playwright', 'test'];
+  const args = ['test'];
   const project = body.project?.trim();
   const grep = body.grep?.trim();
   const workers = body.workers;
@@ -145,29 +154,60 @@ function buildPlaywrightArgs(body) {
   return args;
 }
 
+function resolvePlaywrightCli() {
+  const candidates = [
+    path.join(ROOT, 'node_modules', '@playwright', 'test', 'cli.js'),
+    path.join(ROOT, 'node_modules', 'playwright', 'cli.js'),
+  ];
+  return candidates.find((cli) => fs.existsSync(cli)) ?? null;
+}
+
+function buildRunEnv(target) {
+  const binDir = path.join(ROOT, 'node_modules', '.bin');
+  const pathKey = process.platform === 'win32' ? 'Path' : 'PATH';
+  const pathSep = process.platform === 'win32' ? ';' : ':';
+  const currentPath = process.env[pathKey] ?? '';
+  return {
+    ...process.env,
+    E2E_TARGET: target,
+    FORCE_COLOR: '1',
+    [pathKey]: currentPath.includes(binDir) ? currentPath : `${binDir}${pathSep}${currentPath}`,
+  };
+}
+
 function startRun(body) {
   if (activeProcess) {
     return { ok: false, error: 'Já existe uma execução em andamento.' };
   }
 
+  const cli = resolvePlaywrightCli();
+  if (!cli) {
+    return {
+      ok: false,
+      error: 'Playwright não encontrado. Rode npm install na raiz do projeto.',
+    };
+  }
+
   const target = body.target === 'local' ? 'local' : 'app';
   const pwArgs = buildPlaywrightArgs(body);
+  const nodeBin = process.execPath;
+  const cmdArgs = [cli, ...pwArgs];
 
   runState = {
     status: 'running',
     startedAt: new Date().toISOString(),
     exitCode: null,
     target,
-    args: pwArgs.slice(2),
+    args: pwArgs,
   };
 
   broadcast('status', runState);
-  pushLog(`▶ E2E_TARGET=${target} npx ${pwArgs.join(' ')}`, 'system');
+  pushLog(`▶ E2E_TARGET=${target} ${nodeBin} ${path.basename(cli)} ${pwArgs.join(' ')}`, 'system');
 
-  activeProcess = spawn('npx', pwArgs, {
+  activeProcess = spawn(nodeBin, cmdArgs, {
     cwd: ROOT,
-    env: { ...process.env, E2E_TARGET: target, FORCE_COLOR: '1' },
-    shell: true,
+    env: buildRunEnv(target),
+    shell: false,
   });
 
   const onData = (stream) => (chunk) => {
@@ -208,13 +248,69 @@ function stopRun() {
   return { ok: true };
 }
 
-function json(res, status, data) {
-  res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
+function json(res, status, data, extraHeaders = {}) {
+  res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', ...extraHeaders });
   res.end(JSON.stringify(data));
+}
+
+function redirect(res, location) {
+  res.writeHead(302, { Location: location });
+  res.end();
+}
+
+function requireAuth(req, res) {
+  const session = getSession(req);
+  if (!session) {
+    json(res, 401, { ok: false, error: 'Não autenticado.' });
+    return null;
+  }
+  return session;
+}
+
+const PUBLIC_PATHS = new Set(['/login', '/login.html', '/login.css', '/login.js']);
+
+function isPublicPath(pathname) {
+  return PUBLIC_PATHS.has(pathname);
 }
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url ?? '/', `http://${req.headers.host}`);
+  const secure = isSecureRequest(req);
+  const session = getSession(req);
+
+  if (req.method === 'POST' && url.pathname === '/api/auth/login') {
+    try {
+      const body = await readBody(req);
+      const result = await platformLogin(body);
+      if (!result.ok) {
+        return json(res, result.mfaRequired ? 401 : 403, result);
+      }
+      const payload = createSessionPayload(result.token, result.usuario);
+      return json(
+        res,
+        200,
+        { ok: true, usuario: payload.usuario },
+        { 'Set-Cookie': buildSessionCookie(payload, secure) }
+      );
+    } catch {
+      return json(res, 400, { ok: false, error: 'JSON inválido' });
+    }
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/auth/logout') {
+    return json(res, 200, { ok: true }, { 'Set-Cookie': clearSessionCookie(secure) });
+  }
+
+  if (req.method === 'GET' && url.pathname === '/api/auth/me') {
+    if (!session) {
+      return json(res, 401, { ok: false });
+    }
+    return json(res, 200, { ok: true, usuario: session.usuario });
+  }
+
+  if (url.pathname.startsWith('/api/')) {
+    if (!requireAuth(req, res)) return;
+  }
 
   if (req.method === 'GET' && url.pathname === '/api/status') {
     return json(res, 200, {
@@ -255,6 +351,9 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (url.pathname === '/report' || url.pathname === '/report/') {
+    if (!session) {
+      return redirect(res, '/login');
+    }
     const index = path.join(REPORT_DIR, 'index.html');
     if (!fs.existsSync(index)) {
       res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -267,6 +366,9 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (url.pathname.startsWith('/report/')) {
+    if (!session) {
+      return redirect(res, '/login');
+    }
     const rel = decodeURIComponent(url.pathname.slice('/report/'.length));
     const filePath = path.normalize(path.join(REPORT_DIR, rel));
     if (!filePath.startsWith(REPORT_DIR)) {
@@ -275,6 +377,17 @@ const server = http.createServer(async (req, res) => {
       return;
     }
     return serveFile(res, filePath);
+  }
+
+  if (url.pathname === '/login' || url.pathname === '/login.html') {
+    return serveFile(res, path.join(PUBLIC_DIR, 'login.html'));
+  }
+
+  if (!session && !isPublicPath(url.pathname)) {
+    if (url.pathname.startsWith('/api/')) {
+      return json(res, 401, { ok: false, error: 'Não autenticado.' });
+    }
+    return redirect(res, '/login');
   }
 
   let filePath = path.join(PUBLIC_DIR, url.pathname === '/' ? 'index.html' : url.pathname);
@@ -289,7 +402,9 @@ const server = http.createServer(async (req, res) => {
 function printBanner(port) {
   const label = HOST === '0.0.0.0' ? 'localhost' : HOST;
   console.log(`E2E Dashboard: http://${label}:${port}`);
-  console.log(`Report HTML:  http://${label}:${port}/report/`);
+  console.log(`Login:         http://${label}:${port}/login`);
+  console.log(`Report HTML:   http://${label}:${port}/report/`);
+  console.log(`Platform API:  ${PLATFORM_API_URL}`);
   if (HOST === '0.0.0.0') {
     console.log(`(escutando em 0.0.0.0:${port} — PORT=${PLATFORM_PORT ?? 'n/a'})`);
   }
@@ -297,21 +412,9 @@ function printBanner(port) {
 
 async function probeDashboard(port) {
   return new Promise((resolve) => {
-    const req = http.get(`http://${HOST}:${port}/api/status`, (res) => {
-      let body = '';
-      res.on('data', (c) => (body += c));
-      res.on('end', () => {
-        if (res.statusCode !== 200) {
-          resolve(false);
-          return;
-        }
-        try {
-          const data = JSON.parse(body);
-          resolve(typeof data.status === 'string');
-        } catch {
-          resolve(false);
-        }
-      });
+    const req = http.get(`http://${HOST}:${port}/login`, (res) => {
+      res.resume();
+      resolve(res.statusCode === 200);
     });
     req.on('error', () => resolve(false));
     req.setTimeout(800, () => {

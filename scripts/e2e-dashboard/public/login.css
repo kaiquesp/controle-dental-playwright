@@ -1,0 +1,188 @@
+:root {
+  --color-white: #ffffff;
+  --color-ink: #0f172a;
+  --color-slate-400: #94a3b8;
+  --color-border-soft: #dee2e6;
+  --color-primary-teal: #0ea5a4;
+  --color-teal-hover: #0e8f8f;
+  --color-success: #22c55e;
+  --color-success-soft: color-mix(in srgb, var(--color-success) 16%, var(--color-white));
+  --color-danger: #dc2626;
+  --color-danger-dark: #b71c1c;
+  --color-danger-soft: color-mix(in srgb, var(--color-danger) 14%, var(--color-white));
+  --color-login-page-bg: #e8eef4;
+  --input-placeholder-color: #c5ccd6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, 'Segoe UI', sans-serif;
+  background-color: var(--color-login-page-bg);
+  color: var(--color-ink);
+}
+
+.login-page {
+  min-height: 100vh;
+  padding: 1.5rem 1.25rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-page__card {
+  width: 100%;
+  max-width: 440px;
+  border-radius: 16px;
+  padding: 2rem 1.75rem;
+  background: var(--color-white);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+}
+
+.login-page__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background-color: var(--color-success-soft);
+  color: #166534;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.login-page__badge svg {
+  flex-shrink: 0;
+}
+
+.login-page__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin: 0 0 0.5rem;
+}
+
+.login-page__subtitle {
+  font-size: 0.9375rem;
+  color: var(--color-slate-400);
+  line-height: 1.5;
+  margin: 0 0 1.75rem;
+}
+
+.login-page__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-page__field {
+  margin-bottom: 1rem;
+}
+
+.login-page__field:last-of-type {
+  margin-bottom: 1.5rem;
+}
+
+.login-page__label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 0.35rem;
+}
+
+.login-page__input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--color-border-soft);
+  padding: 0.65rem 0.85rem;
+  font: inherit;
+  color: var(--color-ink);
+}
+
+.login-page__input::placeholder {
+  color: var(--input-placeholder-color);
+}
+
+.login-page__input:focus {
+  outline: 2px solid color-mix(in srgb, var(--color-primary-teal) 35%, transparent);
+  border-color: var(--color-primary-teal);
+}
+
+.login-page__otp {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.login-page__otp input {
+  width: 2.75rem;
+  height: 2.75rem;
+  text-align: center;
+  font-size: 1.125rem;
+  font-family: ui-monospace, monospace;
+  border-radius: 10px;
+  border: 1px solid var(--color-border-soft);
+}
+
+.login-page__otp input:focus {
+  outline: 2px solid color-mix(in srgb, var(--color-primary-teal) 35%, transparent);
+  border-color: var(--color-primary-teal);
+}
+
+.login-page__link {
+  background: none;
+  border: none;
+  color: var(--color-primary-teal);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.login-page__link:hover {
+  text-decoration: underline;
+}
+
+.login-page__error {
+  color: var(--color-danger-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--color-danger) 35%, var(--color-border-soft));
+  background: var(--color-danger-soft);
+  margin: 0 0 1rem;
+}
+
+.login-page__btn-primary {
+  width: 100%;
+  background-color: var(--color-primary-teal);
+  border: 1px solid var(--color-primary-teal);
+  color: var(--color-white);
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.login-page__btn-primary:hover:not(:disabled) {
+  background-color: var(--color-teal-hover);
+  border-color: var(--color-teal-hover);
+}
+
+.login-page__btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.hidden {
+  display: none !important;
+}

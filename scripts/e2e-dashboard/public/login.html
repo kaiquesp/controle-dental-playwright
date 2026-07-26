@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel admin — Controle Dental</title>
+    <link rel="stylesheet" href="/login.css" />
+  </head>
+  <body>
+    <div class="login-page">
+      <div class="login-page__card">
+        <div class="login-page__badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span>Acesso administrativo da plataforma</span>
+        </div>
+
+        <h1 class="login-page__title">Painel admin</h1>
+        <p class="login-page__subtitle" id="subtitle">
+          Entre com sua conta de super administrador para acessar o dashboard de testes E2E.
+        </p>
+
+        <form class="login-page__form" id="login-form" novalidate>
+          <div id="credentials-step">
+            <div class="login-page__field">
+              <label class="login-page__label" for="login-email">E-mail</label>
+              <input
+                id="login-email"
+                type="email"
+                class="login-page__input"
+                autocomplete="username"
+                placeholder="example@example.com"
+                required
+              />
+            </div>
+            <div class="login-page__field">
+              <label class="login-page__label" for="login-senha">Senha</label>
+              <input
+                id="login-senha"
+                type="password"
+                class="login-page__input"
+                autocomplete="current-password"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+          </div>
+
+          <div id="mfa-step" class="hidden">
+            <label class="login-page__label" style="text-align: center; display: block; margin-bottom: 0.75rem">
+              Código MFA
+            </label>
+            <div class="login-page__otp" id="otp-inputs">
+              <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 1" />
+              <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 2" />
+              <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 3" />
+              <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 4" />
+              <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 5" />
+              <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" aria-label="Dígito 6" />
+            </div>
+            <button type="button" class="login-page__link" id="btn-back">Voltar para e-mail e senha</button>
+          </div>
+
+          <p class="login-page__error hidden" id="error" role="alert"></p>
+
+          <button type="submit" class="login-page__btn-primary" id="btn-submit">Entrar no painel</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="/login.js" type="module"></script>
+  </body>
+</html>

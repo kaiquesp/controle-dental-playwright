@@ -4,9 +4,31 @@ const statusPill = $('#status-pill');
 const btnRun = $('#btn-run');
 const btnStop = $('#btn-stop');
 const btnClearLog = $('#btn-clear-log');
+const btnLogout = $('#btn-logout');
+const userPill = $('#user-pill');
 const logEl = $('#log');
 const form = $('#run-form');
 const linkReport = $('#link-report');
+
+const fetchOpts = { credentials: 'same-origin' };
+
+async function ensureAuth() {
+  const res = await fetch('/api/auth/me', fetchOpts);
+  if (!res.ok) {
+    window.location.replace('/login');
+    return null;
+  }
+  const data = await res.json();
+  const name = data.usuario?.name?.trim() || data.usuario?.email || 'Super Admin';
+  userPill.textContent = name;
+  userPill.hidden = false;
+  return data.usuario;
+}
+
+btnLogout.addEventListener('click', async () => {
+  await fetch('/api/auth/logout', { method: 'POST', ...fetchOpts });
+  window.location.replace('/login');
+});
 
 const PRESETS = {
   authenticated: { project: 'authenticated', grep: '', workers: 1 },
@@ -88,7 +110,11 @@ function escapeHtml(str) {
 }
 
 async function refreshStatus() {
-  const res = await fetch('/api/status');
+  const res = await fetch('/api/status', fetchOpts);
+  if (res.status === 401) {
+    window.location.replace('/login');
+    return;
+  }
   const data = await res.json();
   renderResults(data.results);
   linkReport.classList.toggle('disabled', !data.reportAvailable);
@@ -125,6 +151,7 @@ form.addEventListener('submit', async (e) => {
 
   const res = await fetch('/api/run', {
     method: 'POST',
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(readForm()),
   });
@@ -137,7 +164,7 @@ form.addEventListener('submit', async (e) => {
 });
 
 btnStop.addEventListener('click', async () => {
-  await fetch('/api/stop', { method: 'POST' });
+  await fetch('/api/stop', { method: 'POST', credentials: 'same-origin' });
 });
 
 btnClearLog.addEventListener('click', () => {
@@ -177,3 +204,4 @@ events.addEventListener('results', (ev) => {
 });
 
 refreshStatus();
+void ensureAuth();
