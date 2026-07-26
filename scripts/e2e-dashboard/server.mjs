@@ -15,9 +15,10 @@ const PUBLIC_DIR = path.join(__dirname, 'public');
 const REPORT_DIR = path.join(ROOT, 'playwright-report');
 const RESULTS_JSON = path.join(ROOT, 'test-results', 'results.json');
 
-const DEFAULT_PORT = Number(process.env.E2E_DASHBOARD_PORT ?? 4173);
-const HOST = process.env.E2E_DASHBOARD_HOST ?? '127.0.0.1';
-const PORT_ATTEMPTS = 10;
+const PLATFORM_PORT = process.env.PORT ? Number(process.env.PORT) : null;
+const DEFAULT_PORT = PLATFORM_PORT ?? Number(process.env.E2E_DASHBOARD_PORT ?? 4173);
+const HOST = process.env.E2E_DASHBOARD_HOST ?? (PLATFORM_PORT ? '0.0.0.0' : '127.0.0.1');
+const PORT_ATTEMPTS = PLATFORM_PORT ? 1 : 10;
 
 /** @type {import('node:child_process').ChildProcess | null} */
 let activeProcess = null;
@@ -286,8 +287,12 @@ const server = http.createServer(async (req, res) => {
 });
 
 function printBanner(port) {
-  console.log(`E2E Dashboard: http://${HOST}:${port}`);
-  console.log(`Report HTML:  http://${HOST}:${port}/report/`);
+  const label = HOST === '0.0.0.0' ? 'localhost' : HOST;
+  console.log(`E2E Dashboard: http://${label}:${port}`);
+  console.log(`Report HTML:  http://${label}:${port}/report/`);
+  if (HOST === '0.0.0.0') {
+    console.log(`(escutando em 0.0.0.0:${port} — PORT=${PLATFORM_PORT ?? 'n/a'})`);
+  }
 }
 
 async function probeDashboard(port) {
@@ -332,21 +337,25 @@ function listen(port) {
   });
 }
 
-(async () => {
+export async function startDashboard() {
   for (let i = 0; i < PORT_ATTEMPTS; i++) {
     const port = DEFAULT_PORT + i;
     try {
       const bound = await listen(port);
       printBanner(bound);
-      return;
+      return bound;
     } catch (err) {
       if (err.code !== 'EADDRINUSE') {
         console.error(err);
         process.exit(1);
       }
+      if (PLATFORM_PORT) {
+        console.error(`Porta ${PLATFORM_PORT} em uso (variável PORT). Encerre o processo anterior.`);
+        process.exit(1);
+      }
       const isDashboard = await probeDashboard(port);
       if (isDashboard) {
-        console.log(`Dashboard já está em execução: http://${HOST}:${port}`);
+        console.log(`Dashboard já está em execução: http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${port}`);
         console.log('Abra essa URL no navegador ou encerre o processo anterior.');
         process.exit(0);
       }
@@ -358,4 +367,12 @@ function listen(port) {
       }
     }
   }
-})();
+}
+
+const isDirectRun =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+
+if (isDirectRun) {
+  void startDashboard();
+}

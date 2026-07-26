@@ -2,8 +2,9 @@
   "name": "controle-dental---teste-e2e",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "playwright test",
     "test:local": "node scripts/e2e-run.mjs local",
     "test:app": "node scripts/e2e-run.mjs app",
