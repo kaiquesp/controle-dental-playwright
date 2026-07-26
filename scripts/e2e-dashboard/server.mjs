@@ -22,7 +22,7 @@ import {
   getBrowserStatus,
   browsersInstalled,
 } from '../playwright-ensure-browsers.mjs';
-import { usesRemoteBrowser } from '../playwright-remote.mjs';
+import { usesRemoteBrowser, isSharedHosting } from '../playwright-remote.mjs';
 import {
   resolvePlaywrightCli,
   buildPathEnv,
@@ -189,6 +189,14 @@ function buildPlaywrightArgs(body) {
 function startRun(body) {
   if (activeProcess) {
     return { ok: false, error: 'Já existe uma execução em andamento.' };
+  }
+
+  if (isSharedHosting() && !usesRemoteBrowser()) {
+    return {
+      ok: false,
+      error:
+        'Chromium não roda em hospedagem compartilhada. Configure GITHUB_TOKEN para GitHub Actions ou PLAYWRIGHT_WS_ENDPOINT para browser remoto.',
+    };
   }
 
   const cli = resolvePlaywrightCli();
@@ -423,9 +431,9 @@ async function prepareAndStartRun(body) {
     return startGithubRun(body);
   }
 
-  if (PLATFORM_PORT && !usesRemoteBrowser()) {
+  if (isSharedHosting() && !usesRemoteBrowser()) {
     const msg =
-      'Configure GITHUB_TOKEN na Hostinger para executar via GitHub Actions.';
+      'Chromium não roda neste servidor (limite de processos da hospedagem). Configure GITHUB_TOKEN e GITHUB_REPO para executar via GitHub Actions.';
     pushLog(msg, 'stderr');
     return { ok: false, error: msg };
   }
@@ -558,8 +566,13 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (req.method === 'POST' && url.pathname === '/api/browsers/install') {
-    if (isGithubRunner()) {
-      return json(res, 200, { ok: true, browsers: { runner: 'github', installed: true } });
+    if (isGithubRunner() || isSharedHosting()) {
+      return json(res, 200, {
+        ok: true,
+        browsers: isGithubRunner()
+          ? { runner: 'github', installed: true }
+          : getBrowserStatus(),
+      });
     }
     if (browsersInstalled()) {
       return json(res, 200, { ok: true, browsers: getBrowserStatus() });
@@ -728,7 +741,7 @@ export async function startDashboard() {
       const bound = await listen(port);
       printBanner(bound);
       resumeGithubRunIfNeeded();
-      if (!isGithubRunner() && !browsersInstalled() && !PLATFORM_PORT) {
+      if (!isGithubRunner() && !browsersInstalled() && !isSharedHosting()) {
         console.log('[e2e-dashboard] Chromium ausente — download automático em segundo plano.');
         void ensureBrowsersInstalled((line) => {
           console.log(`[playwright install] ${line}`);

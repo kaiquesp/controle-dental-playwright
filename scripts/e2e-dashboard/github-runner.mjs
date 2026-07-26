@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { isSharedHosting } from '../playwright-remote.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
@@ -14,9 +15,9 @@ const REF = process.env.GITHUB_WORKFLOW_REF?.trim() || 'main';
 const STATE_FILE = path.join(ROOT, '.cache', 'github-run-state.json');
 
 export function getRunnerMode() {
-  if (process.env.E2E_RUNNER === 'local' && !process.env.PORT) return 'local';
+  if (process.env.E2E_RUNNER === 'local' && !isSharedHosting()) return 'local';
   if (process.env.E2E_RUNNER === 'github') return 'github';
-  if (process.env.PORT) return TOKEN ? 'github' : 'github-unconfigured';
+  if (isSharedHosting()) return TOKEN ? 'github' : 'github-unconfigured';
   if (TOKEN) return 'github';
   return 'local';
 }

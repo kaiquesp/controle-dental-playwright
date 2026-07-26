@@ -121,7 +121,7 @@ function renderBrowserStatus(browsers) {
     browserBanner.classList.remove('hidden');
     browserBanner.dataset.state = 'error';
     browserBanner.textContent =
-      'GITHUB_TOKEN não configurado na Hostinger. Adicione o token e GITHUB_REPO nas variáveis de ambiente e reinicie a aplicação.';
+      'Este servidor não executa Chromium localmente. Configure GITHUB_TOKEN e GITHUB_REPO nas variáveis de ambiente da Hostinger e reinicie a aplicação.';
     btnRun.disabled = true;
     return;
   }

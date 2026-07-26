@@ -18,5 +18,12 @@ export function maskWsEndpoint(url) {
 }
 
 export function isSharedHosting() {
-  return Boolean(process.env.PORT);
+  if (process.env.E2E_HOSTED === '1' || process.env.E2E_HOSTED === 'true') return true;
+  if (process.env.PORT) return true;
+
+  const markers = [process.cwd(), process.env.HOME ?? '', process.env.PWD ?? ''].join('\n');
+  if (/\/domains\/[^/]+\//.test(markers)) return true;
+  if (/hostinger|\.hstgr\.cloud/i.test(markers)) return true;
+
+  return false;
 }

@@ -54,6 +54,13 @@ export function ensureBrowsersInstalled(onLog) {
     return Promise.resolve({ ok: true });
   }
 
+  if (isSharedHosting()) {
+    const error =
+      'Chromium não pode ser instalado nem executado em hospedagem compartilhada. Configure GITHUB_TOKEN (GitHub Actions) ou PLAYWRIGHT_WS_ENDPOINT (browser remoto).';
+    refreshState({ installing: false, error });
+    return Promise.resolve({ ok: false, error });
+  }
+
   if (browsersInstalled()) {
     refreshState({ error: null });
     return Promise.resolve({ ok: true });
