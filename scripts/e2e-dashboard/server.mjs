@@ -32,6 +32,9 @@ import {
   clearGithubRunState,
   dispatchWorkflow,
   downloadRunArtifacts,
+  extractPlaywrightLogLines,
+  fetchRunLogsText,
+  fetchRunProgress,
   fetchRunStatus,
   getRunnerMode,
   githubConfigured,
@@ -58,7 +61,7 @@ let githubPollTimer = null;
 /** @type {number | null} */
 let githubRunId = null;
 /** @type {string | null} */
-let lastGithubPollStatus = null;
+let lastGithubStepsKey = null;
 /** @type {{ status: 'idle' | 'running'; startedAt: string | null; exitCode: number | null; target: string | null; args: string[]; runner?: string; githubRunUrl?: string | null }} */
 let runState = { status: 'idle', startedAt: null, exitCode: null, target: null, args: [], runner: getRunnerMode() };
 /** @type {Set<import('node:http').ServerResponse>} */
@@ -266,7 +269,8 @@ function finishRun(exitCode, extra = {}) {
 
 async function pollGithubRun(runId) {
   try {
-    const run = await fetchRunStatus(runId);
+    const [run, progress] = await Promise.all([fetchRunStatus(runId), fetchRunProgress(runId)]);
+
     const statusKey = `${run.status}:${run.conclusion ?? ''}`;
     if (statusKey !== lastGithubPollStatus) {
       const label = run.conclusion ? `${run.status} (${run.conclusion})` : run.status;
@@ -274,9 +278,19 @@ async function pollGithubRun(runId) {
       lastGithubPollStatus = statusKey;
     }
 
+    const stepsKey = progress.steps.map((s) => `${s.name}:${s.status}:${s.conclusion ?? ''}`).join('|');
+    if (stepsKey && stepsKey !== lastGithubStepsKey) {
+      lastGithubStepsKey = stepsKey;
+      broadcast('github-progress', {
+        htmlUrl: run.htmlUrl,
+        progress,
+      });
+    }
+
     runState = {
       ...runState,
       githubRunUrl: run.htmlUrl,
+      githubProgress: progress,
     };
     broadcast('status', runState);
 
@@ -287,6 +301,19 @@ async function pollGithubRun(runId) {
     if (githubPollTimer) {
       clearInterval(githubPollTimer);
       githubPollTimer = null;
+    }
+
+    try {
+      pushLog('Baixando logs do Playwright…', 'system');
+      const logs = await fetchRunLogsText(runId);
+      const lines = extractPlaywrightLogLines(logs);
+      pushLog('─── Log Playwright (GitHub Actions) ───', 'system');
+      for (const line of lines) {
+        const stream = /✘|failed|error/i.test(line) ? 'stderr' : 'stdout';
+        pushLog(line, stream);
+      }
+    } catch (err) {
+      pushLog(`Logs indisponíveis: ${err.message}`, 'stderr');
     }
 
     try {
@@ -301,7 +328,7 @@ async function pollGithubRun(runId) {
     }
 
     const exitCode = run.conclusion === 'success' ? 0 : 1;
-    finishRun(exitCode, { githubRunUrl: run.htmlUrl });
+    finishRun(exitCode, { githubRunUrl: run.htmlUrl, githubProgress: progress });
   } catch (err) {
     pushLog(`Erro ao consultar GitHub Actions: ${err.message}`, 'stderr');
   }
@@ -310,11 +337,12 @@ async function pollGithubRun(runId) {
 function startGithubPolling(runId) {
   githubRunId = runId;
   lastGithubPollStatus = null;
+  lastGithubStepsKey = null;
   if (githubPollTimer) clearInterval(githubPollTimer);
   void pollGithubRun(runId);
   githubPollTimer = setInterval(() => {
     void pollGithubRun(runId);
-  }, 12_000);
+  }, 5_000);
 }
 
 async function startGithubRun(body) {
@@ -366,11 +394,19 @@ async function startGithubRun(body) {
 }
 
 async function prepareAndStartRun(body) {
-  if (isGithubRunner()) {
+  const mode = getRunnerMode();
+
+  if (mode === 'github-unconfigured') {
+    const msg = 'Configure GITHUB_TOKEN e GITHUB_REPO na Hostinger para executar testes via GitHub Actions.';
+    pushLog(msg, 'stderr');
+    return { ok: false, error: msg };
+  }
+
+  if (mode === 'github') {
     return startGithubRun(body);
   }
 
-  if (PLATFORM_PORT && !usesRemoteBrowser() && !isGithubRunner()) {
+  if (PLATFORM_PORT && !usesRemoteBrowser()) {
     const msg =
       'Configure GITHUB_TOKEN na Hostinger para executar via GitHub Actions.';
     pushLog(msg, 'stderr');
@@ -479,7 +515,12 @@ const server = http.createServer(async (req, res) => {
       githubConfigured: githubConfigured(),
       reportAvailable: reportAvailable(),
       results: loadResults(),
-      browsers: isGithubRunner() ? { runner: 'github', installed: true } : getBrowserStatus(),
+      browsers:
+        getRunnerMode() === 'github'
+          ? { runner: 'github', installed: true }
+          : getRunnerMode() === 'github-unconfigured'
+            ? { runner: 'github-unconfigured', installed: false }
+            : getBrowserStatus(),
     });
   }
 

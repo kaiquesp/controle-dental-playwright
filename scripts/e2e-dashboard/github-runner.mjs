@@ -14,8 +14,9 @@ const REF = process.env.GITHUB_WORKFLOW_REF?.trim() || 'main';
 const STATE_FILE = path.join(ROOT, '.cache', 'github-run-state.json');
 
 export function getRunnerMode() {
-  if (process.env.E2E_RUNNER === 'local') return 'local';
+  if (process.env.E2E_RUNNER === 'local' && !process.env.PORT) return 'local';
   if (process.env.E2E_RUNNER === 'github') return 'github';
+  if (process.env.PORT) return TOKEN ? 'github' : 'github-unconfigured';
   if (TOKEN) return 'github';
   return 'local';
 }
@@ -119,6 +120,102 @@ export async function fetchRunStatus(runId) {
     conclusion: run.conclusion,
     htmlUrl: run.html_url,
   };
+}
+
+export async function fetchRunProgress(runId) {
+  const data = await ghFetch(`/repos/${REPO}/actions/runs/${runId}/jobs`);
+  const job = data.jobs?.[0];
+  if (!job) {
+    return { jobId: null, jobName: null, jobStatus: null, jobConclusion: null, steps: [] };
+  }
+
+  const steps = (job.steps ?? [])
+    .filter((step) => !/^Set up job$|^Complete job$/i.test(step.name))
+    .map((step) => ({
+      name: step.name,
+      status: step.status,
+      conclusion: step.conclusion ?? null,
+      number: step.number,
+    }));
+
+  return {
+    jobId: job.id,
+    jobName: job.name,
+    jobStatus: job.status,
+    jobConclusion: job.conclusion ?? null,
+    steps,
+  };
+}
+
+async function downloadJobLogsZip(jobId) {
+  const res = await fetch(`${GITHUB_API}/repos/${REPO}/actions/jobs/${jobId}/logs`, {
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${TOKEN}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+    redirect: 'follow',
+  });
+
+  if (!res.ok) {
+    throw new Error(`Download dos logs falhou (${res.status}).`);
+  }
+
+  return Buffer.from(await res.arrayBuffer());
+}
+
+function readLogFilesFromDir(dir) {
+  if (!fs.existsSync(dir)) return '';
+  const files = fs
+    .readdirSync(dir)
+    .filter((name) => name.endsWith('.txt'))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  return files.map((name) => fs.readFileSync(path.join(dir, name), 'utf8')).join('\n');
+}
+
+export async function fetchRunLogsText(runId) {
+  const progress = await fetchRunProgress(runId);
+  if (!progress.jobId) {
+    throw new Error('Job do workflow não encontrado para baixar logs.');
+  }
+
+  const cacheDir = path.join(ROOT, '.cache', 'gh-logs');
+  const zipPath = path.join(cacheDir, `job-${progress.jobId}.zip`);
+  const extractDir = path.join(cacheDir, `job-${progress.jobId}`);
+  fs.mkdirSync(cacheDir, { recursive: true });
+
+  const zipBuffer = await downloadJobLogsZip(progress.jobId);
+  fs.writeFileSync(zipPath, zipBuffer);
+  rimraf(extractDir);
+  extractZip(zipPath, extractDir);
+
+  let text = readLogFilesFromDir(extractDir);
+  const nested = fs
+    .readdirSync(extractDir, { withFileTypes: true })
+    .find((entry) => entry.isDirectory());
+  if (nested) {
+    text = readLogFilesFromDir(path.join(extractDir, nested.name));
+  }
+
+  try {
+    fs.unlinkSync(zipPath);
+    rimraf(extractDir);
+  } catch {
+    /* ignore */
+  }
+
+  return text;
+}
+
+export function extractPlaywrightLogLines(fullLog, maxLines = 200) {
+  const marker = /Run Playwright tests/i;
+  const match = fullLog.match(marker);
+  const section = match ? fullLog.slice(match.index) : fullLog;
+  return section
+    .split(/\r?\n/)
+    .map((line) => line.replace(/\u001b\[[0-9;]*m/g, ''))
+    .filter((line) => line.trim())
+    .slice(-maxLines);
 }
 
 export async function cancelWorkflowRun(runId) {

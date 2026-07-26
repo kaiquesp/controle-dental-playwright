@@ -10,9 +10,49 @@ const logEl = $('#log');
 const form = $('#run-form');
 const linkReport = $('#link-report');
 const browserBanner = $('#browser-banner');
+const githubProgressCard = $('#github-progress-card');
+const githubSteps = $('#github-steps');
+const btnGithubLive = $('#btn-github-live');
 
 const fetchOpts = { credentials: 'same-origin' };
 let lastBrowserState = null;
+
+function stepIcon(step) {
+  if (step.status === 'in_progress') return '◌';
+  if (step.status === 'queued') return '○';
+  if (step.conclusion === 'success' || step.conclusion === 'skipped') return '✓';
+  if (step.conclusion === 'failure' || step.conclusion === 'cancelled') return '✗';
+  return '·';
+}
+
+function renderGithubProgress(payload) {
+  const url = payload?.htmlUrl ?? payload?.githubRunUrl ?? null;
+  const progress = payload?.progress ?? payload?.githubProgress ?? payload;
+  const steps = progress?.steps ?? [];
+
+  if (url) {
+    btnGithubLive.href = url;
+    btnGithubLive.hidden = false;
+  } else {
+    btnGithubLive.hidden = true;
+  }
+
+  if (!steps.length && !url) {
+    githubProgressCard.classList.add('hidden');
+    return;
+  }
+
+  githubProgressCard.classList.remove('hidden');
+  githubSteps.innerHTML = steps
+    .map(
+      (step) => `
+      <li class="github-step" data-status="${step.status}" data-conclusion="${step.conclusion ?? ''}">
+        <span class="github-step__icon">${stepIcon(step)}</span>
+        <span class="github-step__name">${escapeHtml(step.name)}</span>
+      </li>`
+    )
+    .join('');
+}
 
 function renderBrowserStatus(browsers) {
   lastBrowserState = browsers;
@@ -27,6 +67,15 @@ function renderBrowserStatus(browsers) {
     browserBanner.textContent =
       'Testes executados via GitHub Actions. O report será baixado automaticamente ao concluir.';
     btnRun.disabled = false;
+    return;
+  }
+
+  if (browsers.runner === 'github-unconfigured') {
+    browserBanner.classList.remove('hidden');
+    browserBanner.dataset.state = 'error';
+    browserBanner.textContent =
+      'GITHUB_TOKEN não configurado na Hostinger. Adicione o token e GITHUB_REPO nas variáveis de ambiente e reinicie a aplicação.';
+    btnRun.disabled = true;
     return;
   }
 
@@ -179,15 +228,15 @@ async function refreshStatus() {
     return;
   }
   const data = await res.json();
-  if (data.runner === 'github') {
+  if (data.runner === 'github-unconfigured' || data.runner === 'github') {
     $('#headed-wrap').hidden = true;
   }
   renderBrowserStatus(data.browsers);
   renderResults(data.results);
-  linkReport.classList.toggle('disabled', !data.reportAvailable);
-  if (data.githubRunUrl) {
-    linkReport.title = data.githubRunUrl;
+  if (data.runner === 'github' && (data.githubProgress?.steps?.length || data.githubRunUrl)) {
+    renderGithubProgress(data);
   }
+  linkReport.classList.toggle('disabled', !data.reportAvailable);
   if (data.status === 'running') {
     setRunning(true);
     setStatus('running', data.runner === 'github' ? 'GitHub Actions…' : 'Executando…');
@@ -258,6 +307,9 @@ events.addEventListener('log', (ev) => {
 });
 events.addEventListener('status', (ev) => {
   const data = JSON.parse(ev.data);
+  if (data.runner === 'github' && (data.githubProgress?.steps?.length || data.githubRunUrl)) {
+    renderGithubProgress(data);
+  }
   if (data.status === 'running') {
     setRunning(true);
     setStatus('running', data.runner === 'github' ? 'GitHub Actions…' : 'Executando…');
@@ -274,6 +326,9 @@ events.addEventListener('results', (ev) => {
 });
 events.addEventListener('browsers', (ev) => {
   renderBrowserStatus(JSON.parse(ev.data));
+});
+events.addEventListener('github-progress', (ev) => {
+  renderGithubProgress(JSON.parse(ev.data));
 });
 
 refreshStatus();
