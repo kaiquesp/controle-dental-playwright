@@ -4,9 +4,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const shouldInstall =
-  process.env.PLAYWRIGHT_INSTALL_ON_POSTINSTALL === '1' ||
-  process.env.CI === 'true' ||
-  Boolean(process.env.PORT);
+  !process.env.GITHUB_TOKEN?.trim() &&
+  !process.env.PLAYWRIGHT_WS_ENDPOINT?.trim() &&
+  !process.env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD &&
+  (process.env.PLAYWRIGHT_INSTALL_ON_POSTINSTALL === '1' ||
+    process.env.CI === 'true' ||
+    Boolean(process.env.PORT));
 
 if (!shouldInstall) {
   console.log(

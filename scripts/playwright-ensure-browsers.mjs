@@ -1,9 +1,16 @@
 import fs from 'node:fs';
 import {
-  browsersInstalled,
+  browsersInstalled as localBrowsersInstalled,
   PLAYWRIGHT_BROWSERS_PATH,
   spawnPlaywright,
 } from './playwright-cli.mjs';
+import { getRemoteBrowserEndpoint, maskWsEndpoint, usesRemoteBrowser, isSharedHosting } from './playwright-remote.mjs';
+
+function browsersInstalled() {
+  return usesRemoteBrowser() || localBrowsersInstalled();
+}
+
+export { browsersInstalled };
 
 /** @type {Promise<{ ok: boolean; error?: string }> | null} */
 let installPromise = null;
@@ -27,8 +34,13 @@ function refreshState(patch = {}) {
 
 export function getBrowserStatus() {
   refreshState();
+  const remote = usesRemoteBrowser();
   return {
     ...lastState,
+    installed: browsersInstalled(),
+    remote,
+    remoteEndpoint: remote ? maskWsEndpoint(getRemoteBrowserEndpoint()) : null,
+    hostingWarning: isSharedHosting() && !remote,
     path: PLAYWRIGHT_BROWSERS_PATH,
   };
 }
@@ -37,6 +49,11 @@ export function getBrowserStatus() {
  * @param {(line: string) => void} [onLog]
  */
 export function ensureBrowsersInstalled(onLog) {
+  if (usesRemoteBrowser()) {
+    refreshState({ error: null, installing: false });
+    return Promise.resolve({ ok: true });
+  }
+
   if (browsersInstalled()) {
     refreshState({ error: null });
     return Promise.resolve({ ok: true });

@@ -4,6 +4,18 @@ import { e2eEnv, logE2eTarget } from './tests/support/env';
 
 logE2eTarget();
 
+const wsEndpoint = process.env.PLAYWRIGHT_WS_ENDPOINT?.trim();
+const connectOptions = wsEndpoint ? { wsEndpoint } : undefined;
+
+if (connectOptions) {
+  console.log(`[E2E] browser remoto: ${wsEndpoint.replace(/token=[^&]+/i, 'token=***')}`);
+}
+
+const chromeUse = {
+  ...devices['Desktop Chrome'],
+  ...(connectOptions ? { connectOptions } : {}),
+};
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -35,13 +47,14 @@ export default defineConfig({
       name: 'setup',
       testMatch: /auth\.setup\.ts/,
       timeout: 180_000,
+      use: connectOptions ? { connectOptions } : {},
     },
     {
       name: 'public',
       testMatch: /public\/.+\.spec\.ts/,
       dependencies: ['setup'],
       use: {
-        ...devices['Desktop Chrome'],
+        ...chromeUse,
         storageState: { cookies: [], origins: [] },
       },
     },
@@ -50,7 +63,7 @@ export default defineConfig({
       testMatch: /authenticated\/.+\.spec\.ts/,
       dependencies: ['setup'],
       use: {
-        ...devices['Desktop Chrome'],
+        ...chromeUse,
         storageState: AUTH_FILE,
       },
     },

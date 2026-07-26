@@ -16,7 +16,38 @@ let lastBrowserState = null;
 
 function renderBrowserStatus(browsers) {
   lastBrowserState = browsers;
-  if (!browsers || browsers.installed) {
+  if (!browsers) {
+    browserBanner.classList.add('hidden');
+    return;
+  }
+
+  if (browsers.runner === 'github') {
+    browserBanner.classList.remove('hidden');
+    browserBanner.dataset.state = 'ready';
+    browserBanner.textContent =
+      'Testes executados via GitHub Actions. O report será baixado automaticamente ao concluir.';
+    btnRun.disabled = false;
+    return;
+  }
+
+  if (browsers.remote) {
+    browserBanner.classList.remove('hidden');
+    browserBanner.dataset.state = 'ready';
+    browserBanner.textContent = `Browser remoto: ${browsers.remoteEndpoint ?? 'configurado'}. Chromium local não é necessário.`;
+    btnRun.disabled = false;
+    return;
+  }
+
+  if (browsers.hostingWarning) {
+    browserBanner.classList.remove('hidden');
+    browserBanner.dataset.state = 'error';
+    browserBanner.textContent =
+      'Configure GITHUB_TOKEN na Hostinger para executar via GitHub Actions, ou PLAYWRIGHT_WS_ENDPOINT para browser remoto.';
+    btnRun.disabled = false;
+    return;
+  }
+
+  if (browsers.installed) {
     browserBanner.classList.add('hidden');
     btnRun.disabled = false;
     return;
@@ -148,12 +179,18 @@ async function refreshStatus() {
     return;
   }
   const data = await res.json();
+  if (data.runner === 'github') {
+    $('#headed-wrap').hidden = true;
+  }
   renderBrowserStatus(data.browsers);
   renderResults(data.results);
   linkReport.classList.toggle('disabled', !data.reportAvailable);
+  if (data.githubRunUrl) {
+    linkReport.title = data.githubRunUrl;
+  }
   if (data.status === 'running') {
     setRunning(true);
-    setStatus('running', 'Executando…');
+    setStatus('running', data.runner === 'github' ? 'GitHub Actions…' : 'Executando…');
   } else if (data.exitCode === 0) {
     setRunning(false);
     setStatus('done-ok', 'Concluído ✓');
@@ -223,7 +260,7 @@ events.addEventListener('status', (ev) => {
   const data = JSON.parse(ev.data);
   if (data.status === 'running') {
     setRunning(true);
-    setStatus('running', 'Executando…');
+    setStatus('running', data.runner === 'github' ? 'GitHub Actions…' : 'Executando…');
   } else if (data.exitCode === 0) {
     setRunning(false);
     setStatus('done-ok', 'Concluído ✓');

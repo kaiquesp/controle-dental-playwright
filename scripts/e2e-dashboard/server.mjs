@@ -18,15 +18,27 @@ import {
   PLATFORM_API_URL,
 } from './auth.mjs';
 import {
+  ensureBrowsersInstalled,
+  getBrowserStatus,
   browsersInstalled,
-  PLAYWRIGHT_BROWSERS_PATH,
+} from '../playwright-ensure-browsers.mjs';
+import { usesRemoteBrowser } from '../playwright-remote.mjs';
+import {
   resolvePlaywrightCli,
   buildPathEnv,
 } from '../playwright-cli.mjs';
 import {
-  ensureBrowsersInstalled,
-  getBrowserStatus,
-} from '../playwright-ensure-browsers.mjs';
+  cancelWorkflowRun,
+  clearGithubRunState,
+  dispatchWorkflow,
+  downloadRunArtifacts,
+  fetchRunStatus,
+  getRunnerMode,
+  githubConfigured,
+  isGithubRunner,
+  loadGithubRunState,
+  saveGithubRunState,
+} from './github-runner.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
@@ -41,8 +53,14 @@ const PORT_ATTEMPTS = PLATFORM_PORT ? 1 : 10;
 
 /** @type {import('node:child_process').ChildProcess | null} */
 let activeProcess = null;
-/** @type {{ status: 'idle' | 'running'; startedAt: string | null; exitCode: number | null; target: string | null; args: string[] }} */
-let runState = { status: 'idle', startedAt: null, exitCode: null, target: null, args: [] };
+/** @type {ReturnType<typeof setInterval> | null} */
+let githubPollTimer = null;
+/** @type {number | null} */
+let githubRunId = null;
+/** @type {string | null} */
+let lastGithubPollStatus = null;
+/** @type {{ status: 'idle' | 'running'; startedAt: string | null; exitCode: number | null; target: string | null; args: string[]; runner?: string; githubRunUrl?: string | null }} */
+let runState = { status: 'idle', startedAt: null, exitCode: null, target: null, args: [], runner: getRunnerMode() };
 /** @type {Set<import('node:http').ServerResponse>} */
 const sseClients = new Set();
 
@@ -228,7 +246,137 @@ function startRun(body) {
   return { ok: true, run: runState };
 }
 
+function finishRun(exitCode, extra = {}) {
+  runState = {
+    ...runState,
+    status: 'idle',
+    exitCode,
+    ...extra,
+  };
+  pushLog(`■ Finalizado com código ${exitCode}`, 'system');
+  broadcast('status', runState);
+  broadcast('results', loadResults());
+  githubRunId = null;
+  clearGithubRunState();
+  if (githubPollTimer) {
+    clearInterval(githubPollTimer);
+    githubPollTimer = null;
+  }
+}
+
+async function pollGithubRun(runId) {
+  try {
+    const run = await fetchRunStatus(runId);
+    const statusKey = `${run.status}:${run.conclusion ?? ''}`;
+    if (statusKey !== lastGithubPollStatus) {
+      const label = run.conclusion ? `${run.status} (${run.conclusion})` : run.status;
+      pushLog(`GitHub Actions: ${label}`, 'system');
+      lastGithubPollStatus = statusKey;
+    }
+
+    runState = {
+      ...runState,
+      githubRunUrl: run.htmlUrl,
+    };
+    broadcast('status', runState);
+
+    if (run.status !== 'completed') {
+      return;
+    }
+
+    if (githubPollTimer) {
+      clearInterval(githubPollTimer);
+      githubPollTimer = null;
+    }
+
+    try {
+      pushLog('Baixando report do GitHub Actions…', 'system');
+      await downloadRunArtifacts(runId, {
+        reportDir: REPORT_DIR,
+        resultsJson: RESULTS_JSON,
+      });
+      pushLog('Report disponível em /report/', 'system');
+    } catch (err) {
+      pushLog(`Erro ao baixar artifact: ${err.message}`, 'stderr');
+    }
+
+    const exitCode = run.conclusion === 'success' ? 0 : 1;
+    finishRun(exitCode, { githubRunUrl: run.htmlUrl });
+  } catch (err) {
+    pushLog(`Erro ao consultar GitHub Actions: ${err.message}`, 'stderr');
+  }
+}
+
+function startGithubPolling(runId) {
+  githubRunId = runId;
+  lastGithubPollStatus = null;
+  if (githubPollTimer) clearInterval(githubPollTimer);
+  void pollGithubRun(runId);
+  githubPollTimer = setInterval(() => {
+    void pollGithubRun(runId);
+  }, 12_000);
+}
+
+async function startGithubRun(body) {
+  if (runState.status === 'running') {
+    return { ok: false, error: 'Já existe uma execução em andamento.' };
+  }
+  if (!githubConfigured()) {
+    return {
+      ok: false,
+      error: 'GITHUB_TOKEN e GITHUB_REPO devem estar configurados para executar via GitHub Actions.',
+    };
+  }
+
+  const target = body.target === 'local' ? 'local' : 'app';
+  runState = {
+    status: 'running',
+    startedAt: new Date().toISOString(),
+    exitCode: null,
+    target,
+    args: [],
+    runner: 'github',
+    githubRunUrl: null,
+  };
+  broadcast('status', runState);
+  pushLog(`▶ Disparando GitHub Actions (${REPO_GITHUB()})…`, 'system');
+
+  try {
+    const dispatched = await dispatchWorkflow(body);
+    runState = {
+      ...runState,
+      githubRunUrl: dispatched.htmlUrl,
+    };
+    saveGithubRunState({
+      runId: dispatched.runId,
+      htmlUrl: dispatched.htmlUrl,
+      startedAt: runState.startedAt,
+      target,
+      inputs: dispatched.inputs,
+    });
+    pushLog(`Workflow #${dispatched.runId}: ${dispatched.htmlUrl}`, 'system');
+    broadcast('status', runState);
+    startGithubPolling(dispatched.runId);
+    return { ok: true, run: runState };
+  } catch (err) {
+    runState = { status: 'idle', startedAt: null, exitCode: null, target: null, args: [], runner: 'github' };
+    broadcast('status', runState);
+    return { ok: false, error: err.message };
+  }
+}
+
 async function prepareAndStartRun(body) {
+  if (isGithubRunner()) {
+    return startGithubRun(body);
+  }
+
+  if (PLATFORM_PORT && !usesRemoteBrowser() && !isGithubRunner()) {
+    const msg =
+      'Configure GITHUB_TOKEN na Hostinger para executar via GitHub Actions.';
+    pushLog(msg, 'stderr');
+    return { ok: false, error: msg };
+  }
+
   if (!browsersInstalled()) {
     pushLog('Chromium não encontrado. Baixando automaticamente (pode levar alguns minutos)…', 'system');
     broadcast('browsers', getBrowserStatus());
@@ -245,6 +393,13 @@ async function prepareAndStartRun(body) {
 }
 
 function stopRun() {
+  if (githubRunId) {
+    void cancelWorkflowRun(githubRunId)
+      .then(() => pushLog('■ Cancelamento solicitado no GitHub Actions', 'system'))
+      .catch((err) => pushLog(`Erro ao cancelar workflow: ${err.message}`, 'stderr'));
+    return { ok: true };
+  }
+
   if (!activeProcess) {
     return { ok: false, error: 'Nenhuma execução ativa.' };
   }
@@ -320,17 +475,25 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && url.pathname === '/api/status') {
     return json(res, 200, {
       ...runState,
+      runner: getRunnerMode(),
+      githubConfigured: githubConfigured(),
       reportAvailable: reportAvailable(),
       results: loadResults(),
-      browsers: getBrowserStatus(),
+      browsers: isGithubRunner() ? { runner: 'github', installed: true } : getBrowserStatus(),
     });
   }
 
   if (req.method === 'GET' && url.pathname === '/api/browsers') {
+    if (isGithubRunner()) {
+      return json(res, 200, { runner: 'github', installed: true });
+    }
     return json(res, 200, getBrowserStatus());
   }
 
   if (req.method === 'POST' && url.pathname === '/api/browsers/install') {
+    if (isGithubRunner()) {
+      return json(res, 200, { ok: true, browsers: { runner: 'github', installed: true } });
+    }
     if (browsersInstalled()) {
       return json(res, 200, { ok: true, browsers: getBrowserStatus() });
     }
@@ -425,13 +588,37 @@ const server = http.createServer(async (req, res) => {
 
 function printBanner(port) {
   const label = HOST === '0.0.0.0' ? 'localhost' : HOST;
+  const runner = getRunnerMode();
   console.log(`E2E Dashboard: http://${label}:${port}`);
   console.log(`Login:         http://${label}:${port}/login`);
   console.log(`Report HTML:   http://${label}:${port}/report/`);
+  console.log(`Runner:        ${runner}${runner === 'github' ? ` (${REPO_GITHUB()})` : ''}`);
   console.log(`Platform API:  ${PLATFORM_API_URL}`);
   if (HOST === '0.0.0.0') {
     console.log(`(escutando em 0.0.0.0:${port} — PORT=${PLATFORM_PORT ?? 'n/a'})`);
   }
+}
+
+function REPO_GITHUB() {
+  return process.env.GITHUB_REPO?.trim() || 'kaiquesp/controle-dental-playwright';
+}
+
+function resumeGithubRunIfNeeded() {
+  const saved = loadGithubRunState();
+  if (!saved?.runId || !isGithubRunner()) return;
+
+  runState = {
+    status: 'running',
+    startedAt: saved.startedAt ?? new Date().toISOString(),
+    exitCode: null,
+    target: saved.target ?? 'app',
+    args: [],
+    runner: 'github',
+    githubRunUrl: saved.htmlUrl ?? null,
+  };
+  broadcast('status', runState);
+  pushLog(`Retomando acompanhamento do workflow #${saved.runId}…`, 'system');
+  startGithubPolling(saved.runId);
 }
 
 async function probeDashboard(port) {
@@ -470,7 +657,8 @@ export async function startDashboard() {
     try {
       const bound = await listen(port);
       printBanner(bound);
-      if (!browsersInstalled()) {
+      resumeGithubRunIfNeeded();
+      if (!isGithubRunner() && !browsersInstalled() && !PLATFORM_PORT) {
         console.log('[e2e-dashboard] Chromium ausente — download automático em segundo plano.');
         void ensureBrowsersInstalled((line) => {
           console.log(`[playwright install] ${line}`);
