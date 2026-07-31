@@ -116,8 +116,18 @@ export class ProntuarioPage {
   orcamentoDialog(): Locator {
     return this.page
       .locator('.p-dialog, [role="dialog"]')
-      .filter({ has: this.page.getByRole('button', { name: /Salvar Orçamento/i }) })
+      .filter({ has: this.page.getByRole('button', { name: /Salvar Orçamento|Salvar alterações/i }) })
       .last();
+  }
+
+  /** Espera o refresh (GET) da lista de orçamentos após uma alteração, para evitar checar a linha desatualizada. */
+  async waitForOrcamentosReload(): Promise<void> {
+    await this.page
+      .waitForResponse(
+        (res) => res.request().method() === 'GET' && /orcamento/i.test(res.url()) && res.status() < 500,
+        { timeout: 15_000 }
+      )
+      .catch(() => undefined);
   }
 
   async openNovoOrcamento(): Promise<Locator> {
@@ -190,34 +200,144 @@ export class ProntuarioPage {
   }
 
   orcamentoRow(descricao: string): Locator {
-    return this.page.locator('tr, article, .p-datatable-row, [class*="orcamento"]').filter({ hasText: descricao });
+    return this.page
+      .locator('tr, article, [role="group"], .p-datatable-row, [class*="orcamento"]')
+      .filter({ hasText: descricao });
   }
 
   async aprovarOrcamentoNaLista(descricao: string): Promise<void> {
     const row = this.orcamentoRow(descricao);
     await expect(row.first()).toBeVisible({ timeout: 20_000 });
-    await row.first().getByRole('button', { name: /^Aprovar$/i }).click();
+    await row.first().getByRole('button', { name: /^Aprovar$/i }).first().click();
     await expect(this.page.getByText(/aprovado|sucesso/i).first()).toBeVisible({ timeout: 15_000 }).catch(() => undefined);
+  }
+
+  async openOrcamentoRowMenu(row: Locator): Promise<void> {
+    const menuBtn = row
+      .getByRole('button', { name: /ações|opções|mais|menu|abrir menu/i })
+      .or(row.locator('button.p-button-icon-only, button[class*="icon"], button[aria-haspopup="menu"]'))
+      .or(row.getByRole('button').filter({ hasNotText: /^Aprovar$/i }))
+      .last();
+    await expect(menuBtn).toBeVisible({ timeout: 10_000 });
+    await menuBtn.click();
+    await expect(this.page.getByRole('menuitem').first()).toBeVisible({ timeout: 5_000 });
+  }
+
+  private async confirmDestructiveAction(): Promise<void> {
+    const confirm = this.page
+      .locator('[role="alertdialog"]:visible, [role="dialog"]:visible')
+      .filter({ hasText: /excluir|confirmar|remover|tem certeza/i })
+      .last();
+    if (!(await confirm.isVisible({ timeout: 8_000 }).catch(() => false))) return;
+    await confirm.getByRole('button', { name: /Excluir|Confirmar|Sim|OK/i }).last().click();
+    await expect(confirm).toBeHidden({ timeout: 15_000 });
   }
 
   async editarOrcamento(descricao: string, novoTexto: string): Promise<void> {
     const row = this.orcamentoRow(descricao);
-    await row.first().getByRole('button', { name: /Editar/i }).click();
-    const dialog = await expectDialogOpen(this.page, /orçamento|editar/i);
-    const input = dialog.locator('input:visible, textarea:visible').first();
-    await input.fill(novoTexto);
-    await dialog.getByRole('button', { name: /Salvar|Atualizar/i }).click();
-    await expect(dialog).toBeHidden({ timeout: 20_000 });
+    await expect(row.first()).toBeVisible({ timeout: 20_000 });
+    const editBtn = row.first().getByRole('button', { name: /^Editar$/i });
+    if (await editBtn.isVisible().catch(() => false)) {
+      await editBtn.click();
+    } else {
+      await this.openOrcamentoRowMenu(row.first());
+      await this.page.getByRole('menuitem', { name: /^Editar$/i }).click();
+    }
+    await expectDialogOpen(this.page, /editar orçamento|orçamento/i);
+
+    const dialog = this.page
+      .getByRole('dialog', { name: /Editar orçamento/i })
+      .or(this.orcamentoDialog())
+      .last();
+
+    const nomeField = dialog.getByRole('textbox', { name: /Nome \/ Descrição do Orçamento/i });
+    const tituloField = dialog.locator('#orc-modal-titulo');
+    if (await nomeField.isVisible().catch(() => false)) {
+      await nomeField.fill(novoTexto);
+    } else if (await tituloField.isVisible().catch(() => false)) {
+      await tituloField.fill(novoTexto);
+    } else {
+      throw new Error('Campo de nome/descrição do orçamento não encontrado para edição');
+    }
+
+    // A lista de orçamentos pode exibir observações/condições em vez do título — mantém os dois em sincronia,
+    // igual ao preenchimento inicial em fillOrcamentoBasico, para que a linha reflita o novo texto.
+    const obsField = dialog.locator('#orc-modal-condicoes, #orc-obs, textarea[name*="obs" i]').first();
+    if (await obsField.isVisible().catch(() => false)) {
+      await obsField.fill(novoTexto);
+    }
+
+    const save = dialog.getByRole('button', { name: /Salvar alterações|Salvar Orçamento|Salvar|Atualizar/i });
+    await expect(save).toBeEnabled({ timeout: 15_000 });
+    const saveResponse = this.page.waitForResponse(
+      (res) =>
+        ['POST', 'PUT', 'PATCH'].includes(res.request().method()) &&
+        /orcamento/i.test(res.url()) &&
+        res.status() < 400,
+      { timeout: 20_000 }
+    );
+    await save.click();
+    const response = await saveResponse;
+    expect(response.ok(), `salvar edição do orçamento falhou (${response.status()})`).toBeTruthy();
+    await expect(dialog).toBeHidden({ timeout: 25_000 });
+    await this.waitForOrcamentosReload();
   }
 
   async excluirOrcamento(descricao: string): Promise<void> {
     const row = this.orcamentoRow(descricao);
-    await row.first().getByRole('button', { name: /Excluir/i }).click();
-    const confirm = this.page.getByRole('dialog').filter({ hasText: /excluir|confirmar/i });
-    if (await confirm.isVisible().catch(() => false)) {
-      await confirm.getByRole('button', { name: /Excluir|Confirmar|Sim/i }).click();
+    await expect(row.first()).toBeVisible({ timeout: 20_000 });
+
+    const toggle = row.first().getByText(/^>\s*/).first();
+    if (await toggle.isVisible().catch(() => false)) {
+      await toggle.click();
+    }
+
+    const deleteBtn = row.first().getByRole('button', { name: /^Excluir$/i });
+    if (await deleteBtn.first().isVisible({ timeout: 3_000 }).catch(() => false)) {
+      await deleteBtn.first().click();
+    } else {
+      await this.openOrcamentoRowMenu(row.first());
+      const excluirItem = this.page.getByRole('menuitem', { name: /Excluir|Remover/i });
+      if (await excluirItem.first().isVisible({ timeout: 2_000 }).catch(() => false)) {
+        await excluirItem.first().click();
+      } else {
+        await this.page.getByRole('menuitem', { name: /^Editar$/i }).click();
+        const dialog = this.orcamentoDialog();
+        await expect(dialog).toBeVisible({ timeout: 10_000 });
+        const footerDelete = dialog.getByRole('button', { name: /Excluir|Remover/i });
+        if (!(await footerDelete.first().isVisible({ timeout: 5_000 }).catch(() => false))) {
+          throw new Error('Excluir orçamento indisponível na UI');
+        }
+        await footerDelete.first().click();
+      }
+    }
+
+    const confirm = this.page
+      .locator('[role="alertdialog"]:visible, [role="dialog"]:visible')
+      .filter({ hasText: /orçamento|excluir|confirmar|remover/i })
+      .last();
+    if (await confirm.isVisible({ timeout: 8_000 }).catch(() => false)) {
+      await confirm.getByRole('button', { name: /Excluir|Sim|Confirmar/i }).last().click();
+      await expect(confirm).toBeHidden({ timeout: 15_000 });
     }
     await expect(row).toHaveCount(0, { timeout: 20_000 });
+  }
+
+  async excluirArquivo(name: string): Promise<void> {
+    const card = this.arquivoRow(name).first();
+    await expect(card).toBeVisible({ timeout: 20_000 });
+    const deleteBtn = card
+      .getByRole('button', { name: /Excluir|Remover|Delete/i })
+      .or(card.locator('button[aria-label*="excluir" i], button[title*="excluir" i]'))
+      .or(card.getByRole('button').last());
+    await deleteBtn.first().click();
+
+    const confirm = this.page
+      .locator('[role="alertdialog"]:visible')
+      .filter({ hasText: /Excluir arquivo|excluir|confirmar/i });
+    await expect(confirm).toBeVisible({ timeout: 10_000 });
+    await confirm.getByRole('button', { name: /Excluir|Sim|Confirmar/i }).last().click();
+    await expect(card).toBeHidden({ timeout: 20_000 });
   }
 
   async openVisualizarContrato(descricao: string): Promise<string[]> {
@@ -232,7 +352,7 @@ export class ProntuarioPage {
 
   async openAbrirDocumento(descricao: string): Promise<string[]> {
     const row = this.orcamentoRow(descricao);
-    await row.first().getByRole('button', { name: /Abrir documento/i }).click();
+    await row.first().getByRole('button', { name: /Abrir documento/i }).first().click();
     const dialog = await expectDialogOpen(this.page, PRONTUARIO_DOCUMENTO_SCREEN_MAP.headings![0]);
     await expectScreenMap(this.page, PRONTUARIO_DOCUMENTO_SCREEN_MAP, dialog);
     const texts = await captureVisibleTexts(this.page, dialog);
@@ -388,7 +508,8 @@ export class ProntuarioPage {
   }
 
   arquivoRow(name: string): Locator {
-    return this.page.locator('tr, article, [class*="arquivo"]').filter({ hasText: name });
+    const panel = this.page.getByRole('tabpanel', { name: /Arquivos/i });
+    return panel.locator('article, [class*="file"], [class*="card"]').filter({ hasText: name });
   }
 
   async openNovaAnamnese(): Promise<void> {
@@ -414,5 +535,9 @@ export class ProntuarioPage {
     }
     await dialog.getByRole('button', { name: /Salvar|Criar|Confirmar/i }).click();
     await expect(dialog).toBeHidden({ timeout: 20_000 });
+  }
+
+  async expectNoPaginatorOnTab(): Promise<void> {
+    await expect(this.page.locator('.novo-paciente__prontuario-paginator, .p-paginator')).toHaveCount(0);
   }
 }
