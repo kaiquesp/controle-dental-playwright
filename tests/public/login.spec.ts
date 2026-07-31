@@ -1,5 +1,6 @@
 import { test, expect } from '../fixtures/test.fixture';
 import { PUBLIC_ROUTES } from '../data/routes';
+import { dismissCookieConsent } from '../support/cookie-consent';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -7,6 +8,9 @@ test.describe('Rotas públicas', () => {
   for (const route of PUBLIC_ROUTES) {
     test(`carrega ${route.name}`, async ({ page }) => {
       await page.goto(route.path);
+      if (route.path !== '/login') {
+        await dismissCookieConsent(page, 'all', 15_000);
+      }
       await expect(page).not.toHaveURL(/\/login$/, { timeout: 5_000 }).catch(() => undefined);
 
       if (route.path === '/login') {

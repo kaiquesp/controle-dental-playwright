@@ -4,10 +4,12 @@ import {
   createCompromissoByApi,
   deleteCompromissoByApi,
   createCompromissoByApiUnique,
+  createCompromissoOnDateByApiUnique,
   createPatientForAgenda,
   e2eName,
   expectEventInApi,
   expectTarefaCreatedByApi,
+  findAgendaEventSeed,
   listEventsByApi,
   listProfessionalsByApi,
   readTokenFromPage,
@@ -18,7 +20,7 @@ import {
 import { expectNoErrorToast } from '../../support/toast-helpers';
 
 test.describe('Agenda — CRUD', () => {
-  test.describe.configure({ mode: 'serial', timeout: 120_000 });
+  test.describe.configure({ mode: 'serial', timeout: 180_000 });
 
   const seeds: AgendaEventSeed[] = [];
   const patientIds: string[] = [];
@@ -26,11 +28,12 @@ test.describe('Agenda — CRUD', () => {
   let professionalId = 0;
   let authToken = '';
 
-  test.beforeEach(async ({ appShell, agendaPage }) => {
+  test.beforeEach(async ({ appShell, agendaPage, page }) => {
     await appShell.navigateTo('/agenda');
     await appShell.expectAuthenticatedShell();
     await appShell.dismissBlockingModals();
     await agendaPage.goToday();
+    authToken = (await readTokenFromPage(page).catch(() => authToken)) || authToken;
   });
 
   test.afterAll(async ({ request }) => {
@@ -49,20 +52,38 @@ test.describe('Agenda — CRUD', () => {
 
     const pros = await listProfessionalsByApi(request, token);
     professionalId = pros[0]?.id ?? 0;
-    const slot = uniqueAgendaSlot(2, 11);
 
-    await agendaPage.openNewAppointment();
-    await agendaPage.fillConsultaBasics({ patientName, data: slot.data, hora: slot.hora });
-    await agendaPage.saveAppointment();
+    let saved = false;
+    let slot = uniqueAgendaSlot(2, 11);
+    for (let salt = 0; salt < 10; salt++) {
+      slot = uniqueAgendaSlot(2, 11, 0, salt);
+      await agendaPage.openNewAppointment();
+      await agendaPage.fillConsultaBasics({ patientName, data: slot.data, hora: slot.hora });
+      try {
+        await agendaPage.saveAppointment({ hora: slot.hora });
+        saved = true;
+        break;
+      } catch (error) {
+        await agendaPage.cancelAppointment().catch(() => undefined);
+        if (salt === 9) throw error;
+      }
+    }
+    expect(saved).toBe(true);
     await expectNoErrorToast(page);
 
+    const seed = await findAgendaEventSeed(request, token, new RegExp(patientName.slice(0, 12)), slot.data);
+    if (seed) seeds.push(seed);
+
     await page.reload({ waitUntil: 'domcontentloaded' });
+    await agendaPage.afterReload();
     await agendaPage.navigateToEventSlot(slot.data, slot.hora);
+    await agendaPage.selectAllProfessionals();
     await agendaPage.expectEventVisible(new RegExp(patientName.slice(0, 12)));
   });
 
   test('[AG-CRUD-02] cria Compromisso via UI e exibe na grade', async ({ page, agendaPage, request }) => {
     const token = await readTokenFromPage(page);
+    authToken = token;
     const title = e2eName('Compromisso');
     const slot = uniqueAgendaSlot(2, 12);
 
@@ -79,9 +100,18 @@ test.describe('Agenda — CRUD', () => {
       test.skip(true, 'Formulário de compromisso não concluiu POST (validação UI)');
     }
     await expectNoErrorToast(page);
+    const body = (await post!.json().catch(() => ({}))) as { compromisso?: { id?: number }; id?: number };
+    const id = body.compromisso?.id ?? body.id;
+    if (id) {
+      seeds.push({ id: Number(id), tipo: 'compromisso', titulo: title, data: slot.data });
+    } else {
+      const seed = await findAgendaEventSeed(request, token, title, slot.data);
+      if (seed) seeds.push(seed);
+    }
     await expectEventInApi(request, token, title, slot.data);
 
     await page.reload({ waitUntil: 'domcontentloaded' });
+    await agendaPage.afterReload();
     await agendaPage.navigateToEventSlot(slot.data, slot.hora);
     await agendaPage.selectAllProfessionals();
     await agendaPage.expectEventVisible(new RegExp(title.slice(0, 12)));
@@ -90,7 +120,7 @@ test.describe('Agenda — CRUD', () => {
   test('[AG-CRUD-03] cria Tarefa via UI e persiste na API', async ({ page, agendaPage, request }) => {
     const token = await readTokenFromPage(page);
     const title = e2eName('Tarefa');
-    const slot = uniqueAgendaSlot(2, 13);
+    const slot = uniqueAgendaSlot(4, 13);
 
     await agendaPage.openNewAppointment();
     await agendaPage.fillTarefaBasics({ titulo: title, data: slot.data, hora: slot.hora });
@@ -119,33 +149,31 @@ test.describe('Agenda — CRUD', () => {
     const profId = pros[0]?.id;
     if (!profId) test.skip(true, 'Sem profissional cadastrado');
 
-    const slot = uniqueAgendaSlot(3, 14);
     const t1 = e2eName('Lista-A');
     const t2 = e2eName('Lista-B');
-
-    const id1 = await createCompromissoByApi(request, token, {
+    const { id: id1, slot } = await createCompromissoByApiUnique(request, token, {
       titulo: t1,
-      data: slot.data,
-      horaInicio: '14:00',
-      horaFim: '14:30',
       professionalId: profId,
+      offsetDays: 4,
+      baseHour: 10,
     });
-    const id2 = await createCompromissoByApi(request, token, {
+
+    const { id: id2 } = await createCompromissoOnDateByApiUnique(request, token, {
       titulo: t2,
       data: slot.data,
-      horaInicio: '15:00',
-      horaFim: '15:30',
       professionalId: profId,
+      excludeHora: [slot.hora],
     });
+
     seeds.push(
       { id: id1, tipo: 'compromisso', titulo: t1, data: slot.data },
       { id: id2, tipo: 'compromisso', titulo: t2, data: slot.data }
     );
 
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await agendaPage.goToday();
-    await agendaPage.navigateToEventSlot(slot.data, '14:00');
-    await agendaPage.setView('Dia');
+    await agendaPage.afterReload();
+    await agendaPage.navigateToEventSlot(slot.data, slot.hora);
+    await agendaPage.selectAllProfessionals();
     await agendaPage.expectEventVisible(t1);
     await agendaPage.expectEventVisible(t2);
     expect(await agendaPage.eventCard(/E2E-Lista/).count()).toBeGreaterThanOrEqual(2);
@@ -170,6 +198,7 @@ test.describe('Agenda — CRUD', () => {
     seeds.push({ id, tipo: 'compromisso', titulo: original, data: slot.data });
 
     await page.reload({ waitUntil: 'domcontentloaded' });
+    await agendaPage.afterReload();
     await agendaPage.navigateToEventSlot(slot.data, slot.hora);
     await agendaPage.selectAllProfessionals();
     await agendaPage.expectEventVisible(original);
@@ -189,7 +218,7 @@ test.describe('Agenda — CRUD', () => {
     // Patch imediato na grade (sem reload) depende do deploy do fix em agenda-content;
     // aqui validamos persistência real após recarregar a tela.
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await appShell.dismissBlockingModals();
+    await agendaPage.afterReload();
     await agendaPage.navigateToEventSlot(slot.data, slot.hora);
     await agendaPage.expectEventVisible(updated);
     await expect(
@@ -197,7 +226,7 @@ test.describe('Agenda — CRUD', () => {
     ).toHaveCount(0);
   });
 
-  test('[AG-CRUD-07] exclui compromisso da grade', async ({ page, agendaPage, request }) => {
+  test('[AG-CRUD-07] exclui compromisso da grade', async ({ page, agendaPage, request, appShell }) => {
     test.setTimeout(180_000);
     const token = await readTokenFromPage(page);
     const pros = await listProfessionalsByApi(request, token);
@@ -215,6 +244,7 @@ test.describe('Agenda — CRUD', () => {
     seeds.push({ id, tipo: 'compromisso', titulo: title, data: slot.data });
 
     await page.reload({ waitUntil: 'domcontentloaded' });
+    await agendaPage.afterReload();
     await agendaPage.goToday();
     await agendaPage.navigateToEventSlot(slot.data, slot.hora);
     await agendaPage.selectAllProfessionals();
@@ -235,14 +265,15 @@ test.describe('Agenda — CRUD', () => {
         1
       );
       await page.reload({ waitUntil: 'domcontentloaded' });
+      await agendaPage.afterReload();
       await agendaPage.goToday();
       await agendaPage.navigateToEventSlot(slot.data, slot.hora);
       await agendaPage.selectAllProfessionals();
     }
-    await agendaPage.expectEventHidden(title);
+    await agendaPage.expectEventHidden(title, 45_000);
   });
 
-  test('[AG-CRUD-08] abrir evento na grade abre modal de edição', async ({ agendaPage, request, page }) => {
+  test('[AG-CRUD-08] abrir evento na grade abre modal de edição', async ({ agendaPage, request, page, appShell }) => {
     const token = await readTokenFromPage(page);
     const pros = await listProfessionalsByApi(request, token);
     const profId = pros[0]?.id;
@@ -258,9 +289,11 @@ test.describe('Agenda — CRUD', () => {
     seeds.push({ id, tipo: 'compromisso', titulo: title, data: slot.data });
 
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await agendaPage.goToday();
+    await agendaPage.afterReload();
+    await appShell.dismissBlockingModals();
     await agendaPage.navigateToEventSlot(slot.data, slot.hora);
-    await agendaPage.setView('Dia');
+    await agendaPage.selectAllProfessionals();
+    await agendaPage.expectEventVisible(title);
     const dialog = await agendaPage.openEvent(title);
     await expect(dialog.locator('#comp-titulo')).toBeVisible();
     await agendaPage.cancelAppointment();

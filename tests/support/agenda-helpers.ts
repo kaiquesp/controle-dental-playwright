@@ -47,7 +47,7 @@ function skipWeekend(date: Date): Date {
   return d;
 }
 
-/** Gera slot único no expediente para evitar colisões entre execuções. */
+/** Gera slot único no expediente (10h–14h45) para evitar colisões e alertas de fora do expediente. */
 export function uniqueAgendaSlot(offsetDays = 2, hour = 10, minute = 0, salt = 0): {
   data: string;
   hora: string;
@@ -55,10 +55,10 @@ export function uniqueAgendaSlot(offsetDays = 2, hour = 10, minute = 0, salt = 0
   fim: string;
 } {
   const t = Date.now() + salt * 9973;
-  const uniqueMinute = (minute + Math.floor(t / 1000) + salt * 7) % 60;
-  const uniqueHour = 9 + ((hour + Math.floor(t / 60000) % 9 + salt * 3) % 9);
-  const extraDays = Math.floor(t / 3_600_000) % 14;
-  const date = skipWeekend(addDays(new Date(), offsetDays + extraDays + salt));
+  const safeMinutes = [0, 15, 30, 45];
+  const uniqueMinute = safeMinutes[(minute + Math.floor(t / 1000) + salt * 7) % safeMinutes.length];
+  const uniqueHour = 10 + ((hour + Math.floor(t / 60000) % 5 + salt * 3) % 5);
+  const date = skipWeekend(addDays(new Date(), offsetDays + salt));
   const data = formatDate(date);
   const hora = `${String(uniqueHour).padStart(2, '0')}:${String(uniqueMinute).padStart(2, '0')}`;
   const inicio = `${data}T${hora}:00`;
@@ -132,11 +132,54 @@ export async function expectEventInApi(
     .poll(async () => {
       const events = await listEventsByApi(request, token, data, data);
       return events.some((event) => {
-        const label = (event as { titulo?: string }).titulo ?? '';
+        const row = event as { titulo?: string; paciente_nome?: string };
+        const label = row.titulo ?? row.paciente_nome ?? '';
         return typeof titulo === 'string' ? label === titulo : titulo.test(label);
       });
     }, { timeout: 15_000 })
     .toBe(true);
+}
+
+function matchEventLabel(event: unknown, titulo: string | RegExp): boolean {
+  const row = event as { titulo?: string; paciente_nome?: string };
+  const label = row.titulo ?? row.paciente_nome ?? '';
+  return typeof titulo === 'string' ? label === titulo || label.includes(titulo) : titulo.test(label);
+}
+
+function normalizeEventTipo(event: unknown): AgendaEventSeed['tipo'] {
+  const row = event as { tipo?: string; tipo_evento?: string; tipoEvento?: string };
+  const raw = String(row.tipo ?? row.tipo_evento ?? row.tipoEvento ?? '').toLowerCase();
+  if (raw.includes('tarefa')) return 'tarefa';
+  if (raw.includes('consulta')) return 'consulta';
+  return 'compromisso';
+}
+
+/** Localiza o id do evento E2E recém-criado para registrar no cleanup. */
+export async function findAgendaEventSeed(
+  request: APIRequestContext,
+  token: string,
+  titulo: string | RegExp,
+  data: string
+): Promise<AgendaEventSeed | null> {
+  let found: AgendaEventSeed | null = null;
+  await expect
+    .poll(async () => {
+      const events = await listEventsByApi(request, token, data, data);
+      const match = events.find((event) => matchEventLabel(event, titulo));
+      if (!match) return false;
+      const row = match as { id?: number; titulo?: string; paciente_nome?: string };
+      if (!row.id) return false;
+      found = {
+        id: Number(row.id),
+        tipo: normalizeEventTipo(match),
+        titulo: String(row.titulo ?? row.paciente_nome ?? titulo),
+        data,
+      };
+      return true;
+    }, { timeout: 15_000 })
+    .toBe(true)
+    .catch(() => undefined);
+  return found;
 }
 
 export async function expectTarefaCreatedByApi(
@@ -270,6 +313,64 @@ export async function createCompromissoByApiUnique(
   );
 }
 
+/** Cria compromisso em data fixa, varrendo horários do expediente até achar slot livre. */
+export async function createCompromissoOnDateByApiUnique(
+  request: APIRequestContext,
+  token: string,
+  options: {
+    titulo: string;
+    data: string;
+    professionalId: number;
+    salaId?: number;
+    descricao?: string;
+    excludeHora?: string[];
+  }
+): Promise<{ id: number; hora: string }> {
+  const safeMinutes = [0, 15, 30, 45];
+  const excluded = new Set(options.excludeHora ?? []);
+  let lastError = '';
+
+  for (let hour = 10; hour <= 14; hour++) {
+    for (const minute of safeMinutes) {
+      const hora = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      if (excluded.has(hora)) continue;
+
+      const res = await request.post(`${e2eEnv.apiUrl}/agenda/compromissos`, {
+        headers: authHeaders(token),
+        data: {
+          professional_id: options.professionalId,
+          sala_cadeira_id: options.salaId,
+          data: options.data,
+          hora_inicio: hora,
+          hora_fim: slotEndHora(hora),
+          titulo: options.titulo,
+          descricao: options.descricao ?? '',
+        },
+      });
+
+      if (res.status() === 409) {
+        lastError = (await res.text()).slice(0, 300);
+        continue;
+      }
+
+      if (!res.ok()) {
+        throw new Error(
+          `createCompromissoOnDateByApiUnique failed (${res.status()}): ${(await res.text()).slice(0, 300)}`
+        );
+      }
+
+      const body = (await res.json()) as { compromisso?: { id?: number }; id?: number };
+      const id = body.compromisso?.id ?? body.id;
+      if (!id) throw new Error('createCompromissoOnDateByApiUnique: resposta sem id');
+      return { id, hora };
+    }
+  }
+
+  throw new Error(
+    `createCompromissoOnDateByApiUnique: sem slot livre em ${options.data}. Último 409: ${lastError}`
+  );
+}
+
 export async function deleteTarefaByApi(request: APIRequestContext, token: string, id: number): Promise<void> {
   await request.delete(`${e2eEnv.apiUrl}/agenda/tarefas/${id}`, { headers: authHeaders(token) });
 }
@@ -279,7 +380,12 @@ export async function deleteCompromissoByApi(
   token: string,
   id: number
 ): Promise<void> {
-  await request.delete(`${e2eEnv.apiUrl}/agenda/compromissos/${id}`, { headers: authHeaders(token) });
+  const res = await request.delete(`${e2eEnv.apiUrl}/agenda/compromissos/${id}`, {
+    headers: authHeaders(token),
+  });
+  if (!res.ok() && res.status() !== 404) {
+    throw new Error(`deleteCompromissoByApi failed (${res.status()}): ${(await res.text()).slice(0, 200)}`);
+  }
 }
 
 export async function deleteConsultaByApi(
@@ -290,9 +396,10 @@ export async function deleteConsultaByApi(
   for (const url of [
     `${e2eEnv.apiUrl}/agenda/consultas/${id}`,
     `${e2eEnv.apiUrl}/agenda/consulta/${id}`,
+    `${e2eEnv.apiUrl}/consultas/${id}`,
   ]) {
     const res = await request.delete(url, { headers: authHeaders(token) });
-    if (res.ok()) return;
+    if (res.ok() || res.status() === 404) return;
   }
 }
 
@@ -314,6 +421,45 @@ export async function createPatientForAgenda(
   const name = e2eName(prefix);
   const id = await createPatientByApi(request, token, name);
   return { id, name };
+}
+
+/**
+ * Remove resíduos E2E-* da agenda (compromissos/consultas/tarefas) em uma janela de datas.
+ * Segurança para quando seeds não foram registrados ou o afterAll falhou no meio da suíte.
+ */
+export async function purgeE2eAgendaLeftovers(
+  request: APIRequestContext,
+  token: string,
+  options?: { daysBack?: number; daysForward?: number }
+): Promise<number> {
+  const daysBack = options?.daysBack ?? 14;
+  const daysForward = options?.daysForward ?? 30;
+  const de = formatDate(addDays(new Date(), -daysBack));
+  const ate = formatDate(addDays(new Date(), daysForward));
+  let removed = 0;
+
+  const events = await listEventsByApi(request, token, de, ate);
+  for (const event of events) {
+    const row = event as { id?: number; titulo?: string; paciente_nome?: string };
+    const label = String(row.titulo ?? row.paciente_nome ?? '');
+    if (!/^E2E[- ]/i.test(label) || !row.id) continue;
+    await deleteEventByApi(request, token, {
+      id: Number(row.id),
+      tipo: normalizeEventTipo(event),
+      titulo: label,
+      data: de,
+    }).catch(() => undefined);
+    removed += 1;
+  }
+
+  const tarefas = await listTarefasByApi(request, token, de, ate);
+  for (const tarefa of tarefas) {
+    if (!/^E2E[- ]/i.test(tarefa.titulo)) continue;
+    await deleteTarefaByApi(request, token, tarefa.id).catch(() => undefined);
+    removed += 1;
+  }
+
+  return removed;
 }
 
 export async function cleanupAgendaSeeds(

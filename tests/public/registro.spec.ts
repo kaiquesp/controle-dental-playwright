@@ -1,10 +1,11 @@
 import { test, expect } from '../fixtures/test.fixture';
+import { gotoPublicRoute } from '../support/cookie-consent';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
 test.describe('Registro trial', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/registro');
+    await gotoPublicRoute(page, '/registro');
   });
 
   test('[PUB-REG-01] exibe formulário de cadastro trial', async ({ page }) => {

@@ -31,8 +31,10 @@ test.describe('Configurações — hub', () => {
   });
 
   test('[CFG-01] exibe navegação por abas internas', async ({ page }) => {
-    const tabsNav = page.locator('.config__tabs, nav[aria-label="Seções"]');
-    await expect(tabsNav.first()).toBeVisible({ timeout: 15_000 });
+    const tabsNav = page.locator(
+      '.config__tabs, nav[aria-label="Seções"], nav[aria-label*="Seç"], .config nav, [class*="config"] nav'
+    );
+    await expect(tabsNav.first()).toBeVisible({ timeout: 30_000 });
   });
 });
 
@@ -44,8 +46,8 @@ test.describe('Configurações — submenus', () => {
   });
 
   for (const section of CONFIG_SECTIONS) {
-    test(`[${section.id}] exibe seção ${section.label}`, async ({ page, appShell }) => {
-      const tab = appShell.configTab(section.label);
+    test(`[${section.id}] exibe seção ${section.label}`, async ({ page, appShell, configuracoesPage }) => {
+      const tab = configuracoesPage.sectionTab(section.label);
       await expect(tab).toBeVisible();
 
       if ('disabled' in section && section.disabled) {
@@ -53,7 +55,7 @@ test.describe('Configurações — submenus', () => {
         return;
       }
 
-      await tab.click();
+      await tab.click({ force: true });
       await appShell.dismissBlockingModals();
       await expect(tab).toHaveClass(/config__tab--active/);
       await expectConfigContent(page, section.label, section.expectPattern);

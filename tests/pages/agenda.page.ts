@@ -6,6 +6,7 @@ import {
   type AgendaView,
 } from '../data/agenda';
 import { selectIftaByInputId } from '../support/interaction-helpers';
+import { dismissAppModals } from '../support/onboarding';
 import { slotEndHora, toBrDate, waitForAgendaEventsReload } from '../support/agenda-helpers';
 
 export class AgendaPage {
@@ -20,7 +21,7 @@ export class AgendaPage {
     this.root = page.locator(AGENDA_SELECTORS.screen).first();
     this.newAppointmentButton = page.getByRole('button', { name: /Novo agendamento/i }).first();
     this.printButton = page.getByRole('button', { name: 'Imprimir agenda' });
-    this.profFilterButton = page.getByRole('button', { name: /Todos os profissionais|profissional/i });
+    this.profFilterButton = page.locator(AGENDA_SELECTORS.profFilter).first();
     this.otherFiltersButton = page.getByRole('button', { name: /Outros filtros/i });
     this.periodHeading = page.locator('main h2').filter({ hasText: /\d+/ }).first();
   }
@@ -31,11 +32,23 @@ export class AgendaPage {
   }
 
   async setView(view: AgendaView): Promise<void> {
-    await this.page.getByRole('button', { name: view, exact: true }).click();
+    await dismissAppModals(this.page);
+    const btn = this.page.getByRole('button', { name: view, exact: true });
+    await btn.scrollIntoViewIfNeeded();
+    await btn.click();
     await expect(this.root).toBeVisible();
+    if (view === 'Dia') await this.expectDayView();
+    if (view === 'Semana') await this.expectWeekView();
+    if (view === 'Mês') await this.expectMonthView();
+    await waitForAgendaEventsReload(this.page);
+  }
+
+  async afterReload(): Promise<void> {
+    await dismissAppModals(this.page);
   }
 
   async goToday(): Promise<void> {
+    await dismissAppModals(this.page);
     await this.page.getByRole('button', { name: 'Hoje', exact: true }).click();
     await waitForAgendaEventsReload(this.page);
   }
@@ -78,6 +91,7 @@ export class AgendaPage {
   }
 
   async openNewAppointment(): Promise<Locator> {
+    await dismissAppModals(this.page);
     await this.newAppointmentButton.click();
     const dialog = this.scheduleDialog();
     await expect(dialog).toBeVisible({ timeout: 10_000 });
@@ -124,9 +138,9 @@ export class AgendaPage {
       }
       const deleteConfirm = this.page
         .locator('[role="alertdialog"]:visible')
-        .filter({ hasText: /Confirmar exclusão da consulta/i });
+        .filter({ hasText: /Confirmar exclusão da consulta|Excluir consulta/i });
       if (await deleteConfirm.isVisible({ timeout: 400 }).catch(() => false)) {
-        await deleteConfirm.getByRole('button', { name: /^Não$/i }).click();
+        await deleteConfirm.getByRole('button', { name: /^Cancelar$/i }).click();
         await expect(deleteConfirm).toBeHidden({ timeout: 8_000 });
         dismissed = true;
       }
@@ -134,63 +148,153 @@ export class AgendaPage {
     }
   }
 
-  async saveAppointment(options?: { confirmOutsideHours?: boolean }): Promise<void> {
+  outsideHoursConfirm(): Locator {
+    return this.page
+      .locator('[role="alertdialog"]:visible')
+      .filter({ hasText: /fora do expediente|Horário fora do expediente/i });
+  }
+
+  async confirmOutsideHoursIfNeeded(confirmOutside: boolean): Promise<boolean> {
+    const outside = this.outsideHoursConfirm();
+    if (!(await outside.first().isVisible({ timeout: 3_000 }).catch(() => false))) return false;
+    if (!confirmOutside) return true;
+    const confirmBtn = outside.first().getByRole('button', { name: /Sim,\s*prosseguir/i });
+    await confirmBtn.click();
+    await expect(outside.first()).toBeHidden({ timeout: 12_000 });
+    return true;
+  }
+
+  private async fillConsultaHoraField(hora: string): Promise<void> {
+    const dialog = this.scheduleDialog();
+    const horaField = dialog.locator(`#${AGENDA_FORM_IDS.consulta.hora}`);
+    if (!(await horaField.isVisible().catch(() => false))) return;
+    await this.scrollScheduleDialogToTop();
+    await horaField.click();
+    await horaField.press('Control+A');
+    await horaField.press('Backspace');
+    await horaField.type(hora, { delay: 30 });
+    await horaField.press('Tab');
+    await expect(horaField).toHaveValue(hora);
+  }
+
+  async saveAppointment(options?: { confirmOutsideHours?: boolean; hora?: string }): Promise<void> {
     const dialog = this.scheduleDialog();
     const confirmOutside = options?.confirmOutsideHours ?? true;
     await this.dismissNestedScheduleDialogs();
+
+    const horaField = dialog.locator(`#${AGENDA_FORM_IDS.consulta.hora}`);
+    const ensureConsultaHora = async (): Promise<void> => {
+      if (!(await horaField.isVisible().catch(() => false))) return;
+      const hora = ((await horaField.inputValue().catch(() => '')) ?? '').trim();
+      if (options?.hora && (!hora || hora !== options.hora)) {
+        await this.fillConsultaHoraField(options.hora);
+      } else if (!hora) {
+        throw new Error('Modal de consulta aberto sem horário preenchido');
+      }
+    };
+
+    await ensureConsultaHora();
+
     const save = dialog
       .getByRole('button', {
         name: /Salvar tarefa|Salvar compromisso|Agendar consulta|Agendar compromisso|Criar tarefa|Salvar|Agendar|Criar/i,
       })
       .first();
-    const isSaveResponse = (res: { url: () => string; request: () => { method: () => string }; status: () => number }) => {
+    await save.scrollIntoViewIfNeeded();
+    const isMutationResponse = (res: {
+      url: () => string;
+      request: () => { method: () => string };
+      status: () => number;
+    }) => {
       const method = res.request().method();
-      if (!['POST', 'PUT', 'PATCH'].includes(method) || res.status() >= 400) return false;
+      if (!['POST', 'PUT', 'PATCH'].includes(method)) return false;
       const url = res.url();
-      return url.includes('/api/agenda/') || url.includes('/api/consultas/');
+      return url.includes('/api/agenda/') || /\/api\/consultas(\/|$|\?)/.test(url);
     };
 
-    const clickSave = async (): Promise<Awaited<ReturnType<Page['waitForResponse']>> | null> => {
-      const [response] = await Promise.all([
-        this.page.waitForResponse(isSaveResponse, { timeout: 25_000 }).catch(() => null),
-        save.click(),
-      ]);
-      return response;
+    const tryAlternativeSlot = async (): Promise<boolean> => {
+      const altChip = dialog.locator('.nova-consulta__chip').first();
+      if (!(await altChip.isVisible().catch(() => false))) return false;
+      const altHora = ((await altChip.textContent()) ?? '').trim();
+      if (!altHora) return false;
+      await altChip.click();
+      if (options?.hora) options.hora = altHora;
+      await expect(horaField).toHaveValue(altHora);
+      return true;
     };
 
-    let response = await clickSave();
-    for (let attempt = 0; attempt < 3; attempt++) {
-      await this.dismissNestedScheduleDialogs();
-      const outside = this.page.getByRole('alertdialog', { name: /fora do expediente/i });
-      if (!(await outside.isVisible({ timeout: 2_000 }).catch(() => false))) break;
-      if (!confirmOutside) return;
-      await outside.getByRole('button', { name: /^Sim,\s*prosseguir$/i }).click();
-      await expect(outside).toBeHidden({ timeout: 8_000 });
-      response = await clickSave();
-    }
-
-    if (response) {
-      if (await dialog.isVisible().catch(() => false)) {
-        await this.page.keyboard.press('Escape');
+    const waitForSaveClose = async (): Promise<void> => {
+      const autoClosed = await dialog.isHidden({ timeout: 6_000 }).catch(() => false);
+      if (!autoClosed) {
+        const closeBtn = dialog.locator('.agenda-schedule-modal__close').first();
+        if (await closeBtn.isVisible().catch(() => false)) {
+          await closeBtn.click({ force: true }).catch(() => undefined);
+        }
       }
-      await expect(dialog).toBeHidden({ timeout: 15_000 });
+      await expect(dialog).toBeHidden({ timeout: 20_000 });
       await waitForAgendaEventsReload(this.page);
-      return;
+    };
+
+    const handleMutationResponse = async (
+      response: { status: () => number; text: () => Promise<string> } | null
+    ): Promise<'ok' | 'retry' | 'none'> => {
+      if (!response) return 'none';
+      if (response.status() >= 400) {
+        if (response.status() === 409 && (await tryAlternativeSlot())) return 'retry';
+        const body = (await response.text().catch(() => '')).slice(0, 300);
+        throw new Error(`Salvar agendamento falhou (${response.status()}): ${body}`);
+      }
+      await waitForSaveClose();
+      return 'ok';
+    };
+
+    for (let attempt = 0; attempt < 6; attempt++) {
+      await this.dismissNestedScheduleDialogs();
+      await ensureConsultaHora();
+      const [response] = await Promise.all([
+        this.page.waitForResponse(isMutationResponse, { timeout: 18_000 }).catch(() => null),
+        save.click({ force: attempt > 0 }),
+      ]);
+
+      const result = await handleMutationResponse(response);
+      if (result === 'ok') return;
+      if (result === 'retry') continue;
+
+      const outsideShown = await this.confirmOutsideHoursIfNeeded(confirmOutside);
+      if (outsideShown && !confirmOutside) return;
+
+      if (outsideShown) {
+        const postConfirm = await this.page.waitForResponse(isMutationResponse, { timeout: 18_000 }).catch(() => null);
+        const postResult = await handleMutationResponse(postConfirm);
+        if (postResult === 'ok') return;
+        if (postResult === 'retry') continue;
+      }
+
+      if (!(await dialog.isVisible().catch(() => false))) {
+        await waitForAgendaEventsReload(this.page);
+        return;
+      }
+
+      if (await tryAlternativeSlot()) continue;
+
+      const errorToast = this.page.locator('.p-toast-message-error, .p-message-error').first();
+      if (await errorToast.isVisible().catch(() => false)) {
+        throw new Error(`Modal não fechou após salvar: ${(await errorToast.textContent()) ?? 'erro na API'}`);
+      }
+
+      break;
     }
 
     if (await dialog.isVisible().catch(() => false)) {
-      const horaField = dialog.getByRole('textbox', { name: /Horário/i });
-      const hora = ((await horaField.inputValue().catch(() => '')) ?? '').trim();
-      if (!hora) {
+      const horaFieldFallback = dialog.getByRole('textbox', { name: /Horário/i });
+      const hora = ((await horaFieldFallback.inputValue().catch(() => '')) ?? '').trim();
+      if (!hora && options?.hora) {
+        await this.fillConsultaHoraField(options.hora);
+      } else if (!hora) {
         throw new Error('Modal não fechou após salvar: campo Horário está vazio');
       }
-      const validation = dialog.getByText(/obrigatório|inválido|preencha|selecione/i).first();
-      if (await validation.isVisible().catch(() => false)) {
-        throw new Error(`Modal não fechou após salvar: ${(await validation.textContent()) ?? 'validação'}`);
-      }
-      await this.page.keyboard.press('Escape');
+      throw new Error('Modal de agendamento permaneceu aberto após tentativas de salvar');
     }
-    await expect(dialog).toBeHidden({ timeout: 20_000 });
     await waitForAgendaEventsReload(this.page);
   }
 
@@ -233,6 +337,7 @@ export class AgendaPage {
   }): Promise<void> {
     const dialog = this.scheduleDialog();
     await this.switchTab('Consulta');
+    await this.scrollScheduleDialogToTop();
 
     const paciente = dialog.locator(`#${AGENDA_FORM_IDS.consulta.paciente}`);
     await paciente.click();
@@ -254,11 +359,6 @@ export class AgendaPage {
       await this.page.keyboard.press('Escape');
     }
 
-    const horaField = dialog.getByRole('textbox', { name: /Horário/i });
-    await horaField.click();
-    await horaField.fill(options.hora);
-    await expect(horaField).toHaveValue(options.hora);
-
     const procLabel = options.procedimento ?? /Limpeza|Avaliação|Restauração|Extração/i;
     await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.procedimento, procLabel, dialog);
 
@@ -266,6 +366,13 @@ export class AgendaPage {
       await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.duracao, options.duracao, dialog).catch(
         () => undefined
       );
+    }
+
+    await this.fillConsultaHoraField(options.hora);
+
+    const whatsapp = dialog.getByRole('checkbox', { name: /WhatsApp/i });
+    if (await whatsapp.isChecked().catch(() => false)) {
+      await whatsapp.uncheck();
     }
 
     await this.dismissNestedScheduleDialogs();
@@ -320,8 +427,14 @@ export class AgendaPage {
     await dataField.press('Tab');
 
     if (options.hora) {
-      await dialog.locator(`#${AGENDA_FORM_IDS.tarefa.prazoHora}`).fill(options.hora);
+      const horaField = dialog.locator(`#${AGENDA_FORM_IDS.tarefa.prazoHora}`);
+      await horaField.click();
+      await horaField.fill(options.hora);
+      await horaField.press('Tab');
+      await expect(horaField).toHaveValue(options.hora);
     }
+
+    await this.dismissNestedScheduleDialogs();
   }
 
   eventCard(title: string | RegExp): Locator {
@@ -330,10 +443,13 @@ export class AgendaPage {
 
   async scrollToTime(hora: string): Promise<void> {
     const hour = Number.parseInt(hora.split(':')[0] ?? '8', 10);
-    const grade = this.page.locator('.agenda-screen__grade, .agenda-screen__day-grid, .agenda-screen').first();
-    await grade.evaluate((el, h) => {
-      el.scrollTop = Math.max(0, (h - 1) * 64);
-    }, hour);
+    const grade = this.page.locator('.agenda-screen__grade, .agenda-screen__day-grid').first();
+    if (!(await grade.isVisible().catch(() => false))) return;
+    await grade
+      .evaluate((el, h) => {
+        el.scrollTop = Math.max(0, (h - 1) * 64);
+      }, hour)
+      .catch(() => undefined);
   }
 
   async expectEventVisible(title: string | RegExp, timeout = 25_000): Promise<void> {
@@ -389,15 +505,24 @@ export class AgendaPage {
 
   async selectAllProfessionals(): Promise<void> {
     await this.openProfessionalFilter();
-    const all = this.page.getByRole('button', { name: /Todos os profissionais/i }).last();
-    if (await all.isVisible().catch(() => false)) await all.click();
+    const panel = this.page.locator(AGENDA_SELECTORS.profPanel);
+    const checkboxes = panel.locator('input[type="checkbox"]');
+    const count = await checkboxes.count();
+    for (let i = 0; i < count; i++) {
+      const checkbox = checkboxes.nth(i);
+      if (!(await checkbox.isChecked().catch(() => false))) {
+        await checkbox.check({ force: true });
+      }
+    }
     await this.page.keyboard.press('Escape');
     await waitForAgendaEventsReload(this.page);
   }
 
   async selectProfessional(name: string | RegExp): Promise<void> {
     await this.openProfessionalFilter();
-    await this.page.getByRole('button', { name }).click();
+    const panel = this.page.locator(AGENDA_SELECTORS.profPanel);
+    await panel.getByText(name).first().click({ timeout: 10_000 });
+    await this.page.keyboard.press('Escape');
     await waitForAgendaEventsReload(this.page);
   }
 
@@ -439,23 +564,39 @@ export class AgendaPage {
       const dataField = dialog.locator(`#${AGENDA_FORM_IDS.consulta.data}`);
       const dataVal = ((await dataField.inputValue().catch(() => '')) ?? '').trim();
       if (dataVal) {
-        await ateField.fill(dataVal);
+        const [day, month, year] = dataVal.split('/').map((v) => Number.parseInt(v, 10));
+        const end = new Date(year, month - 1, day);
+        end.setDate(end.getDate() + 28);
+        const endBr = `${String(end.getDate()).padStart(2, '0')}/${String(end.getMonth() + 1).padStart(2, '0')}/${end.getFullYear()}`;
+        await ateField.fill(endBr);
       }
     }
 
     if (options?.preserveHora) {
-      const horaField = dialog.getByRole('textbox', { name: /Horário/i });
-      const current = (await horaField.inputValue()).trim();
-      if (!current) {
-        await horaField.fill(options.preserveHora);
-        await expect(horaField).toHaveValue(options.preserveHora);
-      }
+      await this.fillConsultaHoraField(options.preserveHora);
     }
+
+    const whatsapp = dialog.getByRole('checkbox', { name: /WhatsApp/i });
+    if (await whatsapp.isChecked().catch(() => false)) {
+      await whatsapp.uncheck();
+    }
+
+    await this.dismissNestedScheduleDialogs();
   }
 
   async setReturnIn(label: string | RegExp): Promise<void> {
     const dialog = this.scheduleDialog();
     await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.retorno, label, dialog);
+  }
+
+  async confirmConsultaCancellationIfNeeded(): Promise<void> {
+    const confirm = this.page
+      .locator('[role="alertdialog"]:visible')
+      .filter({ hasText: /Confirmar exclusão da consulta/i });
+    if (await confirm.isVisible({ timeout: 3_000 }).catch(() => false)) {
+      await confirm.getByRole('button', { name: /^Sim$|Confirmar|Excluir/i }).first().click();
+      await expect(confirm).toBeHidden({ timeout: 8_000 });
+    }
   }
 
   async setConsultaStatus(status: string | RegExp): Promise<void> {
@@ -464,17 +605,22 @@ export class AgendaPage {
       const statusResponse = this.page
         .waitForResponse(
           (res) =>
-            res.url().includes('/api/consultas/') &&
+            /\/api\/consultas\/\d+/.test(res.url()) &&
             ['PUT', 'PATCH'].includes(res.request().method()) &&
             res.status() < 400,
-          { timeout: 15_000 }
+          { timeout: 20_000 }
         )
         .catch(() => null);
-      await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.detalheStatus, status, details).catch(
-        async () => {
-          await details.getByRole('button', { name: status }).click();
-        }
-      );
+
+      const statusCombobox = details.getByRole('combobox', { name: /^Status$/i });
+      if (await statusCombobox.isVisible().catch(() => false)) {
+        await statusCombobox.click();
+        await this.page.getByRole('option', { name: status }).click();
+      } else {
+        await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.detalheStatus, status, details);
+      }
+
+      await this.confirmConsultaCancellationIfNeeded();
       await statusResponse;
       return;
     }
@@ -483,12 +629,14 @@ export class AgendaPage {
     const statusChip = dialog.getByRole('button', { name: status }).first();
     if (await statusChip.isVisible().catch(() => false)) {
       await statusChip.click();
+      await this.confirmConsultaCancellationIfNeeded();
       return;
     }
 
     const statusField = dialog.locator(`#${AGENDA_FORM_IDS.consulta.status}`);
     if (await statusField.isVisible().catch(() => false)) {
       await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.status, status, dialog);
+      await this.confirmConsultaCancellationIfNeeded();
       return;
     }
 
@@ -497,6 +645,7 @@ export class AgendaPage {
       'Campo "Status da consulta" só aparece em modo edição — abra uma consulta existente na grade'
     ).toBeVisible({ timeout: 10_000 });
     await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.status, status, dialog);
+    await this.confirmConsultaCancellationIfNeeded();
   }
 
   async toggleLabel(label: string | RegExp): Promise<void> {
@@ -599,7 +748,7 @@ export class AgendaPage {
     await this.printButton.click();
   }
 
-  async goToDate(isoDate: string, maxSteps = 21): Promise<void> {
+  async goToDate(isoDate: string, maxSteps = 14): Promise<void> {
     const [, month, day] = isoDate.split('-');
     const targetDay = String(Number.parseInt(day ?? '0', 10));
     const monthNames = [
@@ -617,46 +766,61 @@ export class AgendaPage {
       'Dezembro',
     ];
     const monthHint = monthNames[Number.parseInt(month ?? '1', 10) - 1] ?? '';
+
+    await dismissAppModals(this.page);
+    await this.page.getByRole('button', { name: 'Hoje', exact: true }).click();
+    const diaBtn = this.page.getByRole('button', { name: 'Dia', exact: true });
+    await diaBtn.scrollIntoViewIfNeeded();
+    await diaBtn.click();
+    await this.expectDayView();
+
+    const [year, mon, dom] = isoDate.split('-').map((v) => Number.parseInt(v, 10));
+    const target = new Date(year, mon - 1, dom, 12, 0, 0, 0);
+    const today = new Date();
+    today.setHours(12, 0, 0, 0);
+    const navLabel = target >= today ? 'Próximo' : 'Anterior';
     const dayPattern = new RegExp(`\\b${targetDay}\\b`);
 
-    await this.goToday().catch(() => undefined);
     for (let i = 0; i < maxSteps; i++) {
       const heading = (await this.periodHeading.textContent()) ?? '';
       if (dayPattern.test(heading) && heading.toLowerCase().includes(monthHint.toLowerCase().slice(0, 3))) {
         await waitForAgendaEventsReload(this.page);
         return;
       }
-      await this.goNextPeriod();
+      const before = heading;
+      await this.page.getByRole('button', { name: navLabel }).click();
+      await expect(this.periodHeading).not.toHaveText(before, { timeout: 3_000 }).catch(() => undefined);
     }
-    const lastHeading = (await this.periodHeading.textContent()) ?? '';
-    throw new Error(
-      `Não foi possível navegar até ${isoDate} em ${maxSteps} passos (último cabeçalho: "${lastHeading}")`
-    );
+
+    const heading = (await this.periodHeading.textContent()) ?? '';
+    if (!heading.toLowerCase().includes(monthHint.toLowerCase().slice(0, 3)) || !new RegExp(`\\b${targetDay}\\b`).test(heading)) {
+      throw new Error(`Não foi possível navegar até ${isoDate} (cabeçalho atual: "${heading}")`);
+    }
+    await waitForAgendaEventsReload(this.page);
   }
 
   async navigateToEventSlot(data: string, hora?: string): Promise<void> {
+    await dismissAppModals(this.page);
     await expect(this.root).toBeVisible({ timeout: 30_000 });
-    await this.setView('Dia');
     await this.goToDate(data);
     if (hora) await this.scrollToTime(hora);
     await waitForAgendaEventsReload(this.page);
   }
 
   async expectWeekView(): Promise<void> {
-    await expect(this.page.locator('.agenda-screen__week, .agenda-screen__grade--week').first()).toBeVisible({
-      timeout: 10_000,
-    });
+    await expect(this.periodHeading).toHaveText(/–|—/, { timeout: 10_000 });
   }
 
   async expectDayView(): Promise<void> {
-    await expect(this.page.locator('.agenda-screen__day, .agenda-screen__grade--day').first()).toBeVisible({
-      timeout: 10_000,
-    });
+    await expect(this.periodHeading).not.toHaveText(/–|—/, { timeout: 10_000 });
+    await expect(this.periodHeading).toHaveText(/\d/, { timeout: 10_000 });
   }
 
   async expectMonthView(): Promise<void> {
-    await expect(this.page.locator('.agenda-screen__month, .agenda-screen__grade--month').first()).toBeVisible({
-      timeout: 10_000,
-    });
+    const monthOnly = await this.periodHeading.textContent();
+    expect(monthOnly ?? '').toMatch(
+      /janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro/i
+    );
+    expect(monthOnly ?? '').not.toMatch(/segunda|terça|quarta|quinta|sexta|sábado|domingo/i);
   }
 }

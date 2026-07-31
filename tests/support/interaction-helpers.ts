@@ -86,11 +86,15 @@ export async function selectIftaByInputId(
     await root.locator(`#${inputId}`).click({ force: true });
   }
 
+  const overlay = page.locator('.p-select-overlay:visible').last();
+  await overlay.waitFor({ state: 'visible', timeout: 10_000 }).catch(() => undefined);
+
   const panelOption = page
-    .locator('.p-select-overlay .p-select-option, .p-select-list .p-select-option, [role="option"]')
+    .locator('.p-select-overlay:visible .p-select-option, .p-select-list .p-select-option, [role="option"]')
     .filter({ hasText: option })
     .first();
   await panelOption.click({ timeout: 10_000 });
+  await page.locator('.p-select-overlay:visible').waitFor({ state: 'hidden', timeout: 5000 }).catch(() => undefined);
 }
 
 export async function fillSearchSelect(
@@ -124,7 +128,11 @@ export async function selectIftaOption(
 }
 
 export async function openConfigSection(page: Page, label: string): Promise<void> {
-  const tab = page.locator('nav[aria-label="Seções"]').getByRole('button', { name: label });
-  await tab.click();
+  const alias =
+    label === 'Plano e cobrança' || label === 'Assinatura'
+      ? /Plano e cobrança|Assinatura/i
+      : label;
+  const tab = page.locator('nav[aria-label="Seções"]').getByRole('button', { name: alias });
+  await tab.click({ force: true });
   await expect(tab).toHaveClass(/config__tab--active/);
 }

@@ -1,7 +1,7 @@
 import { test, expect } from '../../fixtures/test.fixture';
 import { closeDialog } from '../../support/interaction-helpers';
-import { createE2ePatientByApi, deleteE2ePatient } from '../../support/pacientes-helpers';
-import { e2eName } from '../../support/crud-helpers';
+import { createE2ePatientByApi, createE2ePatientWithRequest, deleteE2ePatient, deleteE2ePatientWithPage } from '../../support/pacientes-helpers';
+import { e2eName, readAccessToken } from '../../support/crud-helpers';
 
 test.describe('Pacientes — listagem funcional', () => {
   test.beforeEach(async ({ appShell, pacientesListPage }) => {
@@ -83,26 +83,30 @@ test.describe('Pacientes — listagem funcional', () => {
     });
   });
 
-  test('[PAC-LIST-20] nova consulta a partir do card', async ({ pacientesListPage, browser, page }) => {
-    const patient = await createE2ePatientByApi(browser, 'Listagem-Consulta');
+  test('[PAC-LIST-20] nova consulta a partir do card', async ({ pacientesListPage, page, request }) => {
+    const token = await readAccessToken(page);
+    if (!token) test.skip(true, 'Token ausente na sessão autenticada');
+    const patient = await createE2ePatientWithRequest(request, token, 'Listagem-Consulta');
     try {
       await pacientesListPage.search(patient.name);
       await pacientesListPage.openNovaConsultaFromRow(patient.name);
       await closeDialog(page);
     } finally {
-      await deleteE2ePatient(browser, patient.id);
+      await deleteE2ePatientWithPage(page, request, patient.id);
     }
   });
 
-  test('[PAC-LIST-21] abre prontuário do paciente', async ({ pacientesListPage, prontuarioPage, browser }) => {
-    const patient = await createE2ePatientByApi(browser, 'Listagem-Pront');
+  test('[PAC-LIST-21] abre prontuário do paciente', async ({ pacientesListPage, prontuarioPage, page, request }) => {
+    const token = await readAccessToken(page);
+    if (!token) test.skip(true, 'Token ausente na sessão autenticada');
+    const patient = await createE2ePatientWithRequest(request, token, 'Listagem-Pront');
     try {
       await pacientesListPage.search(patient.name);
       await pacientesListPage.openPatientProntuario(patient.name);
       await prontuarioPage.expectPatientName(patient.name);
       await prontuarioPage.expectInformacoesScreenMap();
     } finally {
-      await deleteE2ePatient(browser, patient.id);
+      await deleteE2ePatientWithPage(page, request, patient.id);
     }
   });
 });

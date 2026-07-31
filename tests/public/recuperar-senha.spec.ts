@@ -1,10 +1,11 @@
 import { test, expect } from '../fixtures/test.fixture';
+import { gotoPublicRoute } from '../support/cookie-consent';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
 test.describe('Recuperar senha', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/recuperar-senha');
+    await gotoPublicRoute(page, '/recuperar-senha');
   });
 
   test('[PUB-REC-01] exibe formulário de recuperação', async ({ page }) => {

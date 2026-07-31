@@ -532,9 +532,9 @@ Mocks: `tests/support/google-calendar-mocks.ts` (sem OAuth real).
 
 | Grupo | Itens |
 |-------|-------|
-| Conta e sistema | Meu perfil, Dados da clínica, Notificações, Integrações, Assinatura |
+| Conta e sistema | Meu perfil, Dados da clínica, Notificações, Integrações, Plano e cobrança |
 | Gestão da clínica | Equipe e permissões, Dentistas, Convênios, Fornecedores, Salas e cadeiras, Formas de Pagamento |
-| Prontuário e clínico | (procedimentos, modelos clínicos) |
+| Prontuário e clínico | Tratamentos / Procedimentos, Modelos de Anamnese, Medicamentos, Modelos de encaminhamento |
 | Comunicação | Modelos de mensagens, Créditos de mensagens |
 | Contratos | Modelos de contrato (`/configuracoes/modelos-contrato`) |
 | Comissões | Comissões profissionais (`/configuracoes/comissoes-profissionais`) |
@@ -542,22 +542,29 @@ Mocks: `tests/support/google-calendar-mocks.ts` (sem OAuth real).
 | ID | Cenário | Resultado esperado |
 |----|---------|-------------------|
 | CFG-01 | Carregar hub | Abas internas de configuração visíveis |
-| CFG-02 | Meu perfil — alterar nome/e-mail | Dados atualizados |
-| CFG-03 | Meu perfil — alterar senha | Senha atual + nova + confirmação |
+| CFG-02 | Meu perfil — alterar nome/e-mail | Dados atualizados (E2E restaura valor) |
+| CFG-03 | Meu perfil — alterar senha | Senha atual + nova + confirmação; submit vazio valida |
 | CFG-04 | Dados da clínica | Razão social, CNPJ, endereço |
-| CFG-05 | Equipe e permissões — convidar usuário | Novo membro com perfil |
+| CFG-05 | Equipe e permissões — convidar usuário | Modal membro; validação campos vazios |
 | CFG-06 | Equipe — alterar permissões | Restringe/libera módulos |
 | CFG-07 | Dentistas — CRUD | Cadastro com CRO e especialidade |
 | CFG-08 | Convênios — CRUD | Planos aceitos pela clínica |
-| CFG-09 | Fornecedores — CRUD | Cadastro de fornecedores |
-| CFG-10 | Salas e cadeiras — CRUD | Recursos para agenda |
-| CFG-11 | Formas de pagamento — CRUD | Métodos aceitos |
+| CFG-09 | Fornecedores — CRUD | Cadastro de fornecedores (CFG-CRUD serial) |
+| CFG-10 | Salas e cadeiras — CRUD | Recursos para agenda (CFG-CRUD serial) |
+| CFG-11 | Formas de pagamento | Switches Pix/boleto/cartão/dinheiro |
 | CFG-12 | Modelos de mensagens | Templates WhatsApp/SMS |
-| CFG-13 | Créditos de mensagens | Saldo e recarga |
+| CFG-13 | Créditos de mensagens | Saldo e pacotes |
 | CFG-14 | Integrações | Conectores externos |
-| CFG-15 | Assinatura | Plano, faturamento, pendências |
+| CFG-15 | Plano e cobrança / Assinatura | Plano, faturamento, pendências |
 | CFG-16 | Modelos de contrato — novo | Template reutilizável em orçamentos |
 | CFG-17 | Comissões profissionais | Percentuais por dentista/procedimento |
+| CFG-18 | Tratamentos / Procedimentos | Listagem + modal novo procedimento |
+| CFG-19 | Modelos de Anamnese | Modelos clínicos |
+| CFG-20 | Medicamentos | Cadastro (CFG-CRUD serial) |
+| CFG-21 | Modelos de encaminhamento | Templates de encaminhamento |
+| CFG-22 | Notificações | Preferências in-app / push / categorias |
+| CFG-FB-01..06 | Feedback sucesso/erro | Validação formulário, toast sucesso, intercept 500 |
+| CFG-CRUD-01..07 | CRUD cadastros | Fornecedor, sala, medicamento com cleanup API |
 
 ---
 

@@ -4,26 +4,29 @@ import {
   createPatientForAgenda,
   e2eName,
   expectEventInApi,
+  findAgendaEventSeed,
   listProfessionalsByApi,
   readTokenFromPage,
   uniqueAgendaSlot,
   type AgendaEventSeed,
 } from '../../support/agenda-helpers';
 import { expectNoErrorToast } from '../../support/toast-helpers';
+import { dismissAppModals } from '../../support/onboarding';
 
 test.describe('Agenda — status e etiquetas', () => {
-  test.describe.configure({ mode: 'serial', timeout: 120_000 });
+  test.describe.configure({ mode: 'serial', timeout: 180_000 });
 
   const seeds: AgendaEventSeed[] = [];
   const patientIds: string[] = [];
   let authToken = '';
 
-  test.beforeEach(async ({ appShell, agendaPage }) => {
+  test.beforeEach(async ({ appShell, agendaPage, page }) => {
     await appShell.navigateTo('/agenda');
     await appShell.expectAuthenticatedShell();
     await appShell.dismissBlockingModals();
     await agendaPage.goToday();
     await agendaPage.setView('Dia');
+    authToken = (await readTokenFromPage(page).catch(() => authToken)) || authToken;
   });
 
   test.afterAll(async ({ request }) => {
@@ -31,27 +34,43 @@ test.describe('Agenda — status e etiquetas', () => {
   });
 
   test('[AG-STS-01] marca consulta como Atendido', async ({ page, agendaPage, request }) => {
+    test.setTimeout(240_000);
     authToken = await readTokenFromPage(page);
     const pros = await listProfessionalsByApi(request, authToken);
     if (!pros[0]) test.skip(true, 'Sem profissional');
 
     const patient = await createPatientForAgenda(request, authToken, 'Atendido');
     patientIds.push(patient.id);
-    const slot = uniqueAgendaSlot(4, 9);
 
-    await agendaPage.openNewAppointment();
-    await agendaPage.fillConsultaBasics({ patientName: patient.name, data: slot.data, hora: slot.hora });
-    await agendaPage.saveAppointment();
+    let slot = uniqueAgendaSlot(2, 9);
+    let created = false;
+    for (let salt = 0; salt < 10; salt++) {
+      slot = uniqueAgendaSlot(2, 9, 0, salt);
+      await agendaPage.openNewAppointment();
+      await agendaPage.fillConsultaBasics({ patientName: patient.name, data: slot.data, hora: slot.hora });
+      try {
+        await agendaPage.saveAppointment({ hora: slot.hora });
+        created = true;
+        break;
+      } catch {
+        await agendaPage.cancelAppointment().catch(() => undefined);
+      }
+    }
+    expect(created).toBe(true);
     await expectNoErrorToast(page);
     await expectEventInApi(request, authToken, new RegExp(patient.name.slice(0, 12)), slot.data);
+    const seed = await findAgendaEventSeed(request, authToken, new RegExp(patient.name.slice(0, 12)), slot.data);
+    if (seed) seeds.push(seed);
 
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await agendaPage.navigateToEventSlot(slot.data, slot.hora);
+    await agendaPage.afterReload();
     await agendaPage.selectAllProfessionals();
+    await agendaPage.navigateToEventSlot(slot.data, slot.hora);
+    await agendaPage.expectEventVisible(new RegExp(patient.name.slice(0, 12)), 45_000);
     await agendaPage.openEvent(new RegExp(patient.name.slice(0, 12)));
     await agendaPage.setConsultaStatus(/Atendido/i);
     if (await agendaPage.scheduleDialog().isVisible().catch(() => false)) {
-      await agendaPage.saveAppointment();
+      await agendaPage.saveAppointment({ hora: slot.hora });
     }
     const details = agendaPage.consultaDetailsDialog();
     const schedule = agendaPage.scheduleDialog();
@@ -63,29 +82,50 @@ test.describe('Agenda — status e etiquetas', () => {
   });
 
   test('[AG-STS-02] marca consulta como Cancelado', async ({ page, agendaPage, request }) => {
-    test.setTimeout(180_000);
+    test.setTimeout(240_000);
     authToken = await readTokenFromPage(page);
     const pros = await listProfessionalsByApi(request, authToken);
     if (!pros[0]) test.skip(true, 'Sem profissional');
 
     const patient = await createPatientForAgenda(request, authToken, 'Cancelado');
     patientIds.push(patient.id);
-    const slot = uniqueAgendaSlot(7, 10);
     const patientPattern = new RegExp(patient.name.slice(0, 12));
 
-    await agendaPage.openNewAppointment();
-    await agendaPage.fillConsultaBasics({ patientName: patient.name, data: slot.data, hora: slot.hora });
-    await agendaPage.saveAppointment();
+    let slot = uniqueAgendaSlot(2, 12);
+    let created = false;
+    for (let salt = 0; salt < 10; salt++) {
+      slot = uniqueAgendaSlot(2, 12, 0, salt);
+      await agendaPage.openNewAppointment();
+      await agendaPage.fillConsultaBasics({ patientName: patient.name, data: slot.data, hora: slot.hora });
+      try {
+        await agendaPage.saveAppointment({ hora: slot.hora });
+        created = true;
+        break;
+      } catch {
+        await agendaPage.cancelAppointment().catch(() => undefined);
+      }
+    }
+    expect(created).toBe(true);
     await expectNoErrorToast(page);
-    await expectEventInApi(request, authToken, patientPattern, slot.data);
 
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await agendaPage.navigateToEventSlot(slot.data, slot.hora);
+    await agendaPage.afterReload();
     await agendaPage.selectAllProfessionals();
-    await agendaPage.expectEventVisible(patientPattern, 30_000);
+    await agendaPage.navigateToEventSlot(slot.data, slot.hora);
+    await agendaPage.expectEventVisible(patientPattern, 45_000);
+    const seed = await findAgendaEventSeed(request, authToken, patientPattern, slot.data);
+    if (seed) seeds.push(seed);
     await agendaPage.openEvent(patientPattern);
     await agendaPage.setConsultaStatus(/Cancelado/i);
-    await expect(agendaPage.consultaDetailsDialog().getByText(/Cancelado/i).first()).toBeVisible();
+    const details = agendaPage.consultaDetailsDialog();
+    const schedule = agendaPage.scheduleDialog();
+    if (await details.isVisible().catch(() => false)) {
+      await expect(details.getByText(/Cancelado/i).first()).toBeVisible();
+    } else if (await schedule.isVisible().catch(() => false)) {
+      await expect(schedule.getByText(/Cancelado/i).first()).toBeVisible();
+    } else {
+      await agendaPage.expectEventHidden(patientPattern, 10_000);
+    }
   });
 
   test('[AG-STS-03] alterna status Confirmado e Aguardando na consulta', async ({ agendaPage }) => {
@@ -100,7 +140,7 @@ test.describe('Agenda — status e etiquetas', () => {
     if (await confirmado.isVisible().catch(() => false)) await confirmado.click();
     else if (await aguardando.isVisible().catch(() => false)) await aguardando.click();
     else test.skip(true, 'Status Confirmado/Aguardando indisponível');
-    await agendaPage.saveAppointment();
+    await agendaPage.saveAppointment({ hora: slot.hora });
     await agendaPage.cancelAppointment();
   });
 

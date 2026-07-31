@@ -1,0 +1,17 @@
+{
+  "captured": [
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/financeiro/transacoes",
+      "body": "{\"tipo\":\"receita\",\"valor\":150,\"data\":\"2026-07-29\",\"descricao\":\"E2E-Probe-1785297644138\",\"categoria\":\"Tratamentos\",\"forma_pagamento\":\"Cartão de Crédito\",\"status\":\"pago\",\"patient_id\":null,\"supplier_id\":null,\"origem_tipo\":\"paciente\"}"
+    },
+    {
+      "method": "POST",
+      "url": "https://api.controledental.com.br/api/financeiro/transacoes",
+      "status": 400,
+      "response": "{\"erro\":\"origem_tipo=paciente exige patient_id valido.\"}"
+    }
+  ],
+  "exportVisible": false,
+  "desc": "E2E-Probe-1785297644138"
+}

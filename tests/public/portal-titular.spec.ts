@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures/test.fixture';
+import { gotoPublicRoute } from '../support/cookie-consent';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -6,7 +7,7 @@ const PORTAL_TABS = ['Meus Direitos', 'Dados Coletados', 'Compartilhamento', 'Se
 
 test.describe('Portal do titular — LGPD', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/portal-titular');
+    await gotoPublicRoute(page, '/portal-titular');
   });
 
   test('[PUB-LGPD-01] exibe portal e abas de direitos', async ({ page }) => {

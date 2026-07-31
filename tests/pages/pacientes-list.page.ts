@@ -27,8 +27,18 @@ export class PacientesListPage {
   }
 
   async search(term: string): Promise<void> {
+    const searchResponse = this.page
+      .waitForResponse(
+        (res) =>
+          res.request().method() === 'GET' &&
+          /\/api\/pacientes\/?(\?|$)/.test(res.url()) &&
+          res.status() < 500,
+        { timeout: 15_000 }
+      )
+      .catch(() => null);
     await this.searchInput.fill(term);
-    await this.page.waitForTimeout(800);
+    await searchResponse;
+    await this.page.waitForTimeout(300);
   }
 
   patientRow(name: string): Locator {

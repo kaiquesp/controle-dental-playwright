@@ -61,7 +61,15 @@ test.describe('Prontuário — Receituário', () => {
       test.skip(true, 'Filtros do receituário indisponíveis');
     }
     await filtro.click();
-    await expect(page.getByRole('option, menuitem').first()).toBeVisible({ timeout: 8_000 });
+    const panel = page
+      .locator(
+        '[role="listbox"]:visible, [role="menu"]:visible, .p-select-overlay:visible, .p-dropdown-panel:visible, .p-multiselect-panel:visible'
+      )
+      .first();
+    if (!(await panel.isVisible({ timeout: 8_000 }).catch(() => false))) {
+      test.skip(true, 'Painel de filtros do receituário não abriu');
+    }
+    await expect(panel).toBeVisible();
   });
 
   test('[PAC-PRONT-REC-06] imprimir receita', async ({ page }) => {

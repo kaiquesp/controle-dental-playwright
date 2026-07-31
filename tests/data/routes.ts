@@ -94,25 +94,30 @@ export const PATIENT_FORM_TABS = [
 
 export type PatientFormTab = (typeof PATIENT_FORM_TABS)[number];
 
-/** Seções internas do hub `/configuracoes` (exploração UI). */
+/** Seções internas do hub `/configuracoes` (exploração UI + probe). */
 export const CONFIG_SECTIONS = [
   { id: 'CFG-02', label: 'Meu perfil', expectPattern: /Informações pessoais|Segurança|cfg-nome/i },
-  { id: 'CFG-04', label: 'Dados da clínica', expectPattern: /Informações da clínica|Nome da clínica/i },
+  { id: 'CFG-04', label: 'Dados da clínica', expectPattern: /Informações da clínica|Nome da clínica|fantasia/i },
   { id: 'CFG-12', label: 'Modelos de mensagens', expectPattern: /modelos de mensagem|mensagem/i },
-  { id: 'CFG-13', label: 'Créditos de mensagens', expectPattern: /crédito|mensagem/i },
+  { id: 'CFG-13', label: 'Créditos de mensagens', expectPattern: /crédito|mensagem|pacote/i },
   { id: 'CFG-05', label: 'Equipe e permissões', expectPattern: /equipe|permiss|convidar|membro/i },
-  { id: 'CFG-07', label: 'Dentistas', expectPattern: /dentista|CRO/i },
+  { id: 'CFG-07', label: 'Dentistas', expectPattern: /dentista|CRO|profissional/i },
   { id: 'CFG-08', label: 'Convênios', expectPattern: /convênio|plano/i },
   { id: 'CFG-09', label: 'Fornecedores', expectPattern: /fornecedor/i },
   { id: 'CFG-10', label: 'Salas e cadeiras', expectPattern: /sala|cadeira/i },
-  { id: 'CFG-11', label: 'Formas de Pagamento', expectPattern: /forma.*pagamento|pagamento/i },
+  { id: 'CFG-11', label: 'Formas de Pagamento', expectPattern: /forma.*pagamento|pagamento|pix|boleto/i },
   { id: 'CFG-18', label: 'Tratamentos / Procedimentos', expectPattern: /tratamento|procedimento/i },
   { id: 'CFG-19', label: 'Modelos de Anamnese', expectPattern: /anamnese/i },
   { id: 'CFG-20', label: 'Medicamentos', expectPattern: /medicamento/i },
   { id: 'CFG-21', label: 'Modelos de encaminhamento', expectPattern: /encaminhamento/i },
-  { id: 'CFG-14', label: 'Integrações', expectPattern: /integração|conectar|integrac/i },
-  { id: 'CFG-15', label: 'Plano e cobrança', expectPattern: /assinatura|plano|faturamento|cobrança/i },
-  { id: 'CFG-03', label: 'Notificações', expectPattern: /notifica/i },
+  { id: 'CFG-14', label: 'Integrações', expectPattern: /integração|conectar|integrac|stripe|google/i },
+  {
+    id: 'CFG-15',
+    label: 'Plano e cobrança',
+    expectPattern: /assinatura|plano|faturamento|cobrança/i,
+    tabPattern: /Plano e cobrança|Assinatura/i,
+  },
+  { id: 'CFG-22', label: 'Notificações', expectPattern: /notifica/i },
 ] as const;
 
 export const CONFIG_DIRECT_ROUTES = [

@@ -4,6 +4,7 @@ import {
   createPatientForAgenda,
   e2eName,
   expectEventInApi,
+  findAgendaEventSeed,
   installPrintStub,
   readTokenFromPage,
   uniqueAgendaSlot,
@@ -12,15 +13,17 @@ import {
 import { expectNoErrorToast } from '../../support/toast-helpers';
 
 test.describe('Agenda — funcionalidades avançadas', () => {
+  test.describe.configure({ mode: 'serial', timeout: 180_000 });
   const seeds: AgendaEventSeed[] = [];
   const patientIds: string[] = [];
   let authToken = '';
 
-  test.beforeEach(async ({ appShell, agendaPage }) => {
+  test.beforeEach(async ({ appShell, agendaPage, page }) => {
     await appShell.navigateTo('/agenda');
     await appShell.expectAuthenticatedShell();
     await appShell.dismissBlockingModals();
     await agendaPage.goToday();
+    authToken = (await readTokenFromPage(page).catch(() => authToken)) || authToken;
   });
 
   test.afterAll(async ({ request }) => {
@@ -32,19 +35,34 @@ test.describe('Agenda — funcionalidades avançadas', () => {
     authToken = await readTokenFromPage(page);
     const patient = await createPatientForAgenda(request, authToken, 'Repeticao');
     patientIds.push(patient.id);
-    const slot = uniqueAgendaSlot(7, 10);
 
-    await agendaPage.openNewAppointment();
-    await agendaPage.fillConsultaBasics({ patientName: patient.name, data: slot.data, hora: slot.hora });
-    await agendaPage.setRecurrence(/Semanal:/i, { preserveHora: slot.hora });
-    await agendaPage.saveAppointment();
+    let saved = false;
+    let slot = uniqueAgendaSlot(3, 11);
+    for (let salt = 0; salt < 10; salt++) {
+      slot = uniqueAgendaSlot(3, 11, 0, salt);
+      await agendaPage.openNewAppointment();
+      await agendaPage.fillConsultaBasics({ patientName: patient.name, data: slot.data, hora: slot.hora });
+      await agendaPage.setRecurrence(/Semanal:/i, { preserveHora: slot.hora });
+      try {
+        await agendaPage.saveAppointment({ hora: slot.hora });
+        saved = true;
+        break;
+      } catch (error) {
+        await agendaPage.cancelAppointment().catch(() => undefined);
+        if (salt === 5) throw error;
+      }
+    }
+    expect(saved).toBe(true);
     await expectNoErrorToast(page);
     await expectEventInApi(request, authToken, new RegExp(patient.name.slice(0, 12)), slot.data);
+    const seed = await findAgendaEventSeed(request, authToken, new RegExp(patient.name.slice(0, 12)), slot.data);
+    if (seed) seeds.push(seed);
 
     await page.reload({ waitUntil: 'domcontentloaded' });
+    await agendaPage.afterReload();
     await agendaPage.navigateToEventSlot(slot.data, slot.hora);
     await agendaPage.selectAllProfessionals();
-    await agendaPage.expectEventVisible(new RegExp(patient.name.slice(0, 12)));
+    await agendaPage.expectEventVisible(new RegExp(patient.name.slice(0, 12)), 45_000);
   });
 
   test('[AG-ADV-02] editar ocorrência única mantém série', async ({ agendaPage }) => {
@@ -61,23 +79,41 @@ test.describe('Agenda — funcionalidades avançadas', () => {
   });
 
   test('[AG-ADV-03] retornar em 15 dias configura retorno', async ({ page, agendaPage, request }) => {
+    test.setTimeout(180_000);
     authToken = await readTokenFromPage(page);
     const patient = await createPatientForAgenda(request, authToken, 'Retorno');
     patientIds.push(patient.id);
-    const slot = uniqueAgendaSlot(7, 11);
 
-    await agendaPage.openNewAppointment();
-    await agendaPage.fillConsultaBasics({ patientName: patient.name, data: slot.data, hora: slot.hora });
-    try {
-      await agendaPage.setReturnIn(/15 dias|1 mês/i);
-    } catch {
-      test.skip(true, 'Catálogo de retorno indisponível');
+    let saved = false;
+    let slot = uniqueAgendaSlot(7, 11);
+    for (let salt = 0; salt < 10; salt++) {
+      slot = uniqueAgendaSlot(7, 11, 0, salt);
+      await agendaPage.openNewAppointment();
+      await agendaPage.fillConsultaBasics({ patientName: patient.name, data: slot.data, hora: slot.hora });
+      try {
+        await agendaPage.setReturnIn(/15 dias|1 mês/i);
+      } catch {
+        await agendaPage.cancelAppointment().catch(() => undefined);
+        test.skip(true, 'Catálogo de retorno indisponível');
+      }
+      try {
+        await agendaPage.saveAppointment({ hora: slot.hora });
+        saved = true;
+        break;
+      } catch {
+        await agendaPage.cancelAppointment().catch(() => undefined);
+        if (salt === 9) throw new Error('Não foi possível salvar consulta com retorno após 10 slots');
+      }
     }
-    await agendaPage.saveAppointment();
+    expect(saved).toBe(true);
     await expectNoErrorToast(page);
     await page.reload({ waitUntil: 'domcontentloaded' });
+    await agendaPage.afterReload();
     await agendaPage.navigateToEventSlot(slot.data, slot.hora);
+    await agendaPage.selectAllProfessionals();
     await agendaPage.expectEventVisible(new RegExp(patient.name.slice(0, 12)));
+    const seed = await findAgendaEventSeed(request, authToken, new RegExp(patient.name.slice(0, 12)), slot.data);
+    if (seed) seeds.push(seed);
   });
 
   test('[AG-ADV-04] encontrar horários abre painel de slots', async ({ agendaPage }) => {

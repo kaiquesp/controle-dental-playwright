@@ -93,7 +93,23 @@ export class PacienteFormPage {
     });
     const scope = (await dialog.isVisible().catch(() => false)) ? dialog : this.page;
     await scope.locator(PACIENTE_FORM_IDS.nome).fill(newName);
+
+    const updateResponse = this.page.waitForResponse(
+      (response) =>
+        ['PUT', 'PATCH'].includes(response.request().method()) &&
+        response.url().includes('/pacientes') &&
+        response.status() < 500,
+      { timeout: 20_000 }
+    );
+
     await scope.getByRole('button', { name: /Salvar Paciente|Salvar alterações|Salvar/i }).click();
+
+    const response = await updateResponse;
+    expect(
+      response.ok(),
+      `atualizar paciente falhou (${response.status()}): ${(await response.text()).slice(0, 300)}`
+    ).toBeTruthy();
+
     if (await dialog.isVisible().catch(() => false)) {
       await expect(dialog).toBeHidden({ timeout: 20_000 });
     }

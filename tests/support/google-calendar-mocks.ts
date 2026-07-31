@@ -226,9 +226,13 @@ export async function stubLocationAssign(page: Page): Promise<void> {
 }
 
 export async function readStubbedRedirects(page: Page): Promise<string[]> {
-  return page.evaluate(() => {
-    return (window as unknown as { __cdE2eRedirects?: string[] }).__cdE2eRedirects ?? [];
-  });
+  try {
+    return await page.evaluate(() => {
+      return (window as unknown as { __cdE2eRedirects?: string[] }).__cdE2eRedirects ?? [];
+    });
+  } catch {
+    return [];
+  }
 }
 
 function localIsoDateTime(hours: number, minutes = 0): { inicio: string; fim: string } {

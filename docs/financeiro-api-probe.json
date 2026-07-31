@@ -1,0 +1,99 @@
+{
+  "captured": [
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/financeiro/patient-payment-checkouts/gateways",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/financeiro/transacoes?pagina=1&limite=100&periodo=mes&mes=2026-07",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "https://api.controledental.com.br/api/financeiro/transacoes?pagina=1&limite=100",
+      "body": null
+    },
+    {
+      "probe": "modal-fields",
+      "inputs": [
+        {
+          "id": "nt-valor",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00"
+        },
+        {
+          "id": "nt-data",
+          "name": null,
+          "type": "text",
+          "placeholder": "DD/MM/AAAA"
+        },
+        {
+          "id": "nt-desc",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex: Restauração resina, mensalidade..."
+        },
+        {
+          "id": "nt-origem",
+          "name": null,
+          "type": "search",
+          "placeholder": "Buscar paciente..."
+        },
+        {
+          "id": "nt-st-pago",
+          "name": "statusTx",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": "nt-st-pend",
+          "name": "statusTx",
+          "type": "radio",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        "Receita",
+        "Despesa",
+        "Cancelar",
+        "Salvar lançamento"
+      ]
+    }
+  ],
+  "apiProbes": [
+    {
+      "endpoint": "/financeiro/transacoes",
+      "status": 200,
+      "sample": "{\"transacoes\":[{\"id\":262,\"tenant_id\":73,\"patient_id\":null,\"supplier_id\":null,\"origem_tipo\":\"paciente\",\"patient_budget_id\":null,\"parcela_numero\":null,\"parcelas_total\":null,\"tipo\":\"receita\",\"valor\":790.9,\"valor_liquido_estimado\":null,\"taxa_cartao_percent\":null,\"tenant_card_terminal_id\":null,\"data_tran"
+    },
+    {
+      "endpoint": "/financeiro/lancamentos",
+      "status": 403,
+      "sample": "{\"erro\":\"Sem permissao para este recurso.\"}"
+    },
+    {
+      "endpoint": "/financeiro/movimentos",
+      "status": 403,
+      "sample": "{\"erro\":\"Sem permissao para este recurso.\"}"
+    },
+    {
+      "endpoint": "/financeiro/fluxo-caixa",
+      "status": 403,
+      "sample": "{\"erro\":\"Sem permissao para este recurso.\"}"
+    },
+    {
+      "endpoint": "/financeiro/dashboard",
+      "status": 403,
+      "sample": "{\"erro\":\"Sem permissao para este recurso.\"}"
+    },
+    {
+      "endpoint": "/financeiro/resumo",
+      "status": 403,
+      "sample": "{\"erro\":\"Sem permissao para este recurso.\"}"
+    }
+  ],
+  "url": "https://app.controledental.com.br/financeiro/fluxo-caixa"
+}

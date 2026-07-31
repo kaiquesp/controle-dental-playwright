@@ -11,6 +11,16 @@ import path from 'path';
 
 export type E2ePatient = { id: string; name: string };
 
+export async function createE2ePatientWithRequest(
+  request: APIRequestContext,
+  token: string,
+  prefix = 'Paciente'
+): Promise<E2ePatient> {
+  const name = e2eName(prefix);
+  const id = await createPatientByApi(request, token, name);
+  return { id, name };
+}
+
 export async function createE2ePatientByApi(browser: Browser, prefix = 'Paciente'): Promise<E2ePatient> {
   const context = await createAuthenticatedE2eContext(browser);
   const page = await context.newPage();

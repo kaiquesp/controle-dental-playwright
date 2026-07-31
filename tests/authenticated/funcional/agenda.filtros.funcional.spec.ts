@@ -49,6 +49,7 @@ test.describe('Agenda — filtros', () => {
   });
 
   test('[AG-FLT-01] todos os profissionais exibe eventos seedados', async ({ request, agendaPage, page }) => {
+    test.setTimeout(180_000);
     if (!profAId) test.skip(true, 'Sem profissional');
 
     eventA = e2eName('Prof-A');
@@ -76,9 +77,24 @@ test.describe('Agenda — filtros', () => {
 
   test('[AG-FLT-02] filtrar um profissional exibe só seus eventos', async ({ agendaPage }) => {
     if (!profA) test.skip(true, 'Sem profissional A');
+    if (!eventSlot.data || !eventA) {
+      test.skip(true, 'Depende do evento seedado em AG-FLT-01');
+    }
     await agendaPage.navigateToEventSlot(eventSlot.data, eventSlot.hora);
+    await agendaPage.selectAllProfessionals();
+    await agendaPage.expectEventVisible(new RegExp(eventA.slice(0, 12)));
+
+    if (!profB) {
+      await agendaPage.openProfessionalFilter();
+      await expect(
+        agendaPage.page.locator('#agenda-grade-profissionais-panel').getByText(new RegExp(profA, 'i'))
+      ).toBeVisible();
+      await agendaPage.page.keyboard.press('Escape');
+      return;
+    }
+
     await agendaPage.selectProfessional(new RegExp(profA, 'i'));
-    if (eventA) await agendaPage.expectEventVisible(eventA);
+    await agendaPage.expectEventVisible(new RegExp(eventA.slice(0, 12)));
   });
 
   test('[AG-FLT-03] alternar profissional A para B atualiza grade', async ({ agendaPage, request }) => {
@@ -135,6 +151,9 @@ test.describe('Agenda — filtros', () => {
   });
 
   test('[AG-FLT-07] restaurar todos os profissionais', async ({ agendaPage }) => {
+    if (!eventSlot.data || !eventA) {
+      test.skip(true, 'Depende do evento seedado em AG-FLT-01');
+    }
     await agendaPage.navigateToEventSlot(eventSlot.data, eventSlot.hora);
     await agendaPage.selectAllProfessionals();
     if (eventA) await agendaPage.expectEventVisible(eventA);

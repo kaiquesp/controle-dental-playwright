@@ -1,5 +1,6 @@
 import { test, expect } from '../../fixtures/test.fixture';
 import { expectSubmitBlocked } from '../../support/interaction-helpers';
+import { gotoPublicRoute } from '../../support/cookie-consent';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -26,7 +27,7 @@ test.describe('Login — validações funcionais', () => {
 
 test.describe('Recuperar senha — validações', () => {
   test('[PUB-REC-02] submit sem e-mail permanece na tela', async ({ page }) => {
-    await page.goto('/recuperar-senha');
+    await gotoPublicRoute(page, '/recuperar-senha');
     const submit = page.getByRole('button', { name: /Enviar|Recuperar|Continuar/i }).first();
     if (await submit.isDisabled()) {
       await expect(submit).toBeDisabled();
@@ -37,7 +38,7 @@ test.describe('Recuperar senha — validações', () => {
   });
 
   test('[PUB-REC-03] link voltar ao login redireciona', async ({ page }) => {
-    await page.goto('/recuperar-senha');
+    await gotoPublicRoute(page, '/recuperar-senha');
     const back = page.getByRole('link', { name: /Voltar|login|Entrar/i }).first();
     if (await back.isVisible().catch(() => false)) {
       await back.click();
@@ -48,12 +49,12 @@ test.describe('Recuperar senha — validações', () => {
 
 test.describe('Registro trial — validações', () => {
   test('[PUB-REG-01] exibe formulário de cadastro', async ({ page }) => {
-    await page.goto('/registro');
+    await gotoPublicRoute(page, '/registro');
     await expect(page.locator('input[type="email"], #registro-email, input[name*="email" i]').first()).toBeVisible();
   });
 
   test('[PUB-REG-02] submit incompleto não avança', async ({ page }) => {
-    await page.goto('/registro');
+    await gotoPublicRoute(page, '/registro');
     const submit = page.getByRole('button', { name: /Criar|Cadastrar|Continuar|Começar/i }).first();
     if (await submit.isDisabled().catch(() => true)) {
       await expect(submit).toBeDisabled();
@@ -66,7 +67,7 @@ test.describe('Registro trial — validações', () => {
 
 test.describe('Portal do titular — validações', () => {
   test('[PUB-PORT-02] navega entre abas informativas', async ({ page }) => {
-    await page.goto('/portal-titular');
+    await gotoPublicRoute(page, '/portal-titular');
     await expect(page.getByRole('heading', { name: /Portal do Titular/i })).toBeVisible();
     await page.getByRole('tab', { name: /Dados Coletados/i }).click();
     await expect(page.getByRole('tabpanel').first()).toBeVisible();

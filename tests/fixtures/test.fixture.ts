@@ -3,6 +3,10 @@ import { AppShellPage } from '../pages/app-shell.page';
 import { AgendaPage } from '../pages/agenda.page';
 import { LoginPage } from '../pages/login.page';
 import { NotFoundPage } from '../pages/not-found.page';
+import { ControleProtesePage } from '../pages/controle-protese.page';
+import { FinanceiroPage } from '../pages/financeiro.page';
+import { EstoquePage } from '../pages/estoque.page';
+import { ConfiguracoesPage } from '../pages/configuracoes.page';
 import { PacienteFormPage } from '../pages/paciente-form.page';
 import { PacientesListPage } from '../pages/pacientes-list.page';
 import { ProntuarioPage } from '../pages/prontuario.page';
@@ -19,6 +23,10 @@ type AppFixtures = {
   pacientesListPage: PacientesListPage;
   pacienteFormPage: PacienteFormPage;
   prontuarioPage: ProntuarioPage;
+  controleProtesePage: ControleProtesePage;
+  financeiroPage: FinanceiroPage;
+  estoquePage: EstoquePage;
+  configuracoesPage: ConfiguracoesPage;
 };
 
 export const test = base.extend<AppFixtures>({
@@ -53,6 +61,18 @@ export const test = base.extend<AppFixtures>({
   },
   prontuarioPage: async ({ page }, use) => {
     await use(new ProntuarioPage(page));
+  },
+  controleProtesePage: async ({ page }, use) => {
+    await use(new ControleProtesePage(page));
+  },
+  financeiroPage: async ({ page }, use) => {
+    await use(new FinanceiroPage(page));
+  },
+  estoquePage: async ({ page }, use) => {
+    await use(new EstoquePage(page));
+  },
+  configuracoesPage: async ({ page }, use) => {
+    await use(new ConfiguracoesPage(page));
   },
 });
 

@@ -307,6 +307,9 @@ test.describe('Google Calendar — sync com mock', () => {
       await expect
         .poll(
           async () => {
+            if (page.isClosed()) {
+              return 'navigated';
+            }
             const redirects = await readStubbedRedirects(page);
             if (redirects.some((url) => url.includes('google_calendar=connected'))) {
               return 'stubbed';

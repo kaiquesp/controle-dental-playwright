@@ -1,0 +1,3857 @@
+{
+  "url": "https://app.controledental.com.br/configuracoes",
+  "uniqueApis": [
+    "/api/auth/catalogo-planos",
+    "/api/auth/me",
+    "/api/auth/users",
+    "/api/billing/invoices",
+    "/api/billing/payment-method",
+    "/api/billing/pending-upgrade",
+    "/api/billing/plans",
+    "/api/billing/subscription",
+    "/api/config-clinica/modelos-contrato",
+    "/api/configuracoes/anamnese-modelos",
+    "/api/configuracoes/clinica",
+    "/api/configuracoes/convenios",
+    "/api/configuracoes/convenios/6/tratamentos",
+    "/api/configuracoes/equipe/membros",
+    "/api/configuracoes/equipe/papeis",
+    "/api/configuracoes/integracoes",
+    "/api/configuracoes/integracoes/stripe-payments",
+    "/api/configuracoes/mensagens-relacionamento",
+    "/api/configuracoes/perfil/me",
+    "/api/configuracoes/perfil/notificacoes",
+    "/api/configuracoes/profissionais/12/comissoes",
+    "/api/consent/pending",
+    "/api/empresa/me",
+    "/api/feature-flags",
+    "/api/formas-pagamento",
+    "/api/fornecedores",
+    "/api/integracoes/google-calendar/status",
+    "/api/medicamentos",
+    "/api/medicamentos/resumo",
+    "/api/message-packages/balances",
+    "/api/message-packages/catalog",
+    "/api/message-packages/purchases",
+    "/api/message-packages/purchases/pending",
+    "/api/modelos-encaminhamento",
+    "/api/notifications",
+    "/api/presence/heartbeat",
+    "/api/profissionais",
+    "/api/profissionais/12/certificado-digital",
+    "/api/salas-cadeiras",
+    "/api/tratamentos",
+    "/api/tratamentos/categorias/listar",
+    "/api/tratamentos/estatisticas/customizacao",
+    "/api/web-push/vapid-public-key"
+  ],
+  "apiProbes": [
+    {
+      "endpoint": "/configuracoes/perfil/me",
+      "status": 200,
+      "sample": "{\"perfil\":{\"id\":77,\"tenant_id\":73,\"name\":\"Kaique\",\"email\":\"kaiquesp@hotmail.com\",\"role\":\"admin\",\"telefone_celular\":\"11975076059\",\"especialidade\":null,\"cro\":null,\"foto_url\":null}}"
+    },
+    {
+      "endpoint": "/configuracoes/personalizacao",
+      "status": 200,
+      "sample": "{\"personalizacao\":{\"logoUrl\":null,\"corPrimaria\":null,\"documentos\":{\"logoCabecalho\":true,\"rodapeClinica\":true,\"assinaturaDigital\":true,\"marcaDagua\":false}}}"
+    },
+    {
+      "endpoint": "/configuracoes/clinica",
+      "status": 200,
+      "sample": "{\"clinica\":{\"id\":73,\"name\":\"Clinica miguel yunes\",\"slug\":\"clinica-miguel-yunes\",\"razao_social\":null,\"cnpj\":\"74649086000\",\"telefone_principal\":null,\"telefone_secundario\":null,\"email_contato\":\"kaiquesp@hotmail.com\",\"inscricao_estadual\":null,\"logo_url\":null,\"cep\":\"04444-000\",\"rua_avenida\":\"Avenida Miguel Yunes\",\"numero_endereco\":\"50\",\"complemento_ende"
+    },
+    {
+      "endpoint": "/configuracoes/notificacoes",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/notificacoes</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/convenios",
+      "status": 200,
+      "sample": "{\"convenios\":[{\"id\":6,\"nome\":\"Particular\",\"is_default\":true,\"ativo\":true,\"total_tratamentos\":276}]}"
+    },
+    {
+      "endpoint": "/configuracoes/convenios?ativo=1",
+      "status": 200,
+      "sample": "{\"convenios\":[{\"id\":6,\"nome\":\"Particular\",\"is_default\":true,\"ativo\":true,\"total_tratamentos\":276}]}"
+    },
+    {
+      "endpoint": "/configuracoes/equipe",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/equipe</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/membros",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/membros</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/fornecedores",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/fornecedores</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/formas-pagamento",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/formas-pagamento</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/formas_pagamento",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/formas_pagamento</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/medicamentos",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/medicamentos</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/tratamentos",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/tratamentos</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/procedimentos",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/procedimentos</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/anamneses",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/anamneses</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/modelos-anamnese",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/modelos-anamnese</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/encaminhamentos",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/encaminhamentos</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/modelos-encaminhamento",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/modelos-encaminhamento</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/modelos-mensagem",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/modelos-mensagem</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/mensagens",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/mensagens</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/salas-cadeiras",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/salas-cadeiras</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/comissoes",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/comissoes</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/configuracoes/modelos-contrato",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/configuracoes/modelos-contrato</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/profissionais",
+      "status": 200,
+      "sample": "{\"profissionais\":[{\"id\":12,\"tenant_id\":73,\"nome_exibicao\":\"Kaique\",\"especialidade\":null,\"ativo\":true,\"user_id\":77,\"created_at\":\"2026-07-04T18:59:53.204Z\",\"updated_at\":null,\"usuario_nome\":\"Kaique\",\"usuario_email\":\"kaiquesp@hotmail.com\"}],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":1,\"total_paginas\":1}}"
+    },
+    {
+      "endpoint": "/salas-cadeiras",
+      "status": 200,
+      "sample": "{\"salasCadeiras\":[{\"id\":6,\"tenant_id\":73,\"nome\":\"Principal\",\"descricao\":null,\"ativo\":true,\"created_at\":\"2026-07-04T18:59:53.126Z\",\"updated_at\":null}],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":1,\"total_paginas\":1}}"
+    },
+    {
+      "endpoint": "/fornecedores",
+      "status": 200,
+      "sample": "{\"fornecedores\":[{\"id\":8,\"tenant_id\":73,\"nome\":\"E2E-Lab-1783196414342\",\"cpf_cnpj\":null,\"telefone\":\"(11) 98765-4321\",\"email\":null,\"categoria\":\"laboratorio_protese\",\"canal_preferencial\":null,\"observacoes\":null,\"ativo\":true,\"created_at\":\"2026-07-04T20:21:29.677Z\",\"updated_at\":null},{\"id\":9,\"tenant_id\":73,\"nome\":\"E2E-Lab-1783204876302\",\"cpf_cnpj\":null,"
+    },
+    {
+      "endpoint": "/formas-pagamento",
+      "status": 200,
+      "sample": "{\"formas_pagamento\":[{\"id\":194,\"tenant_id\":73,\"payment_method\":\"credit_card\",\"enabled\":true,\"charge_operator_fee\":false,\"auto_pass_fee_to_patient\":false,\"created_at\":\"2026-07-04T18:59:53.212Z\",\"updated_at\":\"2026-07-04T19:08:27.701Z\",\"taxas_parcelas\":[]},{\"id\":195,\"tenant_id\":73,\"payment_method\":\"debit_card\",\"enabled\":true,\"charge_operator_fee\":fals"
+    },
+    {
+      "endpoint": "/convenios",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/convenios</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/medicamentos",
+      "status": 200,
+      "sample": "{\"medicamentos\":[],\"paginacao\":{\"pagina\":1,\"limite\":50,\"total\":0,\"total_paginas\":1}}"
+    },
+    {
+      "endpoint": "/tratamentos",
+      "status": 200,
+      "sample": "{\"tratamentos\":[{\"id\":147,\"source\":\"template\",\"template_id\":147,\"custom_id\":null,\"override_id\":null,\"codigo\":\"ADEQUACAO-DO-MEIO-BUCAL-COM-IRM-POR-HEMIARCAD\",\"codigo_lower\":\"adequacao-do-meio-bucal-com-irm-por-hemiarcad\",\"nome_procedimento\":\"Adequação do meio Bucal com IRM (por hemiarcada)\",\"categoria\":\"Odontopediatria\",\"descricao\":null,\"valor_base\""
+    },
+    {
+      "endpoint": "/procedimentos",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/procedimentos</pre>\n</body>\n</html>\n"
+    },
+    {
+      "endpoint": "/modelos-contrato",
+      "status": 404,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/modelos-contrato</pre>\n</body>\n</html>\n"
+    }
+  ],
+  "sectionReports": [
+    {
+      "label": "Meu perfil",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "cfg-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-email",
+          "name": null,
+          "type": "email",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-tel",
+          "name": null,
+          "type": "tel",
+          "placeholder": "(00) 00000-0000",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-esp",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cro",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-senha-atual",
+          "name": null,
+          "type": "password",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-senha-nova",
+          "name": null,
+          "type": "password",
+          "placeholder": "Digite a nova senha",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-senha-conf",
+          "name": null,
+          "type": "password",
+          "placeholder": "Confirme a nova senha",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Remover",
+        "Salvar alterações",
+        "Atualizar senha",
+        "Conectar Google Calendar",
+        "Configurar certificado"
+      ],
+      "headings": [
+        "Configurações",
+        "Informações pessoais",
+        "Segurança",
+        "Google Calendar",
+        "Certificado digital"
+      ]
+    },
+    {
+      "label": "Dados da clínica",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "cfg-cli-nome-fantasia",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-razao",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-cpf-cnpj",
+          "name": null,
+          "type": "text",
+          "placeholder": "000.000.000-00 ou 00.000.000/0000-00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-tel",
+          "name": null,
+          "type": "tel",
+          "placeholder": "(00) 00000-0000",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-email",
+          "name": null,
+          "type": "email",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-ie",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex: 123.456.789.000",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-cep",
+          "name": null,
+          "type": "text",
+          "placeholder": "00000-000",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-logr",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-num",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-comp",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-bairro",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-cidade",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "cfg-cli-uf",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Remover",
+        "Salvar alterações",
+        "Salvar endereço"
+      ],
+      "headings": [
+        "Configurações",
+        "Informações da clínica",
+        "Endereço"
+      ]
+    },
+    {
+      "label": "Modelos de mensagens",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "msg-rel-busca",
+          "name": null,
+          "type": "search",
+          "placeholder": "Buscar por nome ou trecho da mensagem",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Ver campos disponíveis",
+        "Restaurar padrão",
+        "Criar novo modelo",
+        "Todos os modelos",
+        "WhatsApp",
+        "E-mail",
+        "Filtrar",
+        "Todos",
+        "Aniversário",
+        "Retorno semestral",
+        "Editar",
+        "Editar",
+        "Editar",
+        "Desativar",
+        "Editar",
+        "Desativar",
+        "Editar",
+        "Desativar",
+        "Editar",
+        "Desativar",
+        "Editar"
+      ],
+      "headings": [
+        "Modelos de mensagens",
+        "Felicitar aniversário — WhatsApp",
+        "Felicitar aniversário — E-mail",
+        "Lembrete da semana — WhatsApp",
+        "Lembrete da semana — E-mail",
+        "Campanha do mês — WhatsApp",
+        "Campanha do mês — E-mail",
+        "Convidar revisão — WhatsApp",
+        "Convidar revisão — E-mail",
+        "Lembrete amigável — WhatsApp"
+      ]
+    },
+    {
+      "label": "Créditos de mensagens",
+      "opened": true,
+      "inputs": [],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Atualizar saldo e pacotes",
+        "Comprar",
+        "Comprar",
+        "Comprar"
+      ],
+      "headings": [
+        "Créditos de mensagens",
+        "Você ainda tem mensagens disponíveis para continuar seus envios.",
+        "Pacotes disponíveis",
+        "500 mensagens WhatsApp",
+        "1000 mensagens WhatsApp",
+        "2000 mensagens WhatsApp",
+        "Histórico de compras"
+      ]
+    },
+    {
+      "label": "Notificações",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "notif-in-app",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "notif-cat-tarefa",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "notif-cat-fin",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "notif-cat-est",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "notif-cat-sis",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "notif-tarefa-resp",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "notif-quiet",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "notif-web-push",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Testar alerta neste dispositivo",
+        "Salvar preferências"
+      ],
+      "headings": [
+        "Configurações",
+        "Notificações",
+        "No sistema (sino)",
+        "Tarefas",
+        "Horário silencioso",
+        "Neste dispositivo (Web Push)"
+      ]
+    },
+    {
+      "label": "Integrações",
+      "opened": true,
+      "inputs": [],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Configurar"
+      ],
+      "headings": [
+        "Integrações",
+        "Google Calendar",
+        "Cobrança aos pacientes"
+      ]
+    },
+    {
+      "label": "Assinatura",
+      "opened": false,
+      "inputs": [],
+      "buttons": [],
+      "headings": []
+    },
+    {
+      "label": "Plano e cobrança",
+      "opened": true,
+      "inputs": [],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Contratar plano",
+        "Editar cartão"
+      ],
+      "headings": [
+        "Plano e cobrança",
+        "Plano atual",
+        "Método de pagamento",
+        "Histórico de faturas"
+      ]
+    },
+    {
+      "label": "Equipe e permissões",
+      "opened": true,
+      "inputs": [],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "+ Adicionar membro",
+        "Ações para Kaique",
+        "+ Novo papel",
+        "Editar permissões",
+        "Editar permissões",
+        "Editar permissões",
+        "Editar permissões"
+      ],
+      "headings": [
+        "Equipe e permissões",
+        "Permissões mais simples para a equipe entender e para a clínica administrar",
+        "Membros da equipe",
+        "Papéis e permissões",
+        "Admin",
+        "Dentista",
+        "Recepcao",
+        "Financeiro",
+        "Como escolher a permissão certa",
+        "Use Administrador apenas para quem decide pela clínica"
+      ]
+    },
+    {
+      "label": "Dentistas",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "config-prof-busca",
+          "name": null,
+          "type": "search",
+          "placeholder": "Buscar por nome, especialidade ou e-mail",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Novo dentista",
+        "Exportar",
+        "Colunas",
+        "Comissões",
+        "Mais opções do dentista"
+      ],
+      "headings": [
+        "Dentistas",
+        "Lista de dentistas"
+      ]
+    },
+    {
+      "label": "Convênios",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "conv-list-search",
+          "name": null,
+          "type": "search",
+          "placeholder": "Buscar convênio",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-search",
+          "name": null,
+          "type": "search",
+          "placeholder": "Procure um tratamento",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1387",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1387",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1387",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1388",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1388",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1388",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1389",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1389",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1389",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1394",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1394",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1394",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1395",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1395",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1395",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1396",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1396",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1396",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1397",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1397",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1397",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1398",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1398",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1398",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1399",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1399",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1399",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1413",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1413",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1413",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1414",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1414",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1414",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1417",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1417",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1417",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1418",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1418",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Exportar",
+        "Criar convênio",
+        "Filtrar lista de convênios",
+        "Mais opções do convênio",
+        "ParticularConvênio padrão•276 tratamentosSelecionado",
+        "Editar nome",
+        "Adicionar",
+        "Copiar tratamentos",
+        "Exportar",
+        "Excluir",
+        "Todos",
+        "Cirurgia",
+        "Dentística",
+        "Endodontia",
+        "Harmonização Orofacial",
+        "Implantodontia",
+        "Odontopediatria",
+        "Ortodontia",
+        "Outros"
+      ],
+      "headings": [
+        "Gestão de convênios",
+        "Lista de convênios",
+        "Particular"
+      ]
+    },
+    {
+      "label": "Fornecedores",
+      "opened": true,
+      "inputs": [],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "+ Novo fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor"
+      ],
+      "headings": [
+        "Fornecedores",
+        "Lista de fornecedores"
+      ]
+    },
+    {
+      "label": "Salas e cadeiras",
+      "opened": true,
+      "inputs": [],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "+ Nova sala / cadeira",
+        "Editar sala ou cadeira",
+        "Excluir sala ou cadeira"
+      ],
+      "headings": [
+        "Salas e cadeiras",
+        "Locais cadastrados"
+      ]
+    },
+    {
+      "label": "Formas de Pagamento",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "switch-cartao-credito",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "switch-cobrar-taxa",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "taxa-cc-parc-0",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex: 3,49",
+          "ariaInvalid": null
+        },
+        {
+          "id": "switch-cartao-debito",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "switch-cobrar-taxa-debito",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "taxa-cartao-debito",
+          "name": null,
+          "type": "number",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "switch-pix",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "switch-boleto",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "switch-boleto-parcelamento",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "boleto-max-parcelas",
+          "name": null,
+          "type": "number",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "boleto-intervalo-dias",
+          "name": null,
+          "type": "number",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "switch-boleto-entrada",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "switch-dinheiro",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Adicionar parcela",
+        "Salvar Configurações"
+      ],
+      "headings": [
+        "Formas de Pagamento",
+        "Cartão de Crédito",
+        "Cartão de Débito",
+        "Pix",
+        "Boleto bancário",
+        "Dinheiro"
+      ]
+    },
+    {
+      "label": "Tratamentos / Procedimentos",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "trat-search",
+          "name": null,
+          "type": "search",
+          "placeholder": "Buscar procedimento...",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Novo Tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Página anterior",
+        "1",
+        "2",
+        "28",
+        "Próxima página"
+      ],
+      "headings": [
+        "Procedimentos"
+      ]
+    },
+    {
+      "label": "Modelos de Anamnese",
+      "opened": true,
+      "inputs": [],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Cancelar",
+        "Salvar Modelo"
+      ],
+      "headings": [
+        "Modelos de Anamnese"
+      ]
+    },
+    {
+      "label": "Medicamentos",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "med-filtro-q",
+          "name": null,
+          "type": "search",
+          "placeholder": "Amoxicilina, nimesulida, clorexidina…",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-rapido-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Amoxicilina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-rapido-principio",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Amoxicilina tri-hidratada",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-rapido-apresentacao",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Caixa c/ 21 cápsulas",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-rapido-concentracao",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: 500 mg",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-rapido-via",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Uso oral",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-rapido-posologia",
+          "name": null,
+          "type": null,
+          "placeholder": "Ex.: 1 cápsula 8/8h por 7 dias",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-rapido-orientacoes",
+          "name": null,
+          "type": null,
+          "placeholder": "Ex.: Tomar após as refeições",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Importar lista",
+        "Novo medicamento",
+        "Filtrar",
+        "Exportar",
+        "Modelos de posologia",
+        "Modelos de encaminhamento",
+        "Disponível no receituárioPermite selecionar o medicamento ao montar uma receita.",
+        "Controle especialMarca o item para validação e destaque no preenchimento da receita.",
+        "Cancelar",
+        "Salvar medicamento"
+      ],
+      "headings": [
+        "Cadastro de medicamentos",
+        "Lista de medicamentos para receitas",
+        "Novo cadastro rápido",
+        "Boas práticas do receituário",
+        "Mais usados no mês"
+      ]
+    },
+    {
+      "label": "Modelos de encaminhamento",
+      "opened": true,
+      "inputs": [
+        {
+          "id": "enc-filtro-q",
+          "name": null,
+          "type": "search",
+          "placeholder": "Nome, destino ou título…",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Encaminhamento — Endodontia",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-titulo",
+          "name": null,
+          "type": "text",
+          "placeholder": "Título exibido no encaminhamento",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-destino",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-validade",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-local",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-motivo",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-solicitacao",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-historico",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-orientacoes",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-corpo",
+          "name": null,
+          "type": null,
+          "placeholder": "Se preenchido, substitui o texto montado automaticamente no prontuário.",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Novo modelo",
+        "Filtrar",
+        "Remover",
+        "Salvar modelo"
+      ],
+      "headings": [
+        "Modelos de encaminhamento",
+        "Biblioteca de modelos",
+        "Editor de modelo"
+      ]
+    }
+  ],
+  "validationProbes": [
+    {
+      "section": "Equipe e permissões",
+      "buttonFound": true,
+      "inputs": [
+        {
+          "id": "eq-m-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "eq-m-email",
+          "name": null,
+          "type": "email",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "eq-m-criar-prof",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "eq-m-tel",
+          "name": null,
+          "type": "tel",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "eq-m-esp",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "eq-m-cro",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "+ Adicionar membro",
+        "Ações para Kaique",
+        "+ Novo papel",
+        "Editar permissões",
+        "Editar permissões",
+        "Editar permissões",
+        "Editar permissões",
+        "Cancelar",
+        "Salvar"
+      ],
+      "validation": {
+        "toasts": [],
+        "invalidInputs": 3,
+        "messages": []
+      }
+    },
+    {
+      "section": "Dentistas",
+      "buttonFound": true,
+      "inputs": [
+        {
+          "id": "config-prof-busca",
+          "name": null,
+          "type": "search",
+          "placeholder": "Buscar por nome, especialidade ou e-mail",
+          "ariaInvalid": null
+        },
+        {
+          "id": "pf-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "pf-esp",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "pf-ativo",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Novo dentista",
+        "Exportar",
+        "Colunas",
+        "Comissões",
+        "Mais opções do dentista",
+        "Cancelar",
+        "Salvar"
+      ],
+      "validation": {
+        "toasts": [],
+        "invalidInputs": 2,
+        "messages": []
+      }
+    },
+    {
+      "section": "Convênios",
+      "buttonFound": true,
+      "inputs": [
+        {
+          "id": "conv-list-search",
+          "name": null,
+          "type": "search",
+          "placeholder": "Buscar convênio",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-search",
+          "name": null,
+          "type": "search",
+          "placeholder": "Procure um tratamento",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1387",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1387",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1387",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1388",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1388",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1388",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1389",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1389",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1389",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1394",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1394",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1394",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1395",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1395",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1395",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1396",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1396",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1396",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1397",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1397",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1397",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1398",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1398",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1398",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1399",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1399",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1399",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1413",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1413",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1413",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1414",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1414",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1414",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1417",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1417",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-valor-id-1417",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-nome-id-1418",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Restauração de resina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "conv-trat-custo-id-1418",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Exportar",
+        "Criar convênio",
+        "Filtrar lista de convênios",
+        "Mais opções do convênio",
+        "ParticularConvênio padrão•276 tratamentosSelecionado",
+        "Editar nome",
+        "Adicionar",
+        "Copiar tratamentos",
+        "Exportar",
+        "Excluir",
+        "Todos",
+        "Cirurgia",
+        "Dentística",
+        "Endodontia",
+        "Harmonização Orofacial",
+        "Implantodontia",
+        "Odontopediatria",
+        "Ortodontia",
+        "Outros"
+      ],
+      "validation": {
+        "toasts": [],
+        "invalidInputs": 2,
+        "messages": []
+      }
+    },
+    {
+      "section": "Fornecedores",
+      "buttonFound": true,
+      "inputs": [
+        {
+          "id": "f-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Odonto Prime Distribuidora",
+          "ariaInvalid": null
+        },
+        {
+          "id": "f-cpf-cnpj",
+          "name": null,
+          "type": "text",
+          "placeholder": "00.000.000/0001-00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "f-tel",
+          "name": null,
+          "type": "text",
+          "placeholder": "(11) 99999-9999",
+          "ariaInvalid": null
+        },
+        {
+          "id": "f-email",
+          "name": null,
+          "type": "email",
+          "placeholder": "financeiro@fornecedor.com.br",
+          "ariaInvalid": null
+        },
+        {
+          "id": "f-obs",
+          "name": null,
+          "type": null,
+          "placeholder": "Ex.: fornecedor usado com frequência para pedidos mensais e reposições rápidas.",
+          "ariaInvalid": null
+        },
+        {
+          "id": "f-ativo",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "+ Novo fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor",
+        "Editar fornecedor",
+        "Excluir fornecedor"
+      ],
+      "validation": {
+        "toasts": [],
+        "invalidInputs": 3,
+        "messages": []
+      }
+    },
+    {
+      "section": "Salas e cadeiras",
+      "buttonFound": true,
+      "inputs": [
+        {
+          "id": "sc-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "sc-desc",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "sc-ativo",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "+ Nova sala / cadeira",
+        "Editar sala ou cadeira",
+        "Excluir sala ou cadeira",
+        "Cancelar",
+        "Salvar"
+      ],
+      "validation": {
+        "toasts": [],
+        "invalidInputs": 2,
+        "messages": []
+      }
+    },
+    {
+      "section": "Formas de Pagamento",
+      "buttonFound": false
+    },
+    {
+      "section": "Tratamentos / Procedimentos",
+      "buttonFound": true,
+      "inputs": [
+        {
+          "id": "trat-search",
+          "name": null,
+          "type": "search",
+          "placeholder": "Buscar procedimento...",
+          "ariaInvalid": null
+        },
+        {
+          "id": "tcf-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex: Clareamento a laser",
+          "ariaInvalid": null
+        },
+        {
+          "id": "tcf-codigo",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex: CUSTOM-001",
+          "ariaInvalid": null
+        },
+        {
+          "id": "tcf-desc",
+          "name": null,
+          "type": null,
+          "placeholder": "Descreva os detalhes do procedimento...",
+          "ariaInvalid": null
+        },
+        {
+          "id": "tcf-valor",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "tcf-custo",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        },
+        {
+          "id": "tcf-comissao",
+          "name": null,
+          "type": "text",
+          "placeholder": "0,00",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Novo Tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Customizar tratamento",
+        "Página anterior",
+        "1",
+        "2",
+        "28",
+        "Próxima página",
+        "Cancelar",
+        "Salvar"
+      ],
+      "validation": {
+        "toasts": [
+          {
+            "className": "p-toast-message p-toast-message-warn",
+            "text": "Procedimento Informe o nome do procedimento."
+          }
+        ],
+        "invalidInputs": 4,
+        "messages": []
+      }
+    },
+    {
+      "section": "Modelos de Anamnese",
+      "buttonFound": false
+    },
+    {
+      "section": "Medicamentos",
+      "buttonFound": true,
+      "inputs": [
+        {
+          "id": "med-form-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Amoxicilina",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-form-principio",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Amoxicilina tri-hidratada",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-form-categoria",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Antibiótico",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-form-apresentacao",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Caixa c/ 21 cápsulas",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-form-concentracao",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: 500 mg",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-form-via",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Uso oral",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-form-codigo",
+          "name": null,
+          "type": "text",
+          "placeholder": "Gerado automaticamente",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-form-posologia",
+          "name": null,
+          "type": null,
+          "placeholder": "Ex.: 1 cápsula a cada 8 horas por 7 dias…",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-form-orientacoes",
+          "name": null,
+          "type": null,
+          "placeholder": "Ex.: Tomar após a alimentação…",
+          "ariaInvalid": null
+        },
+        {
+          "id": "med-form-obs",
+          "name": null,
+          "type": null,
+          "placeholder": "Ex.: Exibir como sugestão em cirurgias…",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Voltar para lista",
+        "Salvar rascunho",
+        "Salvar medicamento",
+        "Disponível no receituárioPermite selecionar o medicamento nas receitas odontológicas.",
+        "Controle especialDestaca o item para validação adicional pelo dentista.",
+        "Exibir orientação padrãoInclui as instruções salvas no documento impresso e digital.",
+        "Favorito da clínicaPrioriza o item na busca rápida para prescrições frequentes.",
+        "Cancelar",
+        "Salvar medicamento"
+      ],
+      "validation": null
+    },
+    {
+      "section": "Modelos de encaminhamento",
+      "buttonFound": true,
+      "inputs": [
+        {
+          "id": "enc-filtro-q",
+          "name": null,
+          "type": "search",
+          "placeholder": "Nome, destino ou título…",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "Ex.: Encaminhamento — Endodontia",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-titulo",
+          "name": null,
+          "type": "text",
+          "placeholder": "Título exibido no encaminhamento",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-destino",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-validade",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-local",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-motivo",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-solicitacao",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-historico",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-orientacoes",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "enc-corpo",
+          "name": null,
+          "type": null,
+          "placeholder": "Se preenchido, substitui o texto montado automaticamente no prontuário.",
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Novo modelo",
+        "Filtrar",
+        "Remover",
+        "Salvar modelo"
+      ],
+      "validation": null
+    },
+    {
+      "section": "Modelos de mensagens",
+      "buttonFound": true,
+      "inputs": [
+        {
+          "id": "msg-rel-busca",
+          "name": null,
+          "type": "search",
+          "placeholder": "Buscar por nome ou trecho da mensagem",
+          "ariaInvalid": null
+        },
+        {
+          "id": "msg-rel-nome",
+          "name": null,
+          "type": "text",
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "msg-rel-corpo",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "msg-rel-desc",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "msg-rel-obj",
+          "name": null,
+          "type": null,
+          "placeholder": "",
+          "ariaInvalid": null
+        },
+        {
+          "id": "msg-rel-padrao",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        },
+        {
+          "id": "msg-rel-ativo",
+          "name": null,
+          "type": "checkbox",
+          "placeholder": null,
+          "ariaInvalid": null
+        }
+      ],
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Modelos de contrato",
+        "Ver campos disponíveis",
+        "Restaurar padrão",
+        "Criar novo modelo",
+        "Todos os modelos",
+        "WhatsApp",
+        "E-mail",
+        "Filtrar",
+        "Todos",
+        "Aniversário",
+        "Retorno semestral",
+        "Editar",
+        "Editar",
+        "Editar",
+        "Desativar",
+        "Editar",
+        "Desativar",
+        "Editar",
+        "Desativar",
+        "Editar"
+      ],
+      "validation": {
+        "toasts": [],
+        "invalidInputs": 5,
+        "messages": []
+      }
+    }
+  ],
+  "toasts": [
+    {
+      "className": "p-toast-message p-toast-message-warn",
+      "text": "Procedimento Informe o nome do procedimento."
+    }
+  ],
+  "captured": [
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":null}"
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "GET",
+      "url": "/api/consent/pending",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-30T05:34:55.700Z\"}}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/\",\"page_title\":null,\"support_session\":false,\"last_seen_at\":\"2026-07-30T05:34:55.700Z\"}}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-30T05:34:55.700Z\"}}"
+    },
+    {
+      "method": "GET",
+      "url": "/api/feature-flags",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/notifications?page=1&page_size=20",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/perfil/me",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/message-packages/balances",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/auth/me",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/auth/users",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/perfil/me",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/integracoes/google-calendar/status",
+      "body": null
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-30T05:34:55.861Z\"}}"
+    },
+    {
+      "method": "GET",
+      "url": "/api/profissionais/12/certificado-digital",
+      "body": null
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-30T05:34:55.898Z\"}}"
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-30T05:34:55.95"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=perfil\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=perfil\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-30T"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/empresa/me",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/clinica",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=clinica\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=clinica\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-30"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/mensagens-relacionamento?limite=100",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=mensagens-relacionamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=mensagens-relacionamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_see"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/message-packages/catalog",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/message-packages/balances",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/message-packages/purchases",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/message-packages/purchases/pending",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=mensagens-relacionamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=mensagens-relacionamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_see"
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=mensagens-creditos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=mensagens-creditos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/perfil/notificacoes",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/web-push/vapid-public-key",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=notificacoes\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=notificacoes\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/integracoes",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/integracoes/stripe-payments",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=integracoes\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=integracoes\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-0"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/pending-upgrade",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=assinatura\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=assinatura\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/plans",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/auth/catalogo-planos",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=assinatura\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=assinatura\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/equipe/membros",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/equipe/papeis",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=equipe\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=equipe\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-30T"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/profissionais",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/auth/users",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=profissionais\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=profissionais\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/convenios",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/convenios/6/tratamentos?pagina=1&limite=500",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=convenios\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=convenios\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/fornecedores",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=fornecedores\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=fornecedores\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/salas-cadeiras",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=salas-cadeiras\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=salas-cadeiras\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"202"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/formas-pagamento",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=formas-pagamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=formas-pagamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/tratamentos/categorias/listar",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/tratamentos/categorias/listar",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/tratamentos/estatisticas/customizacao",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/tratamentos?pagina=1&limite=10&apenas_ativos=true",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=tratamentos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=tratamentos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-0"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/anamnese-modelos",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=anamnese\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=anamnese\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-3"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/medicamentos/resumo",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/medicamentos?pagina=1&limite=20",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=medicamentos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=medicamentos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/modelos-encaminhamento?pagina=1&limite=100",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=modelos-encaminhamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=modelos-encaminhamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/equipe/membros",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/equipe/papeis",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=equipe\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=equipe\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-30T"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/profissionais",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/auth/users",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=profissionais\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=profissionais\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/convenios",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/configuracoes/convenios/6/tratamentos?pagina=1&limite=500",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=convenios\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=convenios\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-07-"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/fornecedores",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=fornecedores\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=fornecedores\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/salas-cadeiras",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=salas-cadeiras\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=salas-cadeiras\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"202"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/formas-pagamento",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=formas-pagamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=formas-pagamento\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/payment-method",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/tratamentos/categorias/listar",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/tratamentos/categorias/listar",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/tratamentos/estatisticas/customizacao",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/tratamentos?pagina=1&limite=10&apenas_ativos=true",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "/api/presence/heartbeat",
+      "body": "{\"page\":\"/configuracoes?aba=tratamentos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\"}"
+    },
+    {
+      "type": "response",
+      "method": "POST",
+      "status": 200,
+      "url": "/api/presence/heartbeat",
+      "sample": "{\"ok\":true,\"presence\":{\"user_id\":77,\"tenant_id\":73,\"user_name\":\"Kaique\",\"user_email\":\"kaiquesp@hotmail.com\",\"tenant_name\":\"Clinica miguel yunes\",\"page\":\"/configuracoes?aba=tratamentos\",\"page_title\":\"Controle Dental — Software odontológico para clínicas\",\"support_session\":false,\"last_seen_at\":\"2026-0"
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/invoices",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "/api/billing/subscription",
+      "body": null
+    }
+  ],
+  "directRoutes": [
+    {
+      "route": "/configuracoes/modelos-contrato",
+      "url": "https://app.controledental.com.br/configuracoes/modelos-contrato",
+      "buttons": [
+        "Notificações",
+        "Kaique admin",
+        "Meu perfil",
+        "Notificações",
+        "Dados da clínica",
+        "Modelos de mensagens",
+        "Créditos de mensagens",
+        "Integrações",
+        "Plano e cobrança",
+        "Equipe e permissões",
+        "Dentistas",
+        "Convênios",
+        "Fornecedores",
+        "Salas e cadeiras",
+        "Formas de Pagamento",
+        "Tratamentos / Procedimentos",
+        "Modelos de Anamnese",
+        "Medicamentos",
+        "Modelos de encaminhamento",
+        "Atualizar lista"
+      ],
+      "headings": [
+        "Modelos de contrato"
+      ]
+    },
+    {
+      "route": "/configuracoes/comissoes-profissionais",
+      "url": "https://app.controledental.com.br/configuracoes/comissoes-profissionais",
+      "buttons": [
+        "Notificações",
+        "100WA",
+        "Kaique admin",
+        "Todos",
+        "Com regra ativa",
+        "Sem configuração",
+        "Configurar comissões",
+        "Exportar visão geral Baixe um resumo para revisar rapidamente o que já está configurado. Gerar arquivo"
+      ],
+      "headings": [
+        "Comissões de dentistas",
+        "Escolha um dentista para configurar as comissões"
+      ]
+    }
+  ]
+}
