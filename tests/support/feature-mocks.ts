@@ -1,5 +1,17 @@
 import type { BrowserContext, Page, Route } from '@playwright/test';
 
+const E2E_FEATURE_FLAGS = {
+  is_nfs: true,
+  is_digital_signature: true,
+  is_personalization: true,
+  is_vendas: false,
+  pos_maquininha: true,
+  pos_mercadopago: true,
+  pos_stone: true,
+  pos_cielo: true,
+  pos_sumup: true,
+};
+
 async function fulfillJson(route: Route, body: unknown): Promise<void> {
   await route.fulfill({
     status: 200,
@@ -15,11 +27,7 @@ export async function installFeatureMocksOnContext(context: BrowserContext): Pro
       return;
     }
     await fulfillJson(route, {
-      flags: {
-        is_nfs: true,
-        is_digital_signature: true,
-        is_personalization: true,
-      },
+      flags: E2E_FEATURE_FLAGS,
     });
   });
 
@@ -41,11 +49,7 @@ export async function installFeatureMocks(page: Page): Promise<void> {
       return;
     }
     await fulfillJson(route, {
-      flags: {
-        is_nfs: true,
-        is_digital_signature: true,
-        is_personalization: true,
-      },
+      flags: E2E_FEATURE_FLAGS,
     });
   });
 
