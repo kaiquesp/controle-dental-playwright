@@ -427,6 +427,26 @@ export class ProntuarioPage {
     ).toBeVisible({ timeout: 15_000 });
   }
 
+  annotationsPanel(): Locator {
+    return this.page.locator('app-paciente-chart-annotations, .chart-notes').first();
+  }
+
+  async expectAnnotationsPanel(): Promise<void> {
+    await expect(this.page.getByRole('heading', { name: /^Anotações$/ })).toBeVisible({ timeout: 20_000 });
+    await expect(this.annotationsPanel()).toBeVisible({ timeout: 20_000 });
+  }
+
+  async selectToothForAnnotation(fdi: number): Promise<void> {
+    const crown = this.page.getByRole('button', { name: new RegExp(`Dente ${fdi}\\b`) }).first();
+    await expect(crown).toBeVisible({ timeout: 20_000 });
+    await crown.click();
+    await expect(this.page.locator('.chart-notes__target')).toHaveText(new RegExp(`Dente ${fdi}`));
+  }
+
+  annotationNoteField(): Locator {
+    return this.page.locator('#chart-annotation-note, textarea#chart-annotation-note').first();
+  }
+
   async openReceituarioTipo(tipo: RegExp): Promise<Locator> {
     const btn = this.page.getByRole('button', { name: tipo }).first();
     await expect(btn).toBeVisible({ timeout: 15_000 });
@@ -535,6 +555,36 @@ export class ProntuarioPage {
     }
     await dialog.getByRole('button', { name: /Salvar|Criar|Confirmar/i }).click();
     await expect(dialog).toBeHidden({ timeout: 20_000 });
+  }
+
+  pagamentoConfirmDialog(): Locator {
+    return this.page.locator('.patient-payment-confirm-dialog:visible, [role="alertdialog"]:visible').filter({
+      hasText: /Confirmar pagamento/i,
+    });
+  }
+
+  posChargeDialog(): Locator {
+    return this.page.getByRole('dialog', { name: /Cobrar na maquininha/i });
+  }
+
+  async openPagarOnRow(descricao: string): Promise<Locator> {
+    const row = this.pagamentoRow(descricao);
+    await expect(row.first()).toBeVisible({ timeout: 20_000 });
+    await row.getByRole('button', { name: /^Pagar$/i }).click();
+    const dialog = this.pagamentoConfirmDialog();
+    await expect(dialog).toBeVisible({ timeout: 15_000 });
+    return dialog;
+  }
+
+  async chooseCanalMaquininha(): Promise<void> {
+    await selectIftaByInputId(this.page, 'pag-confirm-canal', /Na maquininha/i, this.pagamentoConfirmDialog());
+  }
+
+  async confirmCobrarNaMaquininha(): Promise<Locator> {
+    await this.pagamentoConfirmDialog().getByRole('button', { name: /Cobrar na maquininha/i }).click();
+    const charge = this.posChargeDialog();
+    await expect(charge).toBeVisible({ timeout: 15_000 });
+    return charge;
   }
 
   async expectNoPaginatorOnTab(): Promise<void> {

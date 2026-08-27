@@ -21,8 +21,10 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 | `tests/support/prontuario-list-helpers.ts` | Seed via API e assertivas de scroll infinito nas listas do prontuário |
 | `tests/support/screen-map.ts` | Validação de screen maps e baseline de textos visíveis |
 | `tests/support/billing-mocks.ts` | Mock `/api/billing/**`, pagamentos do paciente (Asaas/boleto/link/baixa) e bloqueio de domínios externos (`E2E_ALLOW_REAL_BILLING=false`) |
+| `tests/support/pos-mocks.ts` | Mock `/api/configuracoes/maquininhas`, BYOK Stone/Cielo/SumUp e cobrança `/pagamentos/:id/maquininha` |
 | `tests/support/google-calendar-mocks.ts` | Mock `/api/integracoes/google-calendar/**` + overlay `agenda/eventos` |
 | `tests/support/crud-helpers.ts` | Prefixo `E2E-`, cleanup via API, CPF válido |
+| `tests/support/feature-mocks.ts` | Mock `/api/feature-flags` (NFS, assinatura digital, personalização, `pos_maquininha` e marcas) |
 | `tests/support/toast-helpers.ts` | Assert `.p-toast-message` |
 | `tests/support/interaction-helpers.ts` | Modais, config tabs, Ifta select |
 | `tests/data/financeiro.ts` | Seletores, indicadores painel/fluxo, paths gated do financeiro |
@@ -52,13 +54,14 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 | `prontuario.informacoes.funcional.spec.ts` | **PAC-PRONT-INFO-MAP/01** — mapeamento e edição |
 | `prontuario.plano-ficha.funcional.spec.ts` | **PAC-PRONT-PLANO-MAP/01–02** — plano aprovado e ficha clínica |
 | `prontuario.orcamentos.funcional.spec.ts` | **PAC-PRONT-ORC-MAP/01–07** — CRUD orçamento, contrato, documento, boleto |
-| `prontuario.tratamentos.funcional.spec.ts` | **PAC-PRONT-TRAT-MAP/01–05** — CRUD tratamento e odontograma |
+| `prontuario.tratamentos.funcional.spec.ts` | **PAC-PRONT-TRAT-MAP/01–05**, **PAC-PRONT-TRAT-NOTE-01–03** — CRUD tratamento, odontograma e anotações |
 | `prontuario.infinite-scroll.funcional.spec.ts` | **PAC-PRONT-INF-01–05** — scroll infinito nas abas orçamentos, tratamentos, receituário, documentos e pagamentos |
 | `prontuario.receituario.funcional.spec.ts` | **PAC-PRONT-REC-MAP/01–07** — prescrição, atestado, declaração, encaminhamento |
 | `prontuario.arquivos.funcional.spec.ts` | **PAC-PRONT-ARQ-MAP/01–04** — upload, visualizar, download, excluir |
 | `prontuario.anamneses.funcional.spec.ts` | **PAC-PRONT-ANAM-MAP/01–05** — CRUD, pesquisa, modelos |
 | `prontuario.documentos.funcional.spec.ts` | **PAC-PRONT-DOC-MAP/01–04** — mesmo fluxo de arquivos |
 | `prontuario.pagamentos.funcional.spec.ts` | **PAC-PRONT-PAG-MAP/01–09** — lançamentos, pagar, filtros, extrato, cobrança |
+| `prontuario.pagamentos.maquininha.funcional.spec.ts` | **PAC-PRONT-PAG-POS-MAP/01–05** — cobrar na maquininha (mock), validação, erro API, empty, cancelar |
 | `financeiro.funcional.spec.ts` | **FIN-PAIN-02–04**, **FIN-FLUX-02–03** — período, modal, link fluxo, busca |
 | `financeiro.fluxo-crud.funcional.spec.ts` | **FIN-CRUD-01**, **FIN-CRUD-UI-01**, **FIN-FLUX-04–05** — CRUD lançamentos (serial) |
 | `financeiro.comissoes.funcional.spec.ts` | **FIN-COM-01–03** — listagem, configuração, marcar paga *(condicional)* |
@@ -77,6 +80,7 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 | `configuracoes.comunicacao.funcional.spec.ts` | **CFG-12–13** — modelos e créditos de mensagens |
 | `configuracoes.contratos.funcional.spec.ts` | **CFG-16**, **CFG-FUNC-CONTRATO-01** — modelos de contrato |
 | `configuracoes.integracoes.funcional.spec.ts` | **CFG-14**, **CFG-15**, **CFG-17** — integrações, plano, comissões |
+| `configuracoes.maquininhas.funcional.spec.ts` | **CFG-POS-MAP/01–07** — painel Na maquininha, cadastro Point, validação, erro API, Stone/Cielo, ajuda, remover |
 | `configuracoes.feedback.funcional.spec.ts` | **CFG-FB-01–06** — validação, toast sucesso, erro API interceptado |
 | `shell.funcional.spec.ts` | SHELL-FUNC menu, notificações, sidebar |
 | `billing.funcional.spec.ts` | BILL assinatura mockada |

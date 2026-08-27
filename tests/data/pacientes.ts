@@ -85,7 +85,7 @@ export const PRONTUARIO_DOCUMENTO_SCREEN_MAP = {
 
 export const PRONTUARIO_TRATAMENTOS_SCREEN_MAP = {
   tabs: [/^Tratamentos$/i],
-  headings: [/Tratamento|Odontograma/i],
+  headings: [/Tratamento|Odontograma/i, /^Anotações$/],
   buttons: [/Novo tratamento|Adicionar tratamento/i],
 } as const;
 
