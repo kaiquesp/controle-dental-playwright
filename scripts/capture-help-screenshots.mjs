@@ -83,8 +83,12 @@ async function dismissModals(page) {
     await page.waitForTimeout(300);
   }
 
+  // Escopo restrito a overlays/dialogs: um getByRole('button', { name: /Continuar/i })
+  // sem escopo casa por substring com CTAs legítimos da própria página (ex.: "Continuar
+  // com Google", o "Continuar" do formulário de recuperar senha) e clica neles sem querer.
+  const overlayScope = page.locator('[role="dialog"], .p-dialog, [class*="tour"], [class*="onboarding"]');
   for (const label of [/Fechar/i, /Entendi/i, /Continuar/i]) {
-    const btn = page.getByRole('button', { name: label }).first();
+    const btn = overlayScope.getByRole('button', { name: label }).first();
     if (await btn.isVisible().catch(() => false)) {
       await btn.click({ timeout: 2000 }).catch(() => undefined);
     }
@@ -115,14 +119,22 @@ async function captureJob(page, job, patientId) {
     await openConfigSection(page, job.capture.configSection);
   }
 
+  if (job.capture.scrollToText) {
+    const target = page.getByText(new RegExp(job.capture.scrollToText, 'i')).first();
+    if (await target.isVisible().catch(() => false)) {
+      await target.scrollIntoViewIfNeeded().catch(() => undefined);
+      await page.waitForTimeout(300);
+    }
+  }
+
   if (job.capture.readySelector) {
     await page.waitForSelector(job.capture.readySelector, { timeout: 15000 }).catch(() => undefined);
   }
 
-  if (job.capture.clickButton) {
-    const btn = page
-      .getByRole('button', { name: new RegExp(job.capture.clickButton, 'i') })
-      .first();
+  if (job.capture.clickButton || job.capture.clickSelector) {
+    const btn = job.capture.clickSelector
+      ? page.locator(job.capture.clickSelector).first()
+      : page.getByRole('button', { name: new RegExp(job.capture.clickButton, 'i') }).first();
     if (await btn.isVisible().catch(() => false)) {
       await btn.click();
       await page.waitForTimeout(600);
