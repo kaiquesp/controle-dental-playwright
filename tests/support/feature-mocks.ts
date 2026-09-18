@@ -4,6 +4,7 @@ const E2E_FEATURE_FLAGS = {
   is_nfs: true,
   is_digital_signature: true,
   is_personalization: true,
+  is_onboarding: true,
   is_vendas: false,
   pos_maquininha: true,
   pos_mercadopago: true,
