@@ -14,7 +14,9 @@ test.describe('Billing — assinatura com mock', () => {
     await expect(
       page.getByRole('heading', { name: /Assinatura|Plano e cobrança|Plano/i }).first()
     ).toBeVisible({ timeout: 20_000 });
-    await expect(page.getByText(/plano|assinatura|faturamento|cobrança/i).first()).toBeVisible();
+    await expect(
+      page.getByText(/plano|assinatura|faturamento|cobrança/i).and(page.locator(':visible')).first()
+    ).toBeVisible();
   });
 
   test('[BILL-02] não dispara checkout real ao explorar UI', async ({ page }) => {

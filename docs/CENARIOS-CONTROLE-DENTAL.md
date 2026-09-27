@@ -386,6 +386,7 @@ Mocks: `tests/support/google-calendar-mocks.ts` (sem OAuth real).
 | PAC-PRONT-ARQ/DOC | Arquivos e Documentos | Upload, visualizar, download, excluir |
 | PAC-PRONT-ANAM-01–05 | Anamneses | CRUD, pesquisa, modelos |
 | PAC-PRONT-PAG-01–09 | Pagamentos | Orçamentos lançados, CRUD manual, Pagar, filtros, totais, extrato, link cobrança |
+| PAC-PRONT-PAG-POS-MAP/01–05 | Cobrar na maquininha | Modal de cobrança presencial, envio, validação, erro API, empty state, cancelar (mock) |
 
 ---
 
@@ -564,6 +565,7 @@ Mocks: `tests/support/google-calendar-mocks.ts` (sem OAuth real).
 | CFG-21 | Modelos de encaminhamento | Templates de encaminhamento |
 | CFG-22 | Notificações | Preferências in-app / push / categorias |
 | CFG-FB-01..06 | Feedback sucesso/erro | Validação formulário, toast sucesso, intercept 500 |
+| CFG-POS-MAP/01–07 | Maquininhas (Integrações → Cobrança aos pacientes) | Painel Na maquininha, cadastro Point, validação, erro API, Stone/Cielo, ajuda, remover |
 | CFG-CRUD-01..07 | CRUD cadastros | Fornecedor, sala, medicamento com cleanup API |
 
 ---

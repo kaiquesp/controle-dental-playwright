@@ -21,7 +21,9 @@ test.describe('Registro trial', () => {
     await page.locator('#trial-email, input[name="trial-email"]').fill(`e2e-${Date.now()}@teste.com`);
     await page.locator('#trial-celular, input[name="trial-celular"]').fill('11999999999');
     await page.locator('#trial-senha, input[name="trial-senha"]').fill('1234567');
-    await expect(page.getByRole('button', { name: /Começar teste grátis/i })).toBeDisabled();
+    // O botão fica sempre ativo; a validação aparece no campo ao tentar enviar.
+    await page.getByRole('button', { name: /Começar teste grátis/i }).click();
+    await expect(page.getByText(/senha deve ter no mínimo 8 caracteres/i)).toBeVisible();
     await expect(page).toHaveURL(/\/registro/);
   });
 

@@ -247,8 +247,13 @@ export class ConfiguracoesPage {
     await expect(row).toBeVisible({ timeout: 15_000 });
     const del = row.getByRole('button', { name: /Excluir|Remover|Apagar/i }).first();
     if (await del.isVisible().catch(() => false)) {
+      // Alguns cadastros confirmam a exclusão via window.confirm nativo.
+      this.page.once('dialog', (dialog) => dialog.accept().catch(() => undefined));
       await del.click();
-      const confirm = this.page.getByRole('button', { name: /Confirmar|Excluir|Sim|Remover/i }).last();
+      const confirm = this.page
+        .getByRole('alertdialog')
+        .getByRole('button', { name: /Confirmar|Excluir|Sim|Remover|Apagar/i })
+        .last();
       if (await confirm.isVisible().catch(() => false)) await confirm.click();
       await expectToast(this.page, SUCCESS_TOAST, 15_000).catch(() => undefined);
     }
@@ -286,6 +291,48 @@ export class ConfiguracoesPage {
     if (!response?.ok()) return null;
     const body = (await response.json().catch(() => ({}))) as Record<string, unknown>;
     return extractId(body);
+  }
+
+  async openCobrancaPacientes(): Promise<Locator> {
+    const card = this.page.locator('.config__card').filter({ hasText: /Cobrança aos pacientes/i });
+    await expect(card).toBeVisible({ timeout: 20_000 });
+    await card.getByRole('button', { name: /Configurar|Conectar/i }).click();
+    const dialog = this.cobrancaPacientesDialog();
+    await expect(dialog).toBeVisible({ timeout: 15_000 });
+    return dialog;
+  }
+
+  cobrancaPacientesDialog(): Locator {
+    // O host <p-dialog> e o painel <div.p-dialog> expõem `role="dialog"` com o
+    // mesmo nome acessível; restringe ao painel real para evitar strict mode.
+    return this.page
+      .getByRole('dialog', { name: /Cobrança aos pacientes/i })
+      .and(this.page.locator('.p-dialog'));
+  }
+
+  async selectCobrancaModoMaquininha(): Promise<Locator> {
+    const dialog = this.cobrancaPacientesDialog();
+    const tab = dialog.getByRole('tab', { name: /Na maquininha/i });
+    await expect(tab).toBeVisible({ timeout: 10_000 });
+    await tab.click();
+    await expect(tab).toHaveAttribute('aria-selected', 'true');
+    await expect(dialog.getByText(/Qual maquininha vocês usam\?/i)).toBeVisible({ timeout: 10_000 });
+    return dialog;
+  }
+
+  async fillPosDevice(options: { serial: string; nome?: string }): Promise<void> {
+    const dialog = this.cobrancaPacientesDialog();
+    const serial = dialog.locator('#pos-register-serial');
+    await expect(serial).toBeVisible({ timeout: 10_000 });
+    await serial.fill(options.serial);
+    if (options.nome != null) {
+      await dialog.locator('#pos-register-nome').fill(options.nome);
+    }
+  }
+
+  async submitPosDevice(): Promise<void> {
+    const dialog = this.cobrancaPacientesDialog();
+    await dialog.getByRole('button', { name: /Adicionar maquininha|Salvar maquininha/i }).click();
   }
 }
 

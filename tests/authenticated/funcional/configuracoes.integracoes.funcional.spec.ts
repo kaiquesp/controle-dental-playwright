@@ -21,7 +21,9 @@ test.describe('Configurações — Integrações', () => {
     await expect(
       page.getByRole('heading', { name: /Assinatura|Plano e cobrança|Plano/i }).first()
     ).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByText(/plano|assinatura|faturamento|cobrança/i).first()).toBeVisible();
+    await expect(
+      page.getByText(/plano|assinatura|faturamento|cobrança/i).and(page.locator(':visible')).first()
+    ).toBeVisible();
     await expectNoErrorToast(page);
   });
 });

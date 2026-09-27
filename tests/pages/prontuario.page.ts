@@ -18,6 +18,7 @@ import {
 } from '../data/pacientes';
 import { captureVisibleTexts, expectScreenMap, expectTextsInclude } from '../support/screen-map';
 import { closeDialog, editableFields, expectDialogOpen, fillSearchSelect, selectIftaByInputId, visibleDialog } from '../support/interaction-helpers';
+import { expectToast } from '../support/toast-helpers';
 import { dismissBillingLockUi } from '../support/billing-mocks';
 
 export type OrcamentoCreateOptions = {
@@ -109,6 +110,62 @@ export class ProntuarioPage {
     await expectScreenMap(this.page, PRONTUARIO_DOCUMENTOS_SCREEN_MAP);
   }
 
+  documentoEditor(): Locator {
+    return this.page.locator('app-paciente-form-documento-avulso-editor');
+  }
+
+  documentoRow(titulo: string): Locator {
+    return this.page.locator('li.novo-paciente__doc-card').filter({ hasText: titulo });
+  }
+
+  /** Cria um documento avulso pelo editor (Novo Documento → título + conteúdo + profissional → Gerar). */
+  async createDocumentoAvulso(titulo: string): Promise<void> {
+    await this.dismissBlockingUi();
+    const novoBtn = this.page
+      .locator('main, app-paciente-form-content')
+      .first()
+      .getByRole('button', { name: /Novo Documento/i })
+      .first();
+    await expect(novoBtn).toBeVisible({ timeout: 15_000 });
+    await novoBtn.click();
+
+    const editor = this.documentoEditor();
+    await expect(editor).toBeVisible({ timeout: 15_000 });
+
+    await editor.locator('#doc-avulso-titulo').fill(titulo);
+
+    const conteudo = editor.locator('.ql-editor');
+    await expect(conteudo).toBeVisible({ timeout: 15_000 });
+    await conteudo.click();
+    await this.page.keyboard.type(`Conteudo E2E do documento ${titulo}.`);
+
+    await selectIftaByInputId(this.page, 'doc-avulso-profissional', /.+/i, editor).catch(
+      () => undefined
+    );
+
+    // Sem assinatura digital: gera um documento simples e volta direto para a lista.
+    for (const label of [/Solicitar assinatura do paciente/i, /Solicitar assinatura do profissional/i]) {
+      await editor.getByRole('checkbox', { name: label }).uncheck().catch(() => undefined);
+    }
+
+    const gerar = editor.getByRole('button', { name: /Gerar documento/i });
+    await expect(gerar).toBeEnabled({ timeout: 15_000 });
+    await gerar.click();
+
+    await expectToast(this.page, /Documento gerado/i, 30_000);
+
+    // Fallback: se a assinatura ficou marcada, fecha o modal de links.
+    const linksDialog = this.page.getByRole('dialog', { name: /Compartilhar link para assinatura/i });
+    if (await linksDialog.first().isVisible({ timeout: 2_000 }).catch(() => false)) {
+      await linksDialog.getByRole('button', { name: /Fechar/i }).first().click().catch(() => undefined);
+    }
+    if (await this.documentoEditor().isVisible().catch(() => false)) {
+      await this.documentoEditor().getByRole('button', { name: /^Voltar$/i }).first().click().catch(() => undefined);
+    }
+
+    await expect(this.documentoRow(titulo).first()).toBeVisible({ timeout: 20_000 });
+  }
+
   async expectPagamentosScreenMap(): Promise<void> {
     await expectScreenMap(this.page, PRONTUARIO_PAGAMENTOS_SCREEN_MAP);
   }
@@ -139,8 +196,8 @@ export class ProntuarioPage {
 
   async fillOrcamentoBasico(descricao: string, valor = '150,00'): Promise<void> {
     const dialog = this.orcamentoDialog();
-    await selectIftaByInputId(this.page, 'orc-draft-proc', /.+/i, dialog).catch(() =>
-      fillSearchSelect(this.page, 'orc-draft-proc', 'consulta', dialog)
+    await selectIftaByInputId(this.page, 'orc-catalog-procedure', /.+/i, dialog).catch(() =>
+      fillSearchSelect(this.page, 'orc-catalog-procedure', 'consulta', dialog)
     );
 
     const tituloField = dialog.locator('#orc-modal-titulo');
@@ -365,13 +422,21 @@ export class ProntuarioPage {
   }
 
   async openNovoTratamento(): Promise<void> {
-    const btn = this.page.getByRole('button', { name: /Novo tratamento|Adicionar tratamento/i }).first();
+    const btn = this.page
+      .locator('main, app-paciente-form-content')
+      .first()
+      .getByRole('button', { name: /Novo tratamento/i })
+      .first();
     await expect(btn).toBeVisible({ timeout: 15_000 });
     await btn.click();
     await expectDialogOpen(this.page, /tratamento|procedimento|dente/i);
   }
 
-  async createTratamentoBasico(descricao: string): Promise<void> {
+  /**
+   * Cria um tratamento clínico básico vinculado ao dente 11 (com uma face) e
+   * retorna o nome do procedimento escolhido — a lista identifica a linha por ele.
+   */
+  async createTratamentoBasico(descricao: string): Promise<string> {
     await this.dismissBlockingUi();
     await this.openNovoTratamento();
     const dialog = this.page
@@ -380,22 +445,38 @@ export class ProntuarioPage {
       .last();
 
     const proc = dialog.locator('#trat-modal-proc');
-    let procSelected = false;
+    let procedimento = '';
     for (const term of ['Limpeza', 'Avaliação', 'Restauração', 'Extração', 'Consulta', 'Profilaxia', 'a']) {
       await proc.fill(term);
       await this.page.waitForTimeout(600);
-      const option = this.page.locator('.p-autocomplete-option, .p-autocomplete-item, [role="option"]').first();
+      const option = this.page
+        .locator(
+          '.pf-trat-clin-modal__proc-dropdown button, .p-autocomplete-option, .p-autocomplete-item, [role="option"]'
+        )
+        .first();
       if (await option.isVisible().catch(() => false)) {
+        // O botão do dropdown traz "Nome\nCódigo: ..."; a lista mostra só o nome.
+        procedimento = (await option.innerText()).trim().split('\n')[0].trim();
         await option.click();
-        procSelected = true;
         break;
       }
     }
-    if (!procSelected) {
+    if (!procedimento) {
       throw new Error('Nenhum procedimento encontrado no catálogo da clínica');
     }
 
-    await dialog.getByRole('button', { name: /^11$/ }).click().catch(() => undefined);
+    // Vincula dente + face para o tratamento aparecer pintado no odontograma.
+    const toothGroup = dialog.getByRole('group', { name: 'Dente' });
+    const tooth = toothGroup
+      .getByRole('button', { name: /^11$/ })
+      .or(toothGroup.getByRole('button').first());
+    await tooth.first().click({ timeout: 5_000 }).catch(() => undefined);
+    await dialog
+      .getByRole('group', { name: 'Faces' })
+      .getByRole('button')
+      .first()
+      .click({ timeout: 3_000 })
+      .catch(() => undefined);
 
     const detalhes = dialog.locator('#trat-modal-detalhes, #trat-modal-obs');
     if (await detalhes.first().isVisible().catch(() => false)) {
@@ -414,16 +495,38 @@ export class ProntuarioPage {
       )
       .catch(() => null);
     await Promise.all([saveResponse, save.click()]);
-    await expect(this.tratamentoRow(descricao).first()).toBeVisible({ timeout: 20_000 });
+    await expect(this.tratamentoRow(procedimento).first()).toBeVisible({ timeout: 20_000 });
+    return procedimento;
   }
 
-  tratamentoRow(descricao: string): Locator {
-    return this.page.locator('tr, article, [class*="tratamento"]').filter({ hasText: descricao });
+  tratamentoRow(texto: string): Locator {
+    return this.page
+      .locator('.pf-trat-tab__row, article, tr')
+      .filter({ hasText: texto });
+  }
+
+  /** Abre o menu "⋮" de uma linha de tratamento e devolve o `role="menu"`. */
+  async openTratamentoRowMenu(texto: string): Promise<Locator> {
+    const row = this.tratamentoRow(texto).first();
+    await expect(row).toBeVisible({ timeout: 20_000 });
+    await row.getByRole('button', { name: /Mais opções do tratamento/i }).click();
+    const menu = row.getByRole('menu').first();
+    await expect(menu).toBeVisible({ timeout: 10_000 });
+    return menu;
   }
 
   async expectOdontogramaMarcado(): Promise<void> {
     await expect(
-      this.page.locator('[class*="odontograma"] [class*="selected"], [class*="odontograma"] [data-dente], .tooth--active').first()
+      this.page
+        .locator(
+          [
+            '.odonto [class*="face--em_aberto"]',
+            '.odonto [class*="face--finalizado"]',
+            '.odonto [class*="coroa-btn--em_aberto"]',
+            '.odonto [class*="coroa-btn--finalizado"]',
+          ].join(', ')
+        )
+        .first()
     ).toBeVisible({ timeout: 15_000 });
   }
 
@@ -564,7 +667,11 @@ export class ProntuarioPage {
   }
 
   posChargeDialog(): Locator {
-    return this.page.getByRole('dialog', { name: /Cobrar na maquininha/i });
+    // Evita strict mode: o host <p-dialog> e o painel <div.p-dialog> compartilham
+    // `role="dialog"` e nome acessível; fica só com o painel real.
+    return this.page
+      .getByRole('dialog', { name: /Cobrar na maquininha/i })
+      .and(this.page.locator('.p-dialog'));
   }
 
   async openPagarOnRow(descricao: string): Promise<Locator> {

@@ -20,7 +20,9 @@ test.describe('Shell autenticado', () => {
   });
 
   test('[SHELL-05] exibe chat de suporte', async ({ page }) => {
-    await expect(page.getByRole('button', { name: /Abrir chat de suporte/i })).toBeVisible();
+    await expect(
+      page.getByRole('button', { name: /Falar com o suporte pelo WhatsApp/i })
+    ).toBeVisible();
   });
 
   test('[SHELL-06] banner de cookies não bloqueia a agenda autenticada', async ({ page }) => {

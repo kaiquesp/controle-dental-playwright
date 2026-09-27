@@ -183,3 +183,23 @@ export async function seedPagamentosForInfiniteScroll(
     });
   }
 }
+
+export async function seedPendingPagamento(
+  request: APIRequestContext,
+  token: string,
+  patientId: string,
+  descricao: string,
+  valor = 150
+): Promise<void> {
+  await postJson(request, token, `${e2eEnv.apiUrl}/pacientes/${patientId}/pagamentos`, {
+    valor,
+    data: todayIso(),
+    data_transacao: todayIso(),
+    data_vencimento: todayIso(),
+    descricao,
+    categoria: 'tratamento',
+    status: 'pendente',
+    forma_pagamento: 'dinheiro',
+    tipo: 'receita',
+  });
+}

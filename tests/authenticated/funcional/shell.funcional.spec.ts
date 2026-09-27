@@ -33,7 +33,7 @@ test.describe('Shell — interações de navegação', () => {
   });
 
   test('[SHELL-FUNC-04] chat de suporte está acessível', async ({ page }) => {
-    const chatBtn = page.getByRole('button', { name: /Abrir chat de suporte/i });
+    const chatBtn = page.getByRole('button', { name: /Falar com o suporte pelo WhatsApp/i });
     await expect(chatBtn).toBeVisible();
     await expect(chatBtn).toBeEnabled();
   });

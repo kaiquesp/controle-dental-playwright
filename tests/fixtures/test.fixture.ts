@@ -13,6 +13,7 @@ import { ProntuarioPage } from '../pages/prontuario.page';
 import { captureFailureScreenshot } from '../support/screenshot-helper';
 import { installAllPaymentMocks, installAllPaymentMocksOnContext } from '../support/billing-mocks';
 import { installFeatureMocks, installFeatureMocksOnContext } from '../support/feature-mocks';
+import { createPosMockState, installPosMocks } from '../support/pos-mocks';
 import { instrumentVideoCursorOnContext } from '../support/video-cursor';
 
 type AppFixtures = {
@@ -33,6 +34,7 @@ export const test = base.extend<AppFixtures>({
   context: async ({ context }, use) => {
     await installAllPaymentMocksOnContext(context);
     await installFeatureMocksOnContext(context);
+    await installPosMocks(context, createPosMockState());
     await instrumentVideoCursorOnContext(context);
     await use(context);
   },
