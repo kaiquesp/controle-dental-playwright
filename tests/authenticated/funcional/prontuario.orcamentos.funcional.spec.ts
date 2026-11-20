@@ -95,6 +95,47 @@ test.describe('Prontuário — Orçamentos', () => {
     }
   });
 
+  test('[PAC-PRONT-ORC-SEC-01] preview do contrato não executa script vindo do HTML', async ({
+    page,
+    prontuarioPage,
+  }) => {
+    test.setTimeout(180_000);
+    const desc = e2eName('Orc-Xss');
+    await prontuarioPage.openNovoOrcamento();
+    await prontuarioPage.fillOrcamentoBasico(desc);
+    await prontuarioPage.setOrcamentoOptions({ gerarContrato: true });
+    await prontuarioPage.saveOrcamento();
+    const contratoBtn = prontuarioPage.orcamentoRow(desc).getByRole('button', { name: /Visualizar contrato/i });
+    if (!(await contratoBtn.first().isVisible({ timeout: 15_000 }).catch(() => false))) {
+      test.skip(true, 'Contrato não foi gerado para este orçamento');
+    }
+
+    const maliciousHtml = '<p>Cláusula E2E segura</p><img src="x" onerror="window.__e2eXss = 1"><script>window.__e2eXss = 2</script><a href="javascript:window.__e2eXss = 3">link</a>';
+    await page.route('**/orcamentos/*/contrato-tratamento**', async (route) => {
+      if (route.request().method() !== 'GET') {
+        await route.continue();
+        return;
+      }
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 1, titulo: 'Contrato E2E', conteudo_html: maliciousHtml }),
+      });
+    });
+
+    try {
+      await contratoBtn.first().click();
+      const dialog = page.getByRole('dialog').filter({ hasText: /Cláusula E2E segura/ });
+      await expect(dialog).toBeVisible({ timeout: 20_000 });
+      await page.waitForTimeout(500);
+
+      expect(await page.evaluate(() => (window as unknown as { __e2eXss?: number }).__e2eXss)).toBeUndefined();
+      await expect(dialog.locator('[onerror], script, a[href^="javascript:"]')).toHaveCount(0);
+    } finally {
+      await page.unroute('**/orcamentos/*/contrato-tratamento**');
+    }
+  });
+
   test('[PAC-PRONT-ORC-05] edita orçamento', async ({ prontuarioPage }) => {
     test.setTimeout(120_000);
     const desc = e2eName('Orc-Edit');

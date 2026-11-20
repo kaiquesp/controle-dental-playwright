@@ -1,5 +1,8 @@
 import { test, expect } from '../../fixtures/test.fixture';
 import { createE2ePatientByApi, deleteE2ePatient, e2eUploadFilePath } from '../../support/pacientes-helpers';
+import { readAccessToken } from '../../support/crud-helpers';
+import { e2eEnv } from '../../support/env';
+import { expectErrorToast } from '../../support/toast-helpers';
 
 test.describe.configure({ mode: 'serial' });
 
@@ -32,6 +35,41 @@ test.describe('Prontuário — Arquivos', () => {
     test.setTimeout(120_000);
     await prontuarioPage.uploadArquivo(e2eUploadFilePath());
     await expect(prontuarioPage.arquivoRow(fileName).first()).toBeVisible({ timeout: 20_000 });
+  });
+
+  test('[PAC-PRONT-ARQ-SEC-01] arquivo HTML é recusado na seleção e não pode ser enviado', async ({
+    page,
+    prontuarioPage,
+  }) => {
+    test.setTimeout(120_000);
+    const confirm = await prontuarioPage.selectArquivoParaUpload(e2eUploadFilePath('e2e-not-allowed.html'));
+    await expectErrorToast(page, /Use imagens .* ou PDF|Nenhum arquivo válido/i);
+    await expect(confirm).toBeDisabled();
+    await expect(prontuarioPage.arquivoRow('e2e-not-allowed')).toHaveCount(0);
+  });
+
+  test('[PAC-PRONT-ARQ-SEC-02] API ignora o mime informado e recusa HTML/SVG disfarçados de imagem', async ({
+    page,
+  }) => {
+    const token = await readAccessToken(page);
+    test.skip(!token, 'Sessão E2E ausente');
+    const upload = (nome: string, mime: string, content: string) =>
+      page.request.post(`${e2eEnv.apiUrl}/pacientes/${patientId}/arquivos`, {
+        headers: { Authorization: `Bearer ${token}` },
+        data: {
+          nome_original: nome,
+          mime_type: mime,
+          arquivo_base64: Buffer.from(content).toString('base64'),
+          categoria: 'radiografia',
+        },
+      });
+
+    const html = await upload('foto.png', 'image/png', '<html><script>alert(1)</script></html>');
+    expect(html.status()).toBe(400);
+    expect(((await html.json()) as { erro?: string }).erro).toMatch(/Tipo de arquivo nao permitido/i);
+
+    const svg = await upload('raio-x.png', 'image/svg+xml', '<svg xmlns="http://www.w3.org/2000/svg" onload="alert(1)"/>');
+    expect(svg.status()).toBe(400);
   });
 
   test('[PAC-PRONT-ARQ-02] visualizar arquivo', async ({ page, prontuarioPage }) => {

@@ -294,7 +294,7 @@ export class ConfiguracoesPage {
   }
 
   async openCobrancaPacientes(): Promise<Locator> {
-    const card = this.page.locator('.config__card').filter({ hasText: /Cobrança aos pacientes/i });
+    const card = this.page.getByRole('region', { name: /Cobrança aos pacientes/i }).first();
     await expect(card).toBeVisible({ timeout: 20_000 });
     await card.getByRole('button', { name: /Configurar|Conectar/i }).click();
     const dialog = this.cobrancaPacientesDialog();
@@ -332,7 +332,21 @@ export class ConfiguracoesPage {
 
   async submitPosDevice(): Promise<void> {
     const dialog = this.cobrancaPacientesDialog();
-    await dialog.getByRole('button', { name: /Adicionar maquininha|Salvar maquininha/i }).click();
+    await dialog.getByRole('button', { name: /Adicionar maquininha|Salvar maquininha|Parear maquininha/i }).click();
+  }
+
+  /** Aba da conta de cobrança por link (Stripe, Mercado Pago, Asaas, PagBank, InfinitePay). */
+  async selectCobrancaLinkGateway(name: string): Promise<Locator> {
+    const dialog = this.cobrancaPacientesDialog();
+    const tab = dialog.getByRole('tab', { name: new RegExp(`^${name}$`, 'i') });
+    await expect(tab).toBeVisible({ timeout: 10_000 });
+    await tab.click();
+    await expect(tab).toHaveAttribute('aria-selected', 'true');
+    return dialog;
+  }
+
+  fieldHelpDialog(title: RegExp): Locator {
+    return this.page.getByRole('dialog', { name: title }).and(this.page.locator('div'));
   }
 }
 

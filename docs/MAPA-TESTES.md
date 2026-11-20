@@ -47,7 +47,7 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 |---------|----------|
 | `agenda.funcional.spec.ts` | AG-05–08, AG-14–16 — smoke de filtros, modais, visualização |
 | `agenda.crud.funcional.spec.ts` | **AG-CRUD-01–08** — CRUD Consulta/Compromisso/Tarefa |
-| `agenda.status-etiquetas.funcional.spec.ts` | **AG-STS-01–04**, **AG-LBL-01–03** |
+| `agenda.status-etiquetas.funcional.spec.ts` | **AG-STS-01–06**, **AG-LBL-01–03** |
 | `agenda.filtros.funcional.spec.ts` | **AG-FLT-01–07** — profissional, status, sala |
 | `agenda.visualizacao.funcional.spec.ts` | **AG-VIEW-01–06** — Dia/Semana/Mês, navegação |
 | `agenda.avancado.funcional.spec.ts` | **AG-ADV-01–05**, **AG-PRT-01–02** |
@@ -58,13 +58,13 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 | `pacientes.crud.funcional.spec.ts` | **PAC-CRUD-02** — cadastro/edição/exclusão via UI |
 | `prontuario.informacoes.funcional.spec.ts` | **PAC-PRONT-INFO-MAP/01** — mapeamento e edição |
 | `prontuario.plano-ficha.funcional.spec.ts` | **PAC-PRONT-PLANO-MAP/01–02** — plano aprovado e ficha clínica |
-| `prontuario.orcamentos.funcional.spec.ts` | **PAC-PRONT-ORC-MAP/01–07** — CRUD orçamento, contrato, documento, boleto |
+| `prontuario.orcamentos.funcional.spec.ts` | **PAC-PRONT-ORC-MAP/01–07** — CRUD orçamento, contrato, documento, boleto; **PAC-PRONT-ORC-SEC-01** — preview do contrato não executa script (XSS) |
 | `prontuario.tratamentos.funcional.spec.ts` | **PAC-PRONT-TRAT-MAP/01–05**, **PAC-PRONT-TRAT-NOTE-01–03** — CRUD tratamento, odontograma e anotações |
 | `prontuario.infinite-scroll.funcional.spec.ts` | **PAC-PRONT-INF-01–05** — scroll infinito nas abas orçamentos, tratamentos, receituário, documentos e pagamentos |
 | `prontuario.receituario.funcional.spec.ts` | **PAC-PRONT-REC-MAP/01–07** — prescrição, atestado, declaração, encaminhamento |
-| `prontuario.arquivos.funcional.spec.ts` | **PAC-PRONT-ARQ-MAP/01–04** — upload, visualizar, download, excluir |
+| `prontuario.arquivos.funcional.spec.ts` | **PAC-PRONT-ARQ-MAP/01–04** — upload, visualizar, download, excluir; **PAC-PRONT-ARQ-SEC-01/02** — HTML recusado na tela e HTML/SVG disfarçados recusados pela API |
 | `prontuario.anamneses.funcional.spec.ts` | **PAC-PRONT-ANAM-MAP/01–05** — CRUD, pesquisa, modelos |
-| `prontuario.documentos.funcional.spec.ts` | **PAC-PRONT-DOC-MAP/01–04** — mesmo fluxo de arquivos |
+| `prontuario.documentos.funcional.spec.ts` | **PAC-PRONT-DOC-MAP/01–04** — mesmo fluxo de arquivos; **PAC-PRONT-DOC-SEC-01** — API grava documento sem script/eventos |
 | `prontuario.pagamentos.funcional.spec.ts` | **PAC-PRONT-PAG-MAP/01–09** — lançamentos, pagar, filtros, extrato, cobrança |
 | `prontuario.pagamentos.maquininha.funcional.spec.ts` | **PAC-PRONT-PAG-POS-MAP/01–05** — cobrar na maquininha (mock), validação, erro API, empty, cancelar |
 | `prontuario.voz.ficha-clinica.funcional.spec.ts` | **PAC-VOZ-001, 012, 018, 031–032, 047, 056, 058–086, 126, 128, 130, 132–133, 135, 137, 151, 154, 158, 164–166** — Assistente IA por Voz no Novo/Editar registro (ditado grátis, alvo, rótulos, comandos, Melhorar/Desfazer, persistência, XSS) |
@@ -82,17 +82,18 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 | `configuracoes.perfil.funcional.spec.ts` | **CFG-FUNC-01**, **CFG-02**, **CFG-03** — perfil, restaurar nome, validação senha |
 | `configuracoes.clinica.funcional.spec.ts` | **CFG-04**, **CFG-FUNC-CLINICA-01** — campos e save reversível |
 | `configuracoes.notificacoes.funcional.spec.ts` | **CFG-22**, **CFG-FUNC-NOTIF-01** — preferências e toggle |
-| `configuracoes.equipe.funcional.spec.ts` | **CFG-05**, **CFG-FUNC-EQUIPE-01** — modal membro + validação |
+| `configuracoes.equipe.funcional.spec.ts` | **CFG-05**, **CFG-FUNC-EQUIPE-01** — modal membro + validação; **CFG-FUNC-EQUIPE-SEC-01** — trocar o papel invalida o token do membro |
 | `configuracoes.cadastros.funcional.spec.ts` | **CFG-07–11** — dentistas, convênios, fornecedores, salas, pagamentos |
 | `configuracoes.cadastros.crud.funcional.spec.ts` | **CFG-CRUD-01–07** — CRUD fornecedor/sala/medicamento (serial + API cleanup) |
 | `configuracoes.clinico.funcional.spec.ts` | **CFG-18–21** — tratamentos, anamnese, medicamentos, encaminhamento |
 | `configuracoes.comunicacao.funcional.spec.ts` | **CFG-12–13** — modelos e créditos de mensagens |
 | `configuracoes.contratos.funcional.spec.ts` | **CFG-16**, **CFG-FUNC-CONTRATO-01** — modelos de contrato |
 | `configuracoes.integracoes.funcional.spec.ts` | **CFG-14**, **CFG-15**, **CFG-17** — integrações, plano, comissões |
-| `configuracoes.maquininhas.funcional.spec.ts` | **CFG-POS-MAP/01–07** — painel Na maquininha, cadastro Point, validação, erro API, Stone/Cielo, ajuda, remover |
+| `configuracoes.maquininhas.funcional.spec.ts` | **CFG-POS-MAP/01–13** — painel Na maquininha, cadastro Point, validação, erro API, Stone/Cielo, ajuda, remover, escolha do aparelho na lista, modo integrado do Point (ativar e falha), pareamento SumUp pelo código (sucesso, código inválido, código vencido) |
+| `configuracoes.cobranca-link.funcional.spec.ts` | **CFG-LINK-01–08** — login "Conectar com Mercado Pago" (ida e volta, indisponível, cancelado, falha ao abrir), Asaas (erro no campo, ajuda "?", chave recusada), InfinitePay sem página de retorno |
 | `configuracoes.feedback.funcional.spec.ts` | **CFG-FB-01–06** — validação, toast sucesso, erro API interceptado |
 | `shell.funcional.spec.ts` | SHELL-FUNC menu, notificações, sidebar |
-| `billing.funcional.spec.ts` | BILL assinatura mockada |
+| `billing.funcional.spec.ts` | BILL assinatura mockada; **BILL-04–05** — contratação PIX pendente no trial (QR Code reaberto em Plano e cobrança, sem "Descartar"; falha ao carregar a pendência não quebra a aba) |
 | `billing.patient-payments.funcional.spec.ts` | **BILL-PAY-01–03** — mock Asaas/boleto/link/baixa do paciente |
 | `prontuario.funcional.spec.ts` | PAC-PRONT-* — 9 abas do prontuário |
 | `public/funcional/publico.funcional.spec.ts` | PUB-LOGIN/REC/REG/PORT validações |

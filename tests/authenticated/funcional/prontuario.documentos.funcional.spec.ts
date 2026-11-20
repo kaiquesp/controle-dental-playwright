@@ -1,6 +1,7 @@
 import { test, expect } from '../../fixtures/test.fixture';
 import { createE2ePatientByApi, deleteE2ePatient } from '../../support/pacientes-helpers';
-import { e2eName } from '../../support/crud-helpers';
+import { e2eName, readAccessToken } from '../../support/crud-helpers';
+import { e2eEnv } from '../../support/env';
 import { expectToast } from '../../support/toast-helpers';
 
 test.describe.configure({ mode: 'serial' });
@@ -96,5 +97,48 @@ test.describe('Prontuário — Documentos', () => {
 
     await expectToast(page, /Documento excluído/i, 15_000);
     await expect(prontuarioPage.documentoRow(docTitulo)).toHaveCount(0, { timeout: 20_000 });
+  });
+});
+
+test.describe('Prontuário — Documentos: sanitização na API', () => {
+  let patientId: string | null = null;
+
+  test.beforeAll(async ({ browser }) => {
+    patientId = (await createE2ePatientByApi(browser, 'Pront-Doc-Sec')).id;
+  });
+
+  test.afterAll(async ({ browser }) => {
+    if (patientId) {
+      await deleteE2ePatient(browser, patientId);
+    }
+  });
+
+  test('[PAC-PRONT-DOC-SEC-01] API grava o documento sem script, eventos ou javascript:', async ({ page, appShell }) => {
+    await appShell.navigateTo('/pacientes');
+    const token = await readAccessToken(page);
+    test.skip(!token, 'Sessão E2E ausente');
+    test.skip(!patientId, 'Paciente E2E não criado');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    const created = await page.request.post(`${e2eEnv.apiUrl}/pacientes/${patientId}/documentos`, {
+      headers,
+      data: {
+        tipo_documento: 'outro',
+        titulo: e2eName('Doc-Xss'),
+        data_documento: new Date().toISOString().slice(0, 10),
+        conteudo_html: '<p>Cláusula E2E segura</p><img src="x" onerror="window.__e2eXss = 1"><script>window.__e2eXss = 2</script><a href="javascript:window.__e2eXss = 3">link</a>',
+      },
+    });
+    test.skip(created.status() === 403, 'Documentos indisponíveis no plano da conta E2E');
+    expect(created.status(), await created.text()).toBe(201);
+    const documento = ((await created.json()) as { documento?: Record<string, unknown> }).documento ?? {};
+    const html = String(documento['conteudo_html'] ?? documento['conteudoHtml'] ?? '');
+
+    try {
+      expect(html).toContain('Cláusula E2E segura');
+      expect(html).not.toMatch(/onerror|<script|javascript:/i);
+    } finally {
+      await page.request.delete(`${e2eEnv.apiUrl}/pacientes/${patientId}/documentos/${documento['id']}`, { headers });
+    }
   });
 });

@@ -558,6 +558,14 @@ export class ProntuarioPage {
   }
 
   async uploadArquivo(filePath: string): Promise<void> {
+    const confirm = await this.selectArquivoParaUpload(filePath);
+    await expect(confirm).toBeEnabled({ timeout: 15_000 });
+    await confirm.click();
+    await expect(this.arquivoRow('e2e-sample').first()).toBeVisible({ timeout: 30_000 });
+  }
+
+  /** Abre o modal de upload e seleciona o arquivo; devolve o botão "Enviar arquivos" sem clicar. */
+  async selectArquivoParaUpload(filePath: string): Promise<Locator> {
     await this.dismissBlockingUi();
     const panel = this.page.getByRole('tabpanel', { name: /Arquivos/i });
     const uploadBtn = panel.getByRole('button', { name: /Fazer Upload/i }).first();
@@ -583,10 +591,7 @@ export class ProntuarioPage {
       el.dispatchEvent(new Event('change', { bubbles: true }));
     });
 
-    const confirm = dialog.getByRole('button', { name: /^Enviar arquivos$/i });
-    await expect(confirm).toBeEnabled({ timeout: 15_000 });
-    await confirm.click();
-    await expect(this.arquivoRow('e2e-sample').first()).toBeVisible({ timeout: 30_000 });
+    return dialog.getByRole('button', { name: /^Enviar arquivos$/i });
   }
 
   async createAnamneseBasica(titulo: string): Promise<void> {

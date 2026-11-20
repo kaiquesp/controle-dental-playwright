@@ -35,8 +35,25 @@ export type PosChargeMock = {
   expires_at: string | null;
 };
 
+export type PosAvailableDeviceMock = {
+  provider_terminal_id: string;
+  nome: string;
+  online: boolean | null;
+};
+
+/** Resultado simulado do pareamento da SumUp pelo código da tela. */
+export type SumupPairingOutcome = 'ok' | 'expired';
+
 export type PosMockState = {
   terminals: PosTerminalMock[];
+  /** Aparelhos da conta ainda não cadastrados (GET /maquininhas/disponiveis). */
+  availableDevices: PosAvailableDeviceMock[];
+  /** Point id → está no modo integrado? (GET /maquininhas/point/modos). */
+  pointModes: Record<string, boolean>;
+  failEnableIntegratedMode: boolean;
+  sumupPairing: SumupPairingOutcome;
+  /** Últimos corpos enviados, para o teste conferir o que a tela mandou. */
+  lastPairingBody: Record<string, unknown> | null;
   mercadoPagoActive: boolean;
   byokLinked: Record<PosByokProviderId, boolean>;
   nextTerminalId: number;
@@ -80,6 +97,11 @@ export function createPosTerminalMock(overrides: Partial<PosTerminalMock> = {}):
 export function createPosMockState(overrides: Partial<PosMockState> = {}): PosMockState {
   return {
     terminals: [],
+    availableDevices: [],
+    pointModes: {},
+    failEnableIntegratedMode: false,
+    sumupPairing: 'ok',
+    lastPairingBody: null,
     mercadoPagoActive: true,
     byokLinked: {
       stone_pos: false,
@@ -168,6 +190,61 @@ function createPosRouteHandler(state: PosMockState) {
     }
 
     if (path.includes('/configuracoes/maquininhas')) {
+      if (path.endsWith('/disponiveis') && method === 'GET') {
+        await fulfillJson(route, { aparelhos: state.availableDevices });
+        return;
+      }
+
+      if (path.endsWith('/point/modos') && method === 'GET') {
+        await fulfillJson(route, {
+          modos: Object.entries(state.pointModes).map(([id, integrado]) => ({
+            provider_terminal_id: id,
+            modo_integrado: integrado,
+          })),
+        });
+        return;
+      }
+
+      if (path.endsWith('/point/modo-integrado') && method === 'POST') {
+        if (state.failEnableIntegratedMode) {
+          await fulfillJson(
+            route,
+            { erro: 'Nao foi possivel ativar o modo integrado. Tente pelo app Mercado Pago, em Point.' },
+            502
+          );
+          return;
+        }
+        const body = (request.postDataJSON() ?? {}) as { provider_terminal_id?: string };
+        if (body.provider_terminal_id) {
+          state.pointModes[body.provider_terminal_id] = true;
+        }
+        await fulfillJson(route, { mensagem: 'Modo integrado ativado. Reinicie a maquininha para aplicar.' });
+        return;
+      }
+
+      if (path.endsWith('/sumup/parear') && method === 'POST') {
+        const body = (request.postDataJSON() ?? {}) as { pairing_code?: string; nome?: string };
+        state.lastPairingBody = body;
+        if (state.sumupPairing === 'expired') {
+          await fulfillJson(
+            route,
+            { erro: 'A SumUp nao encontrou este codigo. Ele vale 5 minutos: gere um novo na maquininha.' },
+            400
+          );
+          return;
+        }
+        const terminal = createPosTerminalMock({
+          id: state.nextTerminalId,
+          provider: 'sumup_pos',
+          provider_terminal_id: `rdr_E2E${state.nextTerminalId}`,
+          nome: body.nome?.trim() || 'Maquininha SumUp',
+        });
+        state.nextTerminalId += 1;
+        state.terminals.push(terminal);
+        await fulfillJson(route, { mensagem: 'Maquininha SumUp pareada e cadastrada.', maquininha: terminal }, 201);
+        return;
+      }
+
       if (path.endsWith('/sincronizar') && method === 'POST') {
         if (state.failSync) {
           await fulfillError(route, 'Não foi possível atualizar as maquininhas (falha simulada E2E).');

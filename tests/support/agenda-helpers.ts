@@ -515,3 +515,59 @@ export function toBrDate(isoDate: string): string {
   const [y, m, d] = isoDate.split('-');
   return `${d}/${m}/${y}`;
 }
+
+export interface CreateConsultaByApiOptions {
+  patientId: string;
+  professionalId: number;
+  roomChairId: number;
+  data: string;
+  hora: string;
+  status?: string;
+  duracaoMinutos?: number;
+}
+
+/** Cria consulta via `POST /consultas` (aceita horário fora do expediente). */
+export async function createConsultaByApi(
+  request: APIRequestContext,
+  token: string,
+  options: CreateConsultaByApiOptions
+): Promise<number> {
+  const res = await request.post(`${e2eEnv.apiUrl}/consultas`, {
+    headers: authHeaders(token),
+    data: {
+      patient_id: Number(options.patientId),
+      professional_id: options.professionalId,
+      room_chair_id: options.roomChairId,
+      data_consulta: options.data,
+      horario: options.hora,
+      duracao_minutos: options.duracaoMinutos ?? 30,
+      procedimento_principal: 'Consulta E2E',
+      convenio: 'Particular',
+      lembrar_whatsapp: false,
+      status: options.status ?? 'confirmado',
+      retorno_tipo: 'nenhum',
+      confirmar_fora_horario: true,
+    },
+  });
+  if (!res.ok()) {
+    throw new Error(`createConsultaByApi failed (${res.status()}): ${(await res.text()).slice(0, 200)}`);
+  }
+  const body = (await res.json()) as { consulta?: { id?: number }; id?: number };
+  const id = Number(body.consulta?.id ?? body.id);
+  if (!Number.isFinite(id) || id < 1) {
+    throw new Error('createConsultaByApi: resposta sem id da consulta');
+  }
+  return id;
+}
+
+/** Status atual da consulta (`GET /consultas/:id`). */
+export async function readConsultaStatusByApi(
+  request: APIRequestContext,
+  token: string,
+  id: number
+): Promise<string> {
+  const res = await request.get(`${e2eEnv.apiUrl}/consultas/${id}`, { headers: authHeaders(token) });
+  if (!res.ok()) return '';
+  const body = (await res.json()) as { consulta?: { status?: string }; status?: string };
+  return String(body.consulta?.status ?? body.status ?? '').toLowerCase();
+}

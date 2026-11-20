@@ -228,7 +228,7 @@ Tela amigável com foguete animado (`/svgs/foguete.svg`), CTAs e atalhos. Rota c
 | Grupo | IDs | Foco |
 |-------|-----|------|
 | CRUD | AG-CRUD-01–08 | Consulta/Compromisso/Tarefa via UI; listar/editar/excluir na grade; tarefas validadas via API |
-| Status | AG-STS-01–04 | Atendido, cancelado, filtros de status |
+| Status | AG-STS-01–06 | Atendido, cancelado, filtros de status, alterações seguidas no detalhe |
 | Etiquetas | AG-LBL-01–03 | Seleção de etiquetas no modal |
 | Filtros | AG-FLT-01–07 | Profissional, status, sala (FLT-03 exige ≥2 profissionais) |
 | Visão | AG-VIEW-01–06 | Dia/Semana/Mês, navegação, painel de visualização |
@@ -249,6 +249,8 @@ Tela amigável com foguete animado (`/svgs/foguete.svg`), CTAs e atalhos. Rota c
 | AG-STS-02 | Cancelar/concluir compromisso | Ação aplicada |
 | AG-STS-03 | Confirmado / Aguardando | Status alternável em consulta |
 | AG-STS-04 | Filtro Cancelado | Grade ajustada |
+| AG-STS-05 | Duas consultas seguidas → Atendido (sem recarregar) | 2º PUT enviado e status persistido |
+| AG-STS-06 | 2ª alteração seguida falha (500) | Toast de erro, modal aberto, status inalterado na API |
 | AG-LBL-01 | Adicionar etiqueta | Chip selecionado no modal |
 | AG-LBL-02 | Remover etiqueta | Chip desmarcado |
 | AG-LBL-03 | Etiqueta de compromisso | Reunião interna visível |

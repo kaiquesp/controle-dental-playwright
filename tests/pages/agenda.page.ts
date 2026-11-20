@@ -599,6 +599,28 @@ export class AgendaPage {
     }
   }
 
+  /** Seleciona o status no modal "Detalhes da Consulta" sem aguardar o PUT (útil para cenários de erro). */
+  async selectConsultaDetailStatus(status: string | RegExp): Promise<void> {
+    const details = this.consultaDetailsDialog();
+    const trigger = details.locator(`#${AGENDA_FORM_IDS.consulta.detalheStatus}`);
+    await expect(trigger).toBeVisible({ timeout: 15_000 });
+    // The select stays disabled while GET /consultas/:id loads, so the first clicks may not open the panel.
+    await expect(trigger).not.toHaveAttribute('aria-disabled', 'true', { timeout: 15_000 }).catch(() => undefined);
+
+    const option = this.page
+      .locator('.p-select-overlay:visible .p-select-option, .p-select-overlay:visible [role="option"]')
+      .filter({ hasText: status })
+      .first();
+    await expect(async () => {
+      if (!(await option.isVisible().catch(() => false))) {
+        await trigger.click();
+      }
+      await expect(option).toBeVisible({ timeout: 2_000 });
+    }).toPass({ timeout: 20_000 });
+    await option.click();
+    await this.page.locator('.p-select-overlay:visible').waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => undefined);
+  }
+
   async setConsultaStatus(status: string | RegExp): Promise<void> {
     const details = this.consultaDetailsDialog();
     if (await details.isVisible().catch(() => false)) {
@@ -612,13 +634,7 @@ export class AgendaPage {
         )
         .catch(() => null);
 
-      const statusCombobox = details.getByRole('combobox', { name: /^Status$/i });
-      if (await statusCombobox.isVisible().catch(() => false)) {
-        await statusCombobox.click();
-        await this.page.getByRole('option', { name: status }).click();
-      } else {
-        await selectIftaByInputId(this.page, AGENDA_FORM_IDS.consulta.detalheStatus, status, details);
-      }
+      await this.selectConsultaDetailStatus(status);
 
       await this.confirmConsultaCancellationIfNeeded();
       await statusResponse;

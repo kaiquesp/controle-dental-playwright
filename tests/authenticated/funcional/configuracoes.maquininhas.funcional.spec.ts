@@ -43,7 +43,7 @@ test.describe('Configurações — Maquininhas (cobrança presencial)', () => {
     await openPosPanel(appShell, configuracoesPage, context, state);
 
     const dialog = configuracoesPage.cobrancaPacientesDialog();
-    await expect(dialog.getByText(/Primeiro escolha a marca do aparelho/i)).toBeVisible();
+    await expect(dialog.getByText(/São 3 passos: escolha a marca/i)).toBeVisible();
     await expect(dialog.getByText(/Qual maquininha vocês usam\?/i)).toBeVisible();
     await expect(dialog.getByRole('heading', { name: /Maquininhas da clínica/i })).toBeVisible();
     await expect(dialog.getByRole('button', { name: /Atualizar lista/i })).toBeVisible();
@@ -170,6 +170,130 @@ test.describe('Configurações — Maquininhas (cobrança presencial)', () => {
     await expectToast(page, /removida|Maquininha/i, 15_000);
     await expect(dialog.getByText('Point recepção')).toHaveCount(0);
     expect(state.terminals).toHaveLength(0);
+  });
+
+  test('[CFG-POS-08] escolhe o Point na lista de aparelhos da conta', async ({
+    page,
+    context,
+    appShell,
+    configuracoesPage,
+  }) => {
+    const state = createPosMockState({
+      availableDevices: [{ provider_terminal_id: 'PAX_A910__E2E1234', nome: 'Point Sala 2', online: true }],
+    });
+    await openPosPanel(appShell, configuracoesPage, context, state);
+
+    const dialog = configuracoesPage.cobrancaPacientesDialog();
+    await expect(dialog.getByText(/Encontramos estas maquininhas na sua conta/i)).toBeVisible({ timeout: 10_000 });
+    await expect(dialog.getByText(/Point Sala 2 · final 1234/i)).toBeVisible();
+    await configuracoesPage.submitPosDevice();
+
+    await expectToast(page, /Maquininha adicionada/i, 15_000);
+    expect(state.terminals[0]?.provider_terminal_id).toBe('PAX_A910__E2E1234');
+  });
+
+  test('[CFG-POS-09] ativa o modo integrado do Point cadastrado', async ({
+    page,
+    context,
+    appShell,
+    configuracoesPage,
+  }) => {
+    const state = createPosMockState({
+      terminals: [createPosTerminalMock({ id: 7, nome: 'Point recepção', provider_terminal_id: 'SBX0007' })],
+      pointModes: { SBX0007: false },
+    });
+    await openPosPanel(appShell, configuracoesPage, context, state);
+
+    const dialog = configuracoesPage.cobrancaPacientesDialog();
+    const warning = dialog.getByText(/este Point ainda não recebe as cobranças do sistema/i);
+    await expect(warning).toBeVisible({ timeout: 10_000 });
+    await dialog.getByRole('button', { name: /Ativar modo integrado/i }).click();
+
+    await expectToast(page, /Modo integrado ativado/i, 15_000);
+    await expect(warning).toHaveCount(0);
+    expect(state.pointModes['SBX0007']).toBe(true);
+  });
+
+  test('[CFG-POS-10] falha ao ativar o modo integrado mantém o aviso', async ({
+    page,
+    context,
+    appShell,
+    configuracoesPage,
+  }) => {
+    const state = createPosMockState({
+      terminals: [createPosTerminalMock({ id: 7, nome: 'Point recepção', provider_terminal_id: 'SBX0007' })],
+      pointModes: { SBX0007: false },
+      failEnableIntegratedMode: true,
+    });
+    await openPosPanel(appShell, configuracoesPage, context, state);
+
+    const dialog = configuracoesPage.cobrancaPacientesDialog();
+    await dialog.getByRole('button', { name: /Ativar modo integrado/i }).click();
+
+    await expectErrorToast(page, /modo integrado|app Mercado Pago/i, 15_000);
+    await expect(dialog.getByText(/este Point ainda não recebe as cobranças do sistema/i)).toBeVisible();
+  });
+
+  test('[CFG-POS-11] pareia a SumUp pelo código da tela da Solo', async ({
+    page,
+    context,
+    appShell,
+    configuracoesPage,
+  }) => {
+    const state = createPosMockState({ byokLinked: { stone_pos: false, cielo_lio: false, sumup_pos: true } });
+    await openPosPanel(appShell, configuracoesPage, context, state);
+
+    const dialog = configuracoesPage.cobrancaPacientesDialog();
+    await selectIftaByInputId(page, 'pos-brand', /SumUp/i, dialog);
+    const pairingField = dialog.locator('#pos-sumup-pairing-code');
+    await expect(pairingField).toBeVisible({ timeout: 10_000 });
+    await pairingField.fill('ab12-cd34');
+    await dialog.locator('#pos-register-nome').fill('Recepção');
+    await configuracoesPage.submitPosDevice();
+
+    await expectToast(page, /pareada/i, 15_000);
+    expect(state.lastPairingBody).toEqual({ pairing_code: 'AB12CD34', nome: 'Recepção' });
+    expect(state.terminals.some((item) => item.provider === 'sumup_pos')).toBe(true);
+  });
+
+  test('[CFG-POS-12] código de pareamento inválido mostra erro no campo', async ({
+    page,
+    context,
+    appShell,
+    configuracoesPage,
+  }) => {
+    const state = createPosMockState({ byokLinked: { stone_pos: false, cielo_lio: false, sumup_pos: true } });
+    await openPosPanel(appShell, configuracoesPage, context, state);
+
+    const dialog = configuracoesPage.cobrancaPacientesDialog();
+    await selectIftaByInputId(page, 'pos-brand', /SumUp/i, dialog);
+    await dialog.locator('#pos-sumup-pairing-code').fill('123');
+    await configuracoesPage.submitPosDevice();
+
+    await expect(dialog.getByText(/Digite o código de 8 ou 9 letras e números/i)).toBeVisible();
+    await expect(page.locator('.p-toast-message-error')).toHaveCount(0);
+    expect(state.lastPairingBody).toBeNull();
+  });
+
+  test('[CFG-POS-13] código de pareamento vencido exibe toast de erro', async ({
+    page,
+    context,
+    appShell,
+    configuracoesPage,
+  }) => {
+    const state = createPosMockState({
+      byokLinked: { stone_pos: false, cielo_lio: false, sumup_pos: true },
+      sumupPairing: 'expired',
+    });
+    await openPosPanel(appShell, configuracoesPage, context, state);
+
+    const dialog = configuracoesPage.cobrancaPacientesDialog();
+    await selectIftaByInputId(page, 'pos-brand', /SumUp/i, dialog);
+    await dialog.locator('#pos-sumup-pairing-code').fill('AB12CD34');
+    await configuracoesPage.submitPosDevice();
+
+    await expectErrorToast(page, /5 minutos|novo na maquininha/i, 15_000);
+    await expect(dialog.locator('#pos-sumup-pairing-code')).toBeVisible();
   });
 
   test('[CFG-POS-07] falha ao carregar lista exibe toast de erro', async ({
