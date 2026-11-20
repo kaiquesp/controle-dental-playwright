@@ -26,6 +26,9 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 | `tests/support/google-calendar-mocks.ts` | Mock `/api/integracoes/google-calendar/**` + overlay `agenda/eventos` |
 | `tests/support/crud-helpers.ts` | Prefixo `E2E-`, cleanup via API, CPF válido |
 | `tests/support/feature-mocks.ts` | Mock `/api/feature-flags` (NFS, assinatura digital, personalização, `pos_maquininha` e marcas) |
+| `tests/support/ai-voice-mocks.ts` | Assistente IA por Voz: `AiVoiceMock` (mock de **todas** as rotas `/api/ai-voice/*` e `/api/ai-voice-public/*`, nunca chama a IA real; valida payload com `postDataJSON`), fakes de `SpeechRecognition`/`getUserMedia`/`MediaRecorder`/`AudioContext` (`installFakeVoiceBrowser`, `say`, `speechError`), mocks de catálogo/profissionais, `unlockProfessionalField`, massa via API (tratamento/registro) |
+| `tests/pages/ai-voice.page.ts` | Page Object da barra `app-dc-ai-voice-toolbar` e dos modais Novo/Editar registro, Novo tratamento e Finalizar tratamento |
+| `tests/support/feature-mocks.ts` → `setAiVoiceFeatureFlag` | Liga/desliga/omite `is_ai_voice` (padrão da suíte: desligado) |
 | `tests/support/toast-helpers.ts` | Assert `.p-toast-message` |
 | `tests/support/interaction-helpers.ts` | Modais, config tabs, Ifta select |
 | `tests/data/financeiro.ts` | Seletores, indicadores painel/fluxo, paths gated do financeiro |
@@ -64,6 +67,10 @@ Documento de rastreabilidade entre specs Playwright, rotas e cenários.
 | `prontuario.documentos.funcional.spec.ts` | **PAC-PRONT-DOC-MAP/01–04** — mesmo fluxo de arquivos |
 | `prontuario.pagamentos.funcional.spec.ts` | **PAC-PRONT-PAG-MAP/01–09** — lançamentos, pagar, filtros, extrato, cobrança |
 | `prontuario.pagamentos.maquininha.funcional.spec.ts` | **PAC-PRONT-PAG-POS-MAP/01–05** — cobrar na maquininha (mock), validação, erro API, empty, cancelar |
+| `prontuario.voz.ficha-clinica.funcional.spec.ts` | **PAC-VOZ-001, 012, 018, 031–032, 047, 056, 058–086, 126, 128, 130, 132–133, 135, 137, 151, 154, 158, 164–166** — Assistente IA por Voz no Novo/Editar registro (ditado grátis, alvo, rótulos, comandos, Melhorar/Desfazer, persistência, XSS) |
+| `prontuario.voz.tratamento.funcional.spec.ts` | **PAC-VOZ-002, 087–091, 093–101, 104, 134, 139** — preenchimento do tratamento por voz e "Organizar com IA" |
+| `prontuario.voz.finalizar.funcional.spec.ts` | **PAC-VOZ-003, 057, 105–110, 136** — evolução do Finalizar por voz + regressão sem voz |
+| `prontuario.voz.toolbar.funcional.spec.ts` | **PAC-VOZ-004–011, 013–017, 019–024, 026, 028, 033–041, 046, 048–055, 111, 116–118, 123–125, 127, 138, 140–145, 152–153, 156–157, 161–163** — gating, créditos, microfone/estratégia, timer/limites, Mãos livres, ciclo de vida, erros de API, a11y e responsividade |
 | `financeiro.funcional.spec.ts` | **FIN-PAIN-02–04**, **FIN-FLUX-02–03** — período, modal, link fluxo, busca |
 | `financeiro.fluxo-crud.funcional.spec.ts` | **FIN-CRUD-01**, **FIN-CRUD-UI-01**, **FIN-FLUX-04–05** — CRUD lançamentos (serial) |
 | `financeiro.comissoes.funcional.spec.ts` | **FIN-COM-01–03** — listagem, configuração, marcar paga *(condicional)* |
